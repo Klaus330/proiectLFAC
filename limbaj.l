@@ -34,6 +34,8 @@ bool [true|false]
 "double" {printf("%s tip\n",yytext); return DOUBLE;}
 "char" {printf("%s tip\n",yytext); return CHAR;}
 "bool" {printf("%s tip\n",yytext); return BOOL;}
+"const" {printf("%s tip\n",yytext); return CONST;}
+
 
 {function}  {printf("%s function\n",yytext);}
 {identifier} {printf("%s identificator\n",yytext); return ID;}
