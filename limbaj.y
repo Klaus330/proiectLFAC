@@ -1,133 +1,56 @@
 %{
 #include <stdio.h>
+#include<ctype.h>
 extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
 %}
-%token ID OP ASIGN COM PAR INTNR ARR FLOATNR DOUBLENR BOOLEAN CALL INT FLOAT BOOL DOUBLE CHAR
+%token ID OP PAR INTNR ARR FLOATNR DOUBLENR BOOLEAN CALL INT FLOAT BOOL DOUBLE CHAR VOID CONST
 %token FOR WHILE
 %token IF ELSE print
 %token CLASS
 %token INCLUDE
 %start start
-%right '='
+%left '='
 %left AND OR
 %left '<' '>' LE GE EQ NE LT GT
 %%
-start: function 
-      | declaration
-      ;
-/* Declarations */
-declaration: type assignment ';'
-          | assignment ';'
-          | functionCall ';'
-          | arrayUsage ';'
-          | type arrayUsage ';'
-          | error
-          ;
-        
-/* assignments */
-assignment: ID '=' assignment
-        | ID '=' functionCall
-        | ID ',' assignment
-        | NR ',' assignment
-        | ID '+' assignment
-        | ID '-' assignment
-        | ID '*' assignment
-        | ID '/' assignment
-        | NR '+' assignment
-        | NR '-' assignment
-        | NR '*' assignment
-        | NR '/' assignment
-        | '(' assignment ')'
-        | '-' '(' assignment ')'
-        | '-' NR
-        | '-' ID
-        | NR
-        | ID
-        ;
+
+start : main {printf("Program corect\n");}
+       | globals main {printf("Program corect\n");}
+       | globals {printf("Program corect\n");}
+       ;
+
+globals : global
+        | globals global
+       ;
+
+global : declaratie ';'
+       ;
+
+main : declaratie ';'
+     ;
 
 
-/* function calls*/
-functionCall: ID'('')'
-          | ID'('assignment')'
-          ;
-
-/* array ussage */
-arrayUsage: ID'['assignment']'
-        ;
-
-/* functions */
-function: TIP ID '('arglistopt ')'
-      ;
-
-arglistopt: arglist 
-        ;
-
-arglist: arglist ',' arg 
-      | arg   
-      ;
-
-arg: TIP ID 
-  ;
-
-compooundStatement: '{'statementList'}'
-                ;
-statementList: statementList statement
-          ;
-
-statement: whileStatement
-        | declaration
-        | forStatement
-        | ifStatement
-        | printFunction
-        ;
-
-/* type identifier block */
-TIP: INT  
-  | FLOAT
-  | CHAR
-  | DOUBLE
-  | VOID
-  ;
-
-/* loop blocks */
-whileStatement: WHILE '('exp')' statement
-            | WHILE '('exp')' compooundStatement
-            ;
+declaratie : tip ID
+           | tip ID '=' nr
+           ;
 
 
-/* for statement block */
-forStatement: FOR '(' exp ';' exp ';' exp ')' statement
-          | FOR '(' exp ';' exp ';' exp ')' compooundStatement
-          | FOR '(' exp ')' statement
-          | FOR '(' exp ')' compooundStatement
-          ;
+tip : INT {$$ = "int";} 
+    | FLOAT {$$ = "float";}
+    | BOOL {$$ = "bool";}
+    | DOUBLE {$$ = "double";}
+    | CHAR {$$ = "char";}
+    | VOID {$$ = "void";}
+    ;
 
-/* if statement block */
-ifStatement: IF '(' exp ')' statement
-          ;
-
-/* print function */
-printFunction: print '(' exp ')' ';'
-            ;
-
-/* expression blocks */           
-
-exp:
-  | exp LE exp
-  | exp GE exp
-  | exp NE exp
-  | exp EQ exp
-  | exp GT exp
-  | exp LT exp
-  | assignment
-  | arrayUsage
-  ;
+nr : INTNR
+    | FLOATNR
+    | DOUBLENR
+    ;
 
 %%
-#include"lex.yy.c"
-#include<ctype.h>
 int count=0;
 yyerror(char *s) {
     printf("%d : %s %s\n", yylineno, s, yytext );

@@ -5,8 +5,7 @@
 %option noyywrap
 cifra           [0-9]
 numar           [1-9]{cifra}+|{cifra}
-operator        [+=*&/<>-]
-comentariu      //
+operator        [+*&/<>-]
 semn            [+-]
 litera          [a-zA-Z]
 spatiu          ['\t'' ']
@@ -23,7 +22,7 @@ bool            [true|false]
 "while"    {printf("%s cuvant rezervat\n",yytext); return WHILE;} 
 "class"    {printf("%s cuvant rezervat\n",yytext); return CLASS;} 
 \#include. {printf("%s cuvant rezervat\n",yytext); return INCLUDE;}
-"print"    {return print}
+"print"    {return print;}
 
 "int"    {printf("%s tip\n",yytext); return INT;}
 "float"  {printf("%s tip\n",yytext); return FLOAT;}
@@ -43,7 +42,6 @@ bool            [true|false]
 
 {identifier}       {printf("%s identificator\n",yytext); return ID;}
 {operator}         {printf("%s operator\n",yytext); return OP;}
-\=                 {printf("%s asignare\n",yytext); return ASIGN;}
 (\()|(\))          {printf("%s paranteze\n",yytext); return PAR;}
 {numar}            {printf("%s numar intreg\n",yytext); return INTNR;}
 {array}            {printf("%s array\n",yytext); return ARR;}
@@ -51,10 +49,10 @@ bool            [true|false]
 {double_num}       {printf("%s double number\n",yytext); return DOUBLENR;}
 {bool}             {printf("%s bool\n",yytext); return BOOLEAN;}
 {function_call}    {printf("%s function call\n",yytext); return CALL;}
-{comentariu}       {printf("%s function call\n",yytext); return COM;}
 \-{numar}          {printf("%s numar negativ\n",yytext);}
 
-[\t] ;
+{spatiu} ;
 [\n] {yylineno++;}
-.    {printf("%s caracter ilegal\n",yytext);}
+.    {printf("%s caracter ilegal\n",yytext);
+        return yytext[0];}
 %%
