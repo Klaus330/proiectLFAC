@@ -117,11 +117,20 @@ yyerror(char *s) {
 int main(int argc, char *argv[])
 {
     yyin = fopen(argv[1], "r");
-
+    FILE *f = fopen("symbols.txt","w");
    if(!yyparse())
         printf("\nParsing complete\n");
     else
         printf("\nParsing failed\n");
+    fprintf(f, "Variabile declarate :\n");
+    for(int i=0; i<nr_var; ++i){
+        if(var[i].value){
+            fprintf(f, " %s - %s - %s - %s\n", var[i].type, var[i].name, var[i].scope,var[i].value); 
+        }
+else
+ fprintf(f,"%s - %s - %s\n", var[i].type, var[i].name, var[i].scope); 
+    
+    }
 
     fclose(yyin);
     return 0;
