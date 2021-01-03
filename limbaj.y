@@ -5,11 +5,12 @@ extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
 %}
-%token ID OP PAR INTNR ARR FLOATNR DOUBLENR BOOLEAN CALL INT FLOAT BOOL DOUBLE CHAR VOID CONST
+%token ID OP PAR INTNR ARR FLOATNR DOUBLENR BOOLEAN CALL 
+%token INT FLOAT BOOL DOUBLE CHAR VOID CONST STRING STRINGVAL
 %token FOR WHILE
 %token IF ELSE print
 %token CLASS
-%token INCLUDE
+%token INCLUDE START_MAIN END_MAIN
 %start start
 %left '='
 %left AND OR
@@ -26,15 +27,33 @@ globals : global
        ;
 
 global : declaratie ';'
+       | asignare ';'
        ;
 
-main : declaratie ';'
+main : START_MAIN bloc_main END_MAIN
      ;
+
+bloc_main : cod_main 
+          | bloc_main cod_main
+          ;
+
+cod_main : declaratie ';'
+         | asignare ';'
+          ;
 
 
 declaratie : tip ID
            | tip ID '=' nr
+           | tip ID '=' ID
+           | tip ID '=' BOOLEAN
+           | tip ID '=' STRINGVAL
            ;
+
+asignare : ID '=' ID
+         | ID '=' nr
+         | ID '=' STRINGVAL
+         | ID '=' BOOLEAN
+         ;
 
 
 tip : INT {$$ = "int";} 
@@ -43,6 +62,7 @@ tip : INT {$$ = "int";}
     | DOUBLE {$$ = "double";}
     | CHAR {$$ = "char";}
     | VOID {$$ = "void";}
+    | STRING {$$ = "string";}
     ;
 
 nr : INTNR

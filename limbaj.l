@@ -14,7 +14,8 @@ double_num      {numar}\.{cifra}+
 array           {litera}+\[{numar}\]
 identifier      {litera}+{cifra}*
 function_call   {identifier}\(\)
-bool            [true|false]
+bool            true|false
+string_val      ["]([^"\\\n]|\\.|\\\n)*["] 
 %%
 
 "if"       {printf("%s cuvant rezervat\n",yytext); return IF;}
@@ -23,10 +24,13 @@ bool            [true|false]
 "class"    {printf("%s cuvant rezervat\n",yytext); return CLASS;} 
 \#include. {printf("%s cuvant rezervat\n",yytext); return INCLUDE;}
 "print"    {return print;}
+"start_main" {printf ("Am intrat in main %s\n",yytext); return START_MAIN;}
+"end_main" {return END_MAIN;}
 
 "int"    {printf("%s tip\n",yytext); return INT;}
 "float"  {printf("%s tip\n",yytext); return FLOAT;}
 "double" {printf("%s tip\n",yytext); return DOUBLE;}
+"string" {printf("%s tip\n",yytext); return STRING;};
 "char"   {printf("%s tip\n",yytext); return CHAR;}
 "bool"   {printf("%s tip\n",yytext); return BOOL;}
 "const"  {printf("%s tip\n",yytext); return CONST;}
@@ -39,7 +43,7 @@ bool            [true|false]
 ">"      {return LT;}
 
 
-
+{bool}             {printf("%s bool\n",yytext); return BOOLEAN;}
 {identifier}       {printf("%s identificator\n",yytext); return ID;}
 {operator}         {printf("%s operator\n",yytext); return OP;}
 (\()|(\))          {printf("%s paranteze\n",yytext); return PAR;}
@@ -47,9 +51,9 @@ bool            [true|false]
 {array}            {printf("%s array\n",yytext); return ARR;}
 {float_num}        {printf("%s float number\n",yytext); return FLOATNR;}
 {double_num}       {printf("%s double number\n",yytext); return DOUBLENR;}
-{bool}             {printf("%s bool\n",yytext); return BOOLEAN;}
 {function_call}    {printf("%s function call\n",yytext); return CALL;}
 \-{numar}          {printf("%s numar negativ\n",yytext);}
+{string_val}       {printf("%s string value\n",yytext); return STRINGVAL;}
 
 {spatiu} ;
 [\n] {yylineno++;}
