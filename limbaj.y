@@ -22,7 +22,7 @@ void initializare_tip_id (char *scope, char *type, char *name){
         nr_var++; 
 }
 
-void initializare_id_nr (char *scope, char *type, char *name, char *value){
+void initializare_id (char *scope, char *type, char *name, char *value){
         strcpy(var[nr_var].name,name);
         strcpy(var[nr_var].type,type);
         strcpy(var[nr_var].scope,scope);
@@ -31,7 +31,7 @@ void initializare_id_nr (char *scope, char *type, char *name, char *value){
         nr_var++; 
 }
 %}
-%token  ID OP PAR INTNR ARR FLOATNR DOUBLENR BOOLEAN CALL 
+%token  ID OP INTNR ARR FLOATNR DOUBLENR BOOLEAN 
 %token  INT FLOAT BOOL DOUBLE CHAR VOID CONST STRING STRINGVAL
 %token FOR WHILE
 %token IF ELSE print
@@ -45,7 +45,7 @@ void initializare_id_nr (char *scope, char *type, char *name, char *value){
 {
    char* textt;
 }
-%type <textt> ID OP PAR ARR INT FLOAT BOOL DOUBLE CHAR VOID CONST STRING STRINGVAL tip nr
+%type <textt> ID OP ARR INT FLOAT BOOL DOUBLE CHAR VOID CONST STRING STRINGVAL tip nr BOOLEAN
 
 %%
 
@@ -60,6 +60,7 @@ globals : global
 
 global : declaratie_g ';'
        | asignare ';'
+       | declaratie_functie
        ;
 
 main : START_MAIN bloc_main END_MAIN
@@ -74,17 +75,43 @@ cod_main : declaratie_main ';'
           ;
 
 declaratie_g : tip ID { initializare_tip_id ("global", $1, $2); }
-           | tip ID '=' nr {initializare_id_nr("global", $1, $2, $4);}
-           | tip ID '=' ID
-           | tip ID '=' BOOLEAN
-           | tip ID '=' STRINGVAL
+           | tip ID '=' nr {initializare_id("global", $1, $2, $4);}
+           | tip ID '=' ID {initializare_id("global", $1, $2, $4);}
+           | tip ID '=' BOOLEAN {initializare_id("global", $1, $2, $4);}
+           | tip ID '=' STRINGVAL {initializare_id("global", $1, $2, $4);}
            ;
 
 declaratie_main : tip ID {initializare_tip_id ("main",$1, $2); }
-           | tip ID '=' nr {initializare_id_nr("main", $1, $2, $4);}
-           | tip ID '=' ID
-           | tip ID '=' BOOLEAN
-           | tip ID '=' STRINGVAL
+           | tip ID '=' nr {initializare_id("main", $1, $2, $4);}
+           | tip ID '=' ID {initializare_id("main", $1, $2, $4);}
+           | tip ID '=' BOOLEAN {initializare_id("main", $1, $2, $4);}
+           | tip ID '=' STRINGVAL {initializare_id("main", $1, $2, $4);}
+           ;
+
+declaratie_functie : tip ID '(' params ')' '{' bloc_functie '}'
+                   | tip ID '(' ')' '{' bloc_functie '}'
+                   ;
+
+params : param
+          | params '#' param
+          ;
+
+param : tip ID
+      ;
+
+bloc_functie : cod_functie
+              | bloc_functie cod_functie
+              |
+              ;
+
+cod_functie : declaratie_var_f ';'
+            ;
+
+declaratie_var_f : tip ID {initializare_tip_id ("functie",$1, $2); }
+           | tip ID '=' nr {initializare_id("functie", $1, $2, $4);}
+           | tip ID '=' ID {initializare_id("functie", $1, $2, $4);}
+           | tip ID '=' BOOLEAN {initializare_id("functie", $1, $2, $4);}
+           | tip ID '=' STRINGVAL {initializare_id("functie", $1, $2, $4);}
            ;
 
 asignare : ID '=' ID

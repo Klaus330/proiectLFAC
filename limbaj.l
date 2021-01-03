@@ -13,10 +13,9 @@ float_num       {numar}\.{cifra}+f
 double_num      {numar}\.{cifra}+
 array           {litera}+\[{numar}\]
 identifier      {litera}+{cifra}*
-function_call   {identifier}\(\)
 bool            true|false
 string_val      ["]([^"\\\n]|\\.|\\\n)*["] 
-%%clea
+%%
 
 "if"       {printf("%s cuvant rezervat\n",yytext); return IF;}
 "else"     {printf("%s cuvant rezervat\n",yytext); return ELSE;}
@@ -43,20 +42,18 @@ string_val      ["]([^"\\\n]|\\.|\\\n)*["]
 ">"      {return LT;}
 
 
-{bool}             {printf("%s bool\n",yytext); return BOOLEAN;}
+{bool}             {printf("%s bool\n",yytext); yylval.textt = strdup(yytext); return BOOLEAN;}
 {identifier}       {printf("%s identificator\n",yytext); yylval.textt = strdup(yytext); return ID;}
 {operator}         {printf("%s operator\n",yytext); return OP;}
-(\()|(\))          {printf("%s paranteze\n",yytext); return PAR;}
 {numar}            {printf("%s numar intreg\n",yytext);yylval.textt = strdup(yytext); return INTNR;}
 {array}            {printf("%s array\n",yytext); yylval.textt = strdup(yytext); return ARR;}
 {float_num}        {printf("%s float number\n",yytext); yylval.textt = strdup(yytext); return FLOATNR;}
 {double_num}       {printf("%s double number\n",yytext); yylval.textt = strdup(yytext); return DOUBLENR;}
-{function_call}    {printf("%s function call\n",yytext); return CALL;}
 \-{numar}          {printf("%s numar negativ\n",yytext);}
 {string_val}       {printf("%s string value\n",yytext); yylval.textt = strdup(yytext); return STRINGVAL;}
 
 {spatiu} ;
 [\n] {yylineno++;}
-.    {printf("%s caracter ilegal\n",yytext);
+.    {printf("%s\n",yytext);
         return yytext[0];}
 %%
