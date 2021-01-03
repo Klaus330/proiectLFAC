@@ -49,9 +49,7 @@ void initializare_id (char *scope, char *type, char *name, char *value){
 
 %%
 
-start : main {printf("Program corect\n");}
-       | globals main {printf("Program corect\n");}
-       | globals {printf("Program corect\n");}
+start : globals main {printf("Program corect\n");}
        ;
 
 globals : global
@@ -72,7 +70,58 @@ bloc_main : cod_main
 
 cod_main : declaratie_main ';'
          | asignare ';'
+         | statements
           ;
+
+statements : ifstatement 
+           | forstatement
+           | whilestatement
+           ;
+
+ifstatement : IF '(' conditie ')' '{' cod_bloc '}'
+            | IF '(' conditie ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+            ;
+
+forstatement : FOR '(' asignare_for ',' conditie ',' operatie ')' '{' cod_bloc '}'
+             ;
+
+whilestatement : WHILE '(' conditie ')' '{' cod_bloc '}'
+                ;
+
+conditie : term GE term
+         | term LE term
+         | term EQ term
+         | term NE term
+         | term GT term
+         | term LT term
+         ;
+
+term : ID
+      | nr
+      ;
+
+asignare_for : declaratii_locale
+              | asignare
+              ;
+
+operatie :
+         ;
+
+cod_bloc : instructiune_bloc
+         | cod_bloc instructiune_bloc
+         ;
+ 
+instructiune_bloc : declaratii_locale ';'
+                  | statements
+                  | 
+                  ;
+
+declaratii_locale : tip ID { initializare_tip_id ("local", $1, $2); }
+           | tip ID '=' nr {initializare_id("local", $1, $2, $4);}
+           | tip ID '=' ID {initializare_id("local", $1, $2, $4);}
+           | tip ID '=' BOOLEAN {initializare_id("local", $1, $2, $4);}
+           | tip ID '=' STRINGVAL {initializare_id("local", $1, $2, $4);}
+           ;
 
 declaratie_g : tip ID { initializare_tip_id ("global", $1, $2); }
            | tip ID '=' nr {initializare_id("global", $1, $2, $4);}
