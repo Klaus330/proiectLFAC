@@ -98,11 +98,18 @@ expresie_bool : NOT ID
               | expresie AND expresie
               | expresie OR expresie
               | '(' expresie_bool ')'
+              | expresie GE expresie
+              | expresie LE expresie
+              | expresie EQ expresie
+              | expresie NE expresie
+              | expresie GT expresie
+              | expresie LT expresie 
               ;
 
 expresie : expresie_matematica
         | expresie_bool
         ;
+
 
 declaratie_structura : tip ID '[' INTNR ']'
            |tip ID { initializare_tip_id ("structura", $1, $2); }
@@ -153,28 +160,16 @@ statements : ifstatement
            | whilestatement
            ;
 
-ifstatement : IF '(' conditie ')' '{' cod_bloc '}'
-            | IF '(' conditie ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+ifstatement : IF '(' expresie_bool ')' '{' cod_bloc '}'
+            | IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
             ;
 
-forstatement : FOR '(' asignare_for ',' conditie ',' operatie ')' '{' cod_bloc '}'
+forstatement : FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
              ;
 
-whilestatement : WHILE '(' conditie ')' '{' cod_bloc '}'
+whilestatement : WHILE '(' expresie_bool ')' '{' cod_bloc '}'
                 ;
 
-conditie : term GE term
-         | term LE term
-         | term EQ term
-         | term NE term
-         | term GT term
-         | term LT term
-         ;
-
-term : ID
-      | nr
-      | '(' expresie ')'
-      ;
 
 asignare_for : declaratii_locale
               | asignare
