@@ -53,14 +53,10 @@ void initializare_id (char *scope, char *type, char *name, char *value){
 
 %%
 
-start : globals main {printf("Program corect\n");}
-      | main {printf("Program corect\n");}
-       ;
-
-globals : global
-        | globals global
-        |
-       ;
+start : start global  {printf("Program corect\n");}
+      | start main {printf("Program corect\n");}
+      |
+      ;
 
 global : declaratie_g ';'
        | asignare ';'
@@ -73,13 +69,9 @@ structura : STRUCT ID '{' bloc_structura '}'
           ;
 
 
-bloc_structura : cod_structura 
-                | bloc_structura cod_structura
+bloc_structura : bloc_structura declaratie_structura ';'
                 |
                 ;
-
-cod_structura : declaratie_structura ';'  
-              ;
 
 expresie : expresie '+' expresie
          | expresie '-' expresie
@@ -105,8 +97,7 @@ declaratie_structura : tip ID '[' INTNR ']'
 main : START_MAIN bloc_main END_MAIN
      ;
 
-bloc_main : cod_main 
-          | bloc_main cod_main
+bloc_main : bloc_main cod_main
           |
           ;
 
@@ -168,8 +159,8 @@ asignare_for : declaratii_locale
 operatie :
          ;
 
-cod_bloc : instructiune_bloc
-         | cod_bloc instructiune_bloc
+cod_bloc : cod_bloc instructiune_bloc
+         |
          ;
  
 instructiune_bloc : declaratii_locale ';'
@@ -222,8 +213,7 @@ param : tip ID
 vec : tip ID '[' INTNR ']'
     ;
 
-bloc_functie : cod_functie
-              | bloc_functie cod_functie
+bloc_functie :  bloc_functie cod_functie
               |
               ;
 
@@ -251,6 +241,7 @@ asignare : ID '=' ID
          | BOOLEAN
          | ID '=' expresie
          | expresie
+         | STRUCT ID ID
          ;
 
 asignare_structura : ID '.' ID '=' asignare
