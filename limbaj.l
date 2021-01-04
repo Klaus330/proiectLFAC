@@ -44,9 +44,9 @@ string_val      ["]([^"\\\n]|\\.|\\\n)*["]
 
 {bool}             {printf("%s bool\n",yytext); yylval.textt = strdup(yytext); return BOOLEAN;}
 {identifier}       {printf("%s identificator\n",yytext); yylval.textt = strdup(yytext); return ID;}
-{numar}            {printf("%s numar intreg\n",yytext);yylval.textt = strdup(yytext); return INTNR;}
-{float_num}        {printf("%s float number\n",yytext); yylval.textt = strdup(yytext); return FLOATNR;}
-{double_num}       {printf("%s double number\n",yytext); yylval.textt = strdup(yytext); return DOUBLENR;}
+{numar}            {printf("%s numar intreg\n",yytext);yylval.rezultat = atoi(yytext); return INTNR;}
+{float_num}        {printf("%s float number\n",yytext); yylval.rezultat = atoi(yytext); return FLOATNR;}
+{double_num}       {printf("%s double number\n",yytext); yylval.rezultat = atoi(yytext); return DOUBLENR;}
 \-{numar}          {printf("%s numar negativ\n",yytext);}
 {string_val}       {printf("%s string value\n",yytext); yylval.textt = strdup(yytext); return STRINGVAL;}
 
