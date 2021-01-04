@@ -21,6 +21,7 @@ string_val      ["]([^"\\\n]|\\.|\\\n)*["]
 "print"    {return print;}
 "start_main" {printf ("Am intrat in main %s\n",yytext); return START_MAIN;}
 "end_main" {return END_MAIN;}
+"Eval"     {return EVAL;}
 
 "int"    {printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return INT;}
 "float"  {printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return FLOAT;}
@@ -39,7 +40,7 @@ string_val      ["]([^"\\\n]|\\.|\\\n)*["]
 ">"      {return LT;}
 "&&"     {return AND;}
 "||"     {return OR;}
-'!'      {return  NOT;}
+"!"      {return  NOT;}
 
 {bool}             {printf("%s bool\n",yytext); yylval.textt = strdup(yytext); return BOOLEAN;}
 {identifier}       {printf("%s identificator\n",yytext); yylval.textt = strdup(yytext); return ID;}

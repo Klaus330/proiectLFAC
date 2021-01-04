@@ -34,7 +34,7 @@ void initializare_id (char *scope, char *type, char *name, char *value){
         nr_var++; 
 }
 %}
-%token  ID INTNR ARR FLOATNR DOUBLENR BOOLEAN AND OR NOT
+%token  ID INTNR ARR FLOATNR DOUBLENR BOOLEAN AND OR NOT EVAL
 %token  INT FLOAT BOOL DOUBLE CHAR VOID CONST STRING STRINGVAL 
 %token FOR WHILE STRUCT
 %token IF ELSE print
@@ -63,7 +63,17 @@ global : declaratie_g ';'
        | declaratie_functie
        | CONST declaratie_g ';' {strcat(var[nr_var].type,"const ");}
        | structura
+       | EVAL '(' params_eval ')' '{' bloc_eval '}' 
        ;
+
+params_eval : INT ID ',' params_eval
+            | INT ID
+            | params_eval
+            |
+            ;
+
+bloc_eval : declaratii_locale ';'
+          ;
 
 structura : STRUCT ID '{' bloc_structura '}'
           ;
@@ -73,16 +83,25 @@ bloc_structura : bloc_structura declaratie_structura ';'
                 |
                 ;
 
-expresie : expresie '+' expresie
-         | expresie '-' expresie
-         | expresie '*' expresie
-         | expresie '/' expresie
-         | '(' expresie ')'
+expresie_matematica : expresie_matematica '+' expresie_matematica
+         | expresie_matematica '-' expresie_matematica
+         | expresie_matematica '*' expresie_matematica
+         | expresie_matematica '/' expresie_matematica
+         | '(' expresie_matematica ')'
          | nr
          | ID
-         | NOT ID
-         | NOT BOOLEAN
-         | BOOLEAN
+        ;
+
+expresie_bool : NOT ID
+              | BOOLEAN
+              | NOT BOOLEAN
+              | expresie AND expresie
+              | expresie OR expresie
+              | '(' expresie_bool ')'
+              ;
+
+expresie : expresie_matematica
+        | expresie_bool
         ;
 
 declaratie_structura : tip ID '[' INTNR ']'
@@ -106,6 +125,7 @@ cod_main : declaratie_main ';'
          | statements
          | apel
          | CONST declaratie_main ';' {strcat(var[nr_var].type,"const ");}
+         | apel_eval
          ;
 
 apel : ID '(' ')' ';'
@@ -113,6 +133,8 @@ apel : ID '(' ')' ';'
      | '_' ID '(' ')' 
      ;
 
+apel_eval : EVAL '(' parametri_apel ')' ';'
+          ;
 
 parametri_apel :  ID 
                | ID '#' parametri_apel
@@ -120,7 +142,9 @@ parametri_apel :  ID
                | nr '#' parametri_apel
                | apel 
                | apel '#' parametri_apel
-               | 
+               | expresie
+               | expresie '#' parametri_apel
+               |
                 ;
 
 
