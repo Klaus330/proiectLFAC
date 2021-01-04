@@ -34,7 +34,7 @@ void initializare_id (char *scope, char *type, char *name, char *value){
         nr_var++; 
 }
 %}
-%token  ID OP INTNR ARR FLOATNR DOUBLENR BOOLEAN 
+%token  ID INTNR ARR FLOATNR DOUBLENR BOOLEAN AND OR
 %token  INT FLOAT BOOL DOUBLE CHAR VOID CONST STRING STRINGVAL 
 %token FOR WHILE STRUCT
 %token IF ELSE print
@@ -43,11 +43,13 @@ void initializare_id (char *scope, char *type, char *name, char *value){
 %left '='
 %left AND OR
 %left '<' '>' LE GE EQ NE LT GT
+%left '+' '-' 
+%left '*' '/' 
 %union 
 {
    char* textt;
 }
-%type <textt> ID OP ARR INT FLOAT BOOL DOUBLE CHAR VOID STRUCT CONST STRING STRINGVAL tip nr BOOLEAN
+%type <textt> ID ARR INT FLOAT BOOL DOUBLE CHAR VOID STRUCT CONST STRING STRINGVAL tip nr BOOLEAN
 
 %%
 
@@ -78,7 +80,16 @@ bloc_structura : cod_structura
 
 cod_structura : declaratie_structura ';'  
               ;
-        
+
+expresie : expresie '+' expresie
+         | expresie '-' expresie
+         | expresie '*' expresie
+         | expresie '/' expresie
+         | '(' expresie ')'
+         | nr
+         | ID
+        ;
+
 declaratie_structura : tip ID '[' INTNR ']'
            |tip ID { initializare_tip_id ("structura", $1, $2); }
            | tip ID '=' nr {initializare_id("structura", $1, $2, $4);}
@@ -144,6 +155,7 @@ conditie : term GE term
 
 term : ID
       | nr
+      | '(' expresie ')'
       ;
 
 asignare_for : declaratii_locale
@@ -161,7 +173,8 @@ instructiune_bloc : declaratii_locale ';'
                   | statements
                   | CONST declaratii_locale ';' {strcat(var[nr_var].type,"const ");}
                   | apel
-                  | 
+                  | asignare ';'
+                  |
                   ;
 
 declaratii_locale :  tip ID '[' INTNR ']'
@@ -212,6 +225,7 @@ bloc_functie : cod_functie
 
 cod_functie : declaratie_var_f ';'
             // | CONST declaractie_var_f ';' {strcat(var[nr_var].type,"const ");}
+            | asignare ';'
             ;
 
 declaratie_var_f : tip ID {initializare_tip_id ("functie",$1, $2); }
@@ -231,6 +245,8 @@ asignare : ID '=' ID
          | nr
          | STRINGVAL
          | BOOLEAN
+         | ID '=' expresie
+         | expresie
          ;
 
 asignare_structura : ID '.' ID '=' asignare

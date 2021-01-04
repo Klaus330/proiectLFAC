@@ -5,7 +5,6 @@
 %option noyywrap
 cifra           [0-9]
 numar           [1-9]{cifra}+|{cifra}
-operator        [+*&/<>-]
 semn            [+-]
 litera          [a-zA-Z]
 spatiu          ['\t'' ']
@@ -38,10 +37,11 @@ string_val      ["]([^"\\\n]|\\.|\\\n)*["]
 "!="     {return NE;}
 "<"      {return GT;}
 ">"      {return LT;}
+"&&"     {return AND;}
+"||"     {return OR;}
 
 {bool}             {printf("%s bool\n",yytext); yylval.textt = strdup(yytext); return BOOLEAN;}
 {identifier}       {printf("%s identificator\n",yytext); yylval.textt = strdup(yytext); return ID;}
-{operator}         {printf("%s operator\n",yytext); return OP;}
 {numar}            {printf("%s numar intreg\n",yytext);yylval.textt = strdup(yytext); return INTNR;}
 {float_num}        {printf("%s float number\n",yytext); yylval.textt = strdup(yytext); return FLOATNR;}
 {double_num}       {printf("%s double number\n",yytext); yylval.textt = strdup(yytext); return DOUBLENR;}
