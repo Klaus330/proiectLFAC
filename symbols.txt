@@ -1,0 +1,20 @@
+Variabile declarate :
+ float - a - global - 
+ id - s - global - 
+ int - b - global - 4
+ int - c - global - 2.4
+ float - f - global - 2.3f
+ int - d - global - a
+ bool - s - global - true
+ string - s - global - 
+ int - a - structura - 
+ int - fvar - functie - 
+ float - n - functie - 
+ int - nr - functie - 
+ int - a - main - 
+ const float - c - main - 
+ bool - a - main - true
+ string - s - main - "ana are 2 mere ?"
+ int - temp - local - 
+ float - r - local - 2.4f
+ id - s - main - 

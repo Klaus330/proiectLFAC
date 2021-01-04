@@ -1,0 +1,2358 @@
+Nonterminals useless in grammar
+
+   vec
+
+
+Terminals unused in grammar
+
+   OP
+   ARR
+   LPAR
+   RPAR
+   print
+   CLASS
+   INCLUDE
+   AND
+   OR
+   '<'
+   '>'
+
+
+Rules useless in grammar
+
+   99 vec: tip ID '[' INTNR ']'
+
+
+Stare 0 conflicte: 9 shift/reduce
+Stare 21 conflicte: 13 shift/reduce
+Stare 55 conflicte: 1 shift/reduce
+Stare 93 conflicte: 7 shift/reduce
+Stare 123 conflicte: 7 shift/reduce
+Stare 132 conflicte: 13 shift/reduce
+Stare 139 conflicte: 13 shift/reduce
+Stare 156 conflicte: 14 shift/reduce
+Stare 159 conflicte: 14 shift/reduce
+Stare 176 conflicte: 13 shift/reduce
+Stare 177 conflicte: 13 shift/reduce
+Stare 178 conflicte: 14 shift/reduce
+Stare 179 conflicte: 14 shift/reduce
+
+
+Gramatică
+
+    0 $accept: start $end
+
+    1 start: globals main
+
+    2 globals: global
+    3        | globals global
+    4        | %empty
+
+    5 global: declaratie_g ';'
+    6       | asignare ';'
+    7       | declaratie_functie
+    8       | CONST declaratie_g ';'
+
+    9 main: START_MAIN bloc_main END_MAIN
+
+   10 bloc_main: cod_main
+   11          | bloc_main cod_main
+   12          | %empty
+
+   13 cod_main: declaratie_main ';'
+   14         | asignare ';'
+   15         | statements
+   16         | apel
+   17         | CONST declaratie_main ';'
+
+   18 apel: ID '(' ')' ';'
+   19     | ID '(' parametri_apel ')' ';'
+   20     | '_' ID '(' ')'
+
+   21 parametri_apel: ID
+   22               | ID '#' parametri_apel
+   23               | nr
+   24               | nr '#' parametri_apel
+   25               | apel
+   26               | apel '#' parametri_apel
+   27               | %empty
+
+   28 statements: ifstatement
+   29           | forstatement
+   30           | whilestatement
+
+   31 ifstatement: IF '(' conditie ')' '{' cod_bloc '}'
+   32            | IF '(' conditie ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+
+   33 forstatement: FOR '(' asignare_for ',' conditie ',' operatie ')' '{' cod_bloc '}'
+
+   34 whilestatement: WHILE '(' conditie ')' '{' cod_bloc '}'
+
+   35 conditie: term GE term
+   36         | term LE term
+   37         | term EQ term
+   38         | term NE term
+   39         | term GT term
+   40         | term LT term
+
+   41 term: ID
+   42     | nr
+
+   43 asignare_for: declaratii_locale
+   44             | asignare
+
+   45 operatie: %empty
+
+   46 cod_bloc: instructiune_bloc
+   47         | cod_bloc instructiune_bloc
+
+   48 instructiune_bloc: declaratii_locale ';'
+   49                  | statements
+   50                  | CONST declaratii_locale ';'
+   51                  | apel
+   52                  | %empty
+
+   53 declaratii_locale: tip ID '[' INTNR ']'
+   54                  | tip ID
+   55                  | tip ID '=' nr
+   56                  | tip ID '=' ID
+   57                  | tip ID '=' BOOLEAN
+   58                  | tip ID '=' STRINGVAL
+
+   59 declaratie_g: tip ID '[' INTNR ']'
+   60             | tip ID
+   61             | tip ID '=' nr
+   62             | tip ID '=' ID
+   63             | tip ID '=' BOOLEAN
+   64             | tip ID '=' STRINGVAL
+
+   65 declaratie_main: tip ID
+   66                | tip ID '=' nr
+   67                | tip ID '=' ID
+   68                | tip ID '=' BOOLEAN
+   69                | tip ID '=' STRINGVAL
+   70                | tip ID '[' INTNR ']'
+
+   71 declaratie_functie: tip ID '(' params ')' '{' bloc_functie '}'
+   72                   | tip ID '(' ')' '{' bloc_functie '}'
+
+   73 params: param
+   74       | params '#' param
+
+   75 param: tip ID
+
+   76 bloc_functie: cod_functie
+   77             | bloc_functie cod_functie
+   78             | %empty
+
+   79 cod_functie: declaratie_var_f ';'
+
+   80 declaratie_var_f: tip ID
+   81                 | tip ID '=' nr
+   82                 | tip ID '=' ID
+   83                 | tip ID '=' BOOLEAN
+   84                 | tip ID '=' STRINGVAL
+
+   85 asignare: ID '=' ID
+   86         | ID '=' nr
+   87         | ID '=' STRINGVAL
+   88         | ID '=' BOOLEAN
+
+   89 tip: INT
+   90    | FLOAT
+   91    | BOOL
+   92    | DOUBLE
+   93    | CHAR
+   94    | VOID
+   95    | STRING
+
+   96 nr: INTNR
+   97   | FLOATNR
+   98   | DOUBLENR
+
+
+Terminale, cu reguli acolo unde acestea apar
+
+$end (0) 0
+'#' (35) 22 24 26 74
+'(' (40) 18 19 20 31 32 33 34 71 72
+')' (41) 18 19 20 31 32 33 34 71 72
+',' (44) 33
+';' (59) 5 6 8 13 14 17 18 19 48 50 79
+'<' (60)
+'=' (61) 55 56 57 58 61 62 63 64 66 67 68 69 81 82 83 84 85 86 87 88
+'>' (62)
+'[' (91) 53 59 70
+']' (93) 53 59 70
+'_' (95) 20
+'{' (123) 31 32 33 34 71 72
+'}' (125) 31 32 33 34 71 72
+error (256)
+ID (258) 18 19 20 21 22 41 53 54 55 56 57 58 59 60 61 62 63 64 65 66
+    67 68 69 70 71 72 75 80 81 82 83 84 85 86 87 88
+OP (259)
+INTNR (260) 53 59 70 96
+ARR (261)
+FLOATNR (262) 97
+DOUBLENR (263) 98
+BOOLEAN (264) 57 63 68 83 88
+INT (265) 89
+FLOAT (266) 90
+BOOL (267) 91
+DOUBLE (268) 92
+CHAR (269) 93
+VOID (270) 94
+CONST (271) 8 17 50
+STRING (272) 95
+STRINGVAL (273) 58 64 69 84 87
+FOR (274) 33
+WHILE (275) 34
+LPAR (276)
+RPAR (277)
+IF (278) 31 32
+ELSE (279) 32
+print (280)
+CLASS (281)
+INCLUDE (282)
+START_MAIN (283) 9
+END_MAIN (284) 9
+AND (285)
+OR (286)
+LE (287) 36
+GE (288) 35
+EQ (289) 37
+NE (290) 38
+LT (291) 40
+GT (292) 39
+
+
+Non-terminale, cu reguli acolo unde acestea apar
+
+$accept (51)
+    pe stânga: 0
+start (52)
+    pe stânga: 1, pe dreapta: 0
+globals (53)
+    pe stânga: 2 3 4, pe dreapta: 1 3
+global (54)
+    pe stânga: 5 6 7 8, pe dreapta: 2 3
+main (55)
+    pe stânga: 9, pe dreapta: 1
+bloc_main (56)
+    pe stânga: 10 11 12, pe dreapta: 9 11
+cod_main (57)
+    pe stânga: 13 14 15 16 17, pe dreapta: 10 11
+apel (58)
+    pe stânga: 18 19 20, pe dreapta: 16 25 26 51
+parametri_apel (59)
+    pe stânga: 21 22 23 24 25 26 27, pe dreapta: 19 22 24 26
+statements (60)
+    pe stânga: 28 29 30, pe dreapta: 15 49
+ifstatement (61)
+    pe stânga: 31 32, pe dreapta: 28
+forstatement (62)
+    pe stânga: 33, pe dreapta: 29
+whilestatement (63)
+    pe stânga: 34, pe dreapta: 30
+conditie (64)
+    pe stânga: 35 36 37 38 39 40, pe dreapta: 31 32 33 34
+term (65)
+    pe stânga: 41 42, pe dreapta: 35 36 37 38 39 40
+asignare_for (66)
+    pe stânga: 43 44, pe dreapta: 33
+operatie (67)
+    pe stânga: 45, pe dreapta: 33
+cod_bloc (68)
+    pe stânga: 46 47, pe dreapta: 31 32 33 34 47
+instructiune_bloc (69)
+    pe stânga: 48 49 50 51 52, pe dreapta: 46 47
+declaratii_locale (70)
+    pe stânga: 53 54 55 56 57 58, pe dreapta: 43 48 50
+declaratie_g (71)
+    pe stânga: 59 60 61 62 63 64, pe dreapta: 5 8
+declaratie_main (72)
+    pe stânga: 65 66 67 68 69 70, pe dreapta: 13 17
+declaratie_functie (73)
+    pe stânga: 71 72, pe dreapta: 7
+params (74)
+    pe stânga: 73 74, pe dreapta: 71 74
+param (75)
+    pe stânga: 75, pe dreapta: 73 74
+bloc_functie (76)
+    pe stânga: 76 77 78, pe dreapta: 71 72 77
+cod_functie (77)
+    pe stânga: 79, pe dreapta: 76 77
+declaratie_var_f (78)
+    pe stânga: 80 81 82 83 84, pe dreapta: 79
+asignare (79)
+    pe stânga: 85 86 87 88, pe dreapta: 6 14 44
+tip (80)
+    pe stânga: 89 90 91 92 93 94 95, pe dreapta: 53 54 55 56 57 58
+    59 60 61 62 63 64 65 66 67 68 69 70 71 72 75 80 81 82 83 84
+nr (81)
+    pe stânga: 96 97 98, pe dreapta: 23 24 42 55 61 66 81 86
+
+
+State 0
+
+    0 $accept: . start $end
+
+    ID      shift, şi mergi în starea 1
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    CONST   shift, şi mergi în starea 8
+    STRING  shift, şi mergi în starea 9
+
+    ID         [reduce folosind regula 4 (globals)]
+    INT        [reduce folosind regula 4 (globals)]
+    FLOAT      [reduce folosind regula 4 (globals)]
+    BOOL       [reduce folosind regula 4 (globals)]
+    DOUBLE     [reduce folosind regula 4 (globals)]
+    CHAR       [reduce folosind regula 4 (globals)]
+    VOID       [reduce folosind regula 4 (globals)]
+    CONST      [reduce folosind regula 4 (globals)]
+    STRING     [reduce folosind regula 4 (globals)]
+    $implicit  reduce folosind regula 4 (globals)
+
+    start               mergi în starea 10
+    globals             mergi în starea 11
+    global              mergi în starea 12
+    declaratie_g        mergi în starea 13
+    declaratie_functie  mergi în starea 14
+    asignare            mergi în starea 15
+    tip                 mergi în starea 16
+
+
+State 1
+
+   85 asignare: ID . '=' ID
+   86         | ID . '=' nr
+   87         | ID . '=' STRINGVAL
+   88         | ID . '=' BOOLEAN
+
+    '='  shift, şi mergi în starea 17
+
+
+State 2
+
+   89 tip: INT .
+
+    $implicit  reduce folosind regula 89 (tip)
+
+
+State 3
+
+   90 tip: FLOAT .
+
+    $implicit  reduce folosind regula 90 (tip)
+
+
+State 4
+
+   91 tip: BOOL .
+
+    $implicit  reduce folosind regula 91 (tip)
+
+
+State 5
+
+   92 tip: DOUBLE .
+
+    $implicit  reduce folosind regula 92 (tip)
+
+
+State 6
+
+   93 tip: CHAR .
+
+    $implicit  reduce folosind regula 93 (tip)
+
+
+State 7
+
+   94 tip: VOID .
+
+    $implicit  reduce folosind regula 94 (tip)
+
+
+State 8
+
+    8 global: CONST . declaratie_g ';'
+
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    STRING  shift, şi mergi în starea 9
+
+    declaratie_g  mergi în starea 18
+    tip           mergi în starea 19
+
+
+State 9
+
+   95 tip: STRING .
+
+    $implicit  reduce folosind regula 95 (tip)
+
+
+State 10
+
+    0 $accept: start . $end
+
+    $end  shift, şi mergi în starea 20
+
+
+State 11
+
+    1 start: globals . main
+    3 globals: globals . global
+
+    ID          shift, şi mergi în starea 1
+    INT         shift, şi mergi în starea 2
+    FLOAT       shift, şi mergi în starea 3
+    BOOL        shift, şi mergi în starea 4
+    DOUBLE      shift, şi mergi în starea 5
+    CHAR        shift, şi mergi în starea 6
+    VOID        shift, şi mergi în starea 7
+    CONST       shift, şi mergi în starea 8
+    STRING      shift, şi mergi în starea 9
+    START_MAIN  shift, şi mergi în starea 21
+
+    global              mergi în starea 22
+    main                mergi în starea 23
+    declaratie_g        mergi în starea 13
+    declaratie_functie  mergi în starea 14
+    asignare            mergi în starea 15
+    tip                 mergi în starea 16
+
+
+State 12
+
+    2 globals: global .
+
+    $implicit  reduce folosind regula 2 (globals)
+
+
+State 13
+
+    5 global: declaratie_g . ';'
+
+    ';'  shift, şi mergi în starea 24
+
+
+State 14
+
+    7 global: declaratie_functie .
+
+    $implicit  reduce folosind regula 7 (global)
+
+
+State 15
+
+    6 global: asignare . ';'
+
+    ';'  shift, şi mergi în starea 25
+
+
+State 16
+
+   59 declaratie_g: tip . ID '[' INTNR ']'
+   60             | tip . ID
+   61             | tip . ID '=' nr
+   62             | tip . ID '=' ID
+   63             | tip . ID '=' BOOLEAN
+   64             | tip . ID '=' STRINGVAL
+   71 declaratie_functie: tip . ID '(' params ')' '{' bloc_functie '}'
+   72                   | tip . ID '(' ')' '{' bloc_functie '}'
+
+    ID  shift, şi mergi în starea 26
+
+
+State 17
+
+   85 asignare: ID '=' . ID
+   86         | ID '=' . nr
+   87         | ID '=' . STRINGVAL
+   88         | ID '=' . BOOLEAN
+
+    ID         shift, şi mergi în starea 27
+    INTNR      shift, şi mergi în starea 28
+    FLOATNR    shift, şi mergi în starea 29
+    DOUBLENR   shift, şi mergi în starea 30
+    BOOLEAN    shift, şi mergi în starea 31
+    STRINGVAL  shift, şi mergi în starea 32
+
+    nr  mergi în starea 33
+
+
+State 18
+
+    8 global: CONST declaratie_g . ';'
+
+    ';'  shift, şi mergi în starea 34
+
+
+State 19
+
+   59 declaratie_g: tip . ID '[' INTNR ']'
+   60             | tip . ID
+   61             | tip . ID '=' nr
+   62             | tip . ID '=' ID
+   63             | tip . ID '=' BOOLEAN
+   64             | tip . ID '=' STRINGVAL
+
+    ID  shift, şi mergi în starea 35
+
+
+State 20
+
+    0 $accept: start $end .
+
+    $implicit  accept
+
+
+State 21
+
+    9 main: START_MAIN . bloc_main END_MAIN
+
+    ID      shift, şi mergi în starea 36
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    CONST   shift, şi mergi în starea 37
+    STRING  shift, şi mergi în starea 9
+    FOR     shift, şi mergi în starea 38
+    WHILE   shift, şi mergi în starea 39
+    IF      shift, şi mergi în starea 40
+    '_'     shift, şi mergi în starea 41
+
+    ID         [reduce folosind regula 12 (bloc_main)]
+    INT        [reduce folosind regula 12 (bloc_main)]
+    FLOAT      [reduce folosind regula 12 (bloc_main)]
+    BOOL       [reduce folosind regula 12 (bloc_main)]
+    DOUBLE     [reduce folosind regula 12 (bloc_main)]
+    CHAR       [reduce folosind regula 12 (bloc_main)]
+    VOID       [reduce folosind regula 12 (bloc_main)]
+    CONST      [reduce folosind regula 12 (bloc_main)]
+    STRING     [reduce folosind regula 12 (bloc_main)]
+    FOR        [reduce folosind regula 12 (bloc_main)]
+    WHILE      [reduce folosind regula 12 (bloc_main)]
+    IF         [reduce folosind regula 12 (bloc_main)]
+    '_'        [reduce folosind regula 12 (bloc_main)]
+    $implicit  reduce folosind regula 12 (bloc_main)
+
+    bloc_main        mergi în starea 42
+    cod_main         mergi în starea 43
+    apel             mergi în starea 44
+    statements       mergi în starea 45
+    ifstatement      mergi în starea 46
+    forstatement     mergi în starea 47
+    whilestatement   mergi în starea 48
+    declaratie_main  mergi în starea 49
+    asignare         mergi în starea 50
+    tip              mergi în starea 51
+
+
+State 22
+
+    3 globals: globals global .
+
+    $implicit  reduce folosind regula 3 (globals)
+
+
+State 23
+
+    1 start: globals main .
+
+    $implicit  reduce folosind regula 1 (start)
+
+
+State 24
+
+    5 global: declaratie_g ';' .
+
+    $implicit  reduce folosind regula 5 (global)
+
+
+State 25
+
+    6 global: asignare ';' .
+
+    $implicit  reduce folosind regula 6 (global)
+
+
+State 26
+
+   59 declaratie_g: tip ID . '[' INTNR ']'
+   60             | tip ID .
+   61             | tip ID . '=' nr
+   62             | tip ID . '=' ID
+   63             | tip ID . '=' BOOLEAN
+   64             | tip ID . '=' STRINGVAL
+   71 declaratie_functie: tip ID . '(' params ')' '{' bloc_functie '}'
+   72                   | tip ID . '(' ')' '{' bloc_functie '}'
+
+    '='  shift, şi mergi în starea 52
+    '('  shift, şi mergi în starea 53
+    '['  shift, şi mergi în starea 54
+
+    $implicit  reduce folosind regula 60 (declaratie_g)
+
+
+State 27
+
+   85 asignare: ID '=' ID .
+
+    $implicit  reduce folosind regula 85 (asignare)
+
+
+State 28
+
+   96 nr: INTNR .
+
+    $implicit  reduce folosind regula 96 (nr)
+
+
+State 29
+
+   97 nr: FLOATNR .
+
+    $implicit  reduce folosind regula 97 (nr)
+
+
+State 30
+
+   98 nr: DOUBLENR .
+
+    $implicit  reduce folosind regula 98 (nr)
+
+
+State 31
+
+   88 asignare: ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 88 (asignare)
+
+
+State 32
+
+   87 asignare: ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 87 (asignare)
+
+
+State 33
+
+   86 asignare: ID '=' nr .
+
+    $implicit  reduce folosind regula 86 (asignare)
+
+
+State 34
+
+    8 global: CONST declaratie_g ';' .
+
+    $implicit  reduce folosind regula 8 (global)
+
+
+State 35
+
+   59 declaratie_g: tip ID . '[' INTNR ']'
+   60             | tip ID .
+   61             | tip ID . '=' nr
+   62             | tip ID . '=' ID
+   63             | tip ID . '=' BOOLEAN
+   64             | tip ID . '=' STRINGVAL
+
+    '='  shift, şi mergi în starea 52
+    '['  shift, şi mergi în starea 54
+
+    $implicit  reduce folosind regula 60 (declaratie_g)
+
+
+State 36
+
+   18 apel: ID . '(' ')' ';'
+   19     | ID . '(' parametri_apel ')' ';'
+   85 asignare: ID . '=' ID
+   86         | ID . '=' nr
+   87         | ID . '=' STRINGVAL
+   88         | ID . '=' BOOLEAN
+
+    '='  shift, şi mergi în starea 17
+    '('  shift, şi mergi în starea 55
+
+
+State 37
+
+   17 cod_main: CONST . declaratie_main ';'
+
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    STRING  shift, şi mergi în starea 9
+
+    declaratie_main  mergi în starea 56
+    tip              mergi în starea 51
+
+
+State 38
+
+   33 forstatement: FOR . '(' asignare_for ',' conditie ',' operatie ')' '{' cod_bloc '}'
+
+    '('  shift, şi mergi în starea 57
+
+
+State 39
+
+   34 whilestatement: WHILE . '(' conditie ')' '{' cod_bloc '}'
+
+    '('  shift, şi mergi în starea 58
+
+
+State 40
+
+   31 ifstatement: IF . '(' conditie ')' '{' cod_bloc '}'
+   32            | IF . '(' conditie ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+
+    '('  shift, şi mergi în starea 59
+
+
+State 41
+
+   20 apel: '_' . ID '(' ')'
+
+    ID  shift, şi mergi în starea 60
+
+
+State 42
+
+    9 main: START_MAIN bloc_main . END_MAIN
+   11 bloc_main: bloc_main . cod_main
+
+    ID        shift, şi mergi în starea 36
+    INT       shift, şi mergi în starea 2
+    FLOAT     shift, şi mergi în starea 3
+    BOOL      shift, şi mergi în starea 4
+    DOUBLE    shift, şi mergi în starea 5
+    CHAR      shift, şi mergi în starea 6
+    VOID      shift, şi mergi în starea 7
+    CONST     shift, şi mergi în starea 37
+    STRING    shift, şi mergi în starea 9
+    FOR       shift, şi mergi în starea 38
+    WHILE     shift, şi mergi în starea 39
+    IF        shift, şi mergi în starea 40
+    END_MAIN  shift, şi mergi în starea 61
+    '_'       shift, şi mergi în starea 41
+
+    cod_main         mergi în starea 62
+    apel             mergi în starea 44
+    statements       mergi în starea 45
+    ifstatement      mergi în starea 46
+    forstatement     mergi în starea 47
+    whilestatement   mergi în starea 48
+    declaratie_main  mergi în starea 49
+    asignare         mergi în starea 50
+    tip              mergi în starea 51
+
+
+State 43
+
+   10 bloc_main: cod_main .
+
+    $implicit  reduce folosind regula 10 (bloc_main)
+
+
+State 44
+
+   16 cod_main: apel .
+
+    $implicit  reduce folosind regula 16 (cod_main)
+
+
+State 45
+
+   15 cod_main: statements .
+
+    $implicit  reduce folosind regula 15 (cod_main)
+
+
+State 46
+
+   28 statements: ifstatement .
+
+    $implicit  reduce folosind regula 28 (statements)
+
+
+State 47
+
+   29 statements: forstatement .
+
+    $implicit  reduce folosind regula 29 (statements)
+
+
+State 48
+
+   30 statements: whilestatement .
+
+    $implicit  reduce folosind regula 30 (statements)
+
+
+State 49
+
+   13 cod_main: declaratie_main . ';'
+
+    ';'  shift, şi mergi în starea 63
+
+
+State 50
+
+   14 cod_main: asignare . ';'
+
+    ';'  shift, şi mergi în starea 64
+
+
+State 51
+
+   65 declaratie_main: tip . ID
+   66                | tip . ID '=' nr
+   67                | tip . ID '=' ID
+   68                | tip . ID '=' BOOLEAN
+   69                | tip . ID '=' STRINGVAL
+   70                | tip . ID '[' INTNR ']'
+
+    ID  shift, şi mergi în starea 65
+
+
+State 52
+
+   61 declaratie_g: tip ID '=' . nr
+   62             | tip ID '=' . ID
+   63             | tip ID '=' . BOOLEAN
+   64             | tip ID '=' . STRINGVAL
+
+    ID         shift, şi mergi în starea 66
+    INTNR      shift, şi mergi în starea 28
+    FLOATNR    shift, şi mergi în starea 29
+    DOUBLENR   shift, şi mergi în starea 30
+    BOOLEAN    shift, şi mergi în starea 67
+    STRINGVAL  shift, şi mergi în starea 68
+
+    nr  mergi în starea 69
+
+
+State 53
+
+   71 declaratie_functie: tip ID '(' . params ')' '{' bloc_functie '}'
+   72                   | tip ID '(' . ')' '{' bloc_functie '}'
+
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    STRING  shift, şi mergi în starea 9
+    ')'     shift, şi mergi în starea 70
+
+    params  mergi în starea 71
+    param   mergi în starea 72
+    tip     mergi în starea 73
+
+
+State 54
+
+   59 declaratie_g: tip ID '[' . INTNR ']'
+
+    INTNR  shift, şi mergi în starea 74
+
+
+State 55
+
+   18 apel: ID '(' . ')' ';'
+   19     | ID '(' . parametri_apel ')' ';'
+
+    ID        shift, şi mergi în starea 75
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+    ')'       shift, şi mergi în starea 76
+    '_'       shift, şi mergi în starea 41
+
+    ')'  [reduce folosind regula 27 (parametri_apel)]
+
+    apel            mergi în starea 77
+    parametri_apel  mergi în starea 78
+    nr              mergi în starea 79
+
+
+State 56
+
+   17 cod_main: CONST declaratie_main . ';'
+
+    ';'  shift, şi mergi în starea 80
+
+
+State 57
+
+   33 forstatement: FOR '(' . asignare_for ',' conditie ',' operatie ')' '{' cod_bloc '}'
+
+    ID      shift, şi mergi în starea 1
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    STRING  shift, şi mergi în starea 9
+
+    asignare_for       mergi în starea 81
+    declaratii_locale  mergi în starea 82
+    asignare           mergi în starea 83
+    tip                mergi în starea 84
+
+
+State 58
+
+   34 whilestatement: WHILE '(' . conditie ')' '{' cod_bloc '}'
+
+    ID        shift, şi mergi în starea 85
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+
+    conditie  mergi în starea 86
+    term      mergi în starea 87
+    nr        mergi în starea 88
+
+
+State 59
+
+   31 ifstatement: IF '(' . conditie ')' '{' cod_bloc '}'
+   32            | IF '(' . conditie ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+
+    ID        shift, şi mergi în starea 85
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+
+    conditie  mergi în starea 89
+    term      mergi în starea 87
+    nr        mergi în starea 88
+
+
+State 60
+
+   20 apel: '_' ID . '(' ')'
+
+    '('  shift, şi mergi în starea 90
+
+
+State 61
+
+    9 main: START_MAIN bloc_main END_MAIN .
+
+    $implicit  reduce folosind regula 9 (main)
+
+
+State 62
+
+   11 bloc_main: bloc_main cod_main .
+
+    $implicit  reduce folosind regula 11 (bloc_main)
+
+
+State 63
+
+   13 cod_main: declaratie_main ';' .
+
+    $implicit  reduce folosind regula 13 (cod_main)
+
+
+State 64
+
+   14 cod_main: asignare ';' .
+
+    $implicit  reduce folosind regula 14 (cod_main)
+
+
+State 65
+
+   65 declaratie_main: tip ID .
+   66                | tip ID . '=' nr
+   67                | tip ID . '=' ID
+   68                | tip ID . '=' BOOLEAN
+   69                | tip ID . '=' STRINGVAL
+   70                | tip ID . '[' INTNR ']'
+
+    '='  shift, şi mergi în starea 91
+    '['  shift, şi mergi în starea 92
+
+    $implicit  reduce folosind regula 65 (declaratie_main)
+
+
+State 66
+
+   62 declaratie_g: tip ID '=' ID .
+
+    $implicit  reduce folosind regula 62 (declaratie_g)
+
+
+State 67
+
+   63 declaratie_g: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 63 (declaratie_g)
+
+
+State 68
+
+   64 declaratie_g: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 64 (declaratie_g)
+
+
+State 69
+
+   61 declaratie_g: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 61 (declaratie_g)
+
+
+State 70
+
+   72 declaratie_functie: tip ID '(' ')' . '{' bloc_functie '}'
+
+    '{'  shift, şi mergi în starea 93
+
+
+State 71
+
+   71 declaratie_functie: tip ID '(' params . ')' '{' bloc_functie '}'
+   74 params: params . '#' param
+
+    ')'  shift, şi mergi în starea 94
+    '#'  shift, şi mergi în starea 95
+
+
+State 72
+
+   73 params: param .
+
+    $implicit  reduce folosind regula 73 (params)
+
+
+State 73
+
+   75 param: tip . ID
+
+    ID  shift, şi mergi în starea 96
+
+
+State 74
+
+   59 declaratie_g: tip ID '[' INTNR . ']'
+
+    ']'  shift, şi mergi în starea 97
+
+
+State 75
+
+   18 apel: ID . '(' ')' ';'
+   19     | ID . '(' parametri_apel ')' ';'
+   21 parametri_apel: ID .
+   22               | ID . '#' parametri_apel
+
+    '('  shift, şi mergi în starea 55
+    '#'  shift, şi mergi în starea 98
+
+    $implicit  reduce folosind regula 21 (parametri_apel)
+
+
+State 76
+
+   18 apel: ID '(' ')' . ';'
+
+    ';'  shift, şi mergi în starea 99
+
+
+State 77
+
+   25 parametri_apel: apel .
+   26               | apel . '#' parametri_apel
+
+    '#'  shift, şi mergi în starea 100
+
+    $implicit  reduce folosind regula 25 (parametri_apel)
+
+
+State 78
+
+   19 apel: ID '(' parametri_apel . ')' ';'
+
+    ')'  shift, şi mergi în starea 101
+
+
+State 79
+
+   23 parametri_apel: nr .
+   24               | nr . '#' parametri_apel
+
+    '#'  shift, şi mergi în starea 102
+
+    $implicit  reduce folosind regula 23 (parametri_apel)
+
+
+State 80
+
+   17 cod_main: CONST declaratie_main ';' .
+
+    $implicit  reduce folosind regula 17 (cod_main)
+
+
+State 81
+
+   33 forstatement: FOR '(' asignare_for . ',' conditie ',' operatie ')' '{' cod_bloc '}'
+
+    ','  shift, şi mergi în starea 103
+
+
+State 82
+
+   43 asignare_for: declaratii_locale .
+
+    $implicit  reduce folosind regula 43 (asignare_for)
+
+
+State 83
+
+   44 asignare_for: asignare .
+
+    $implicit  reduce folosind regula 44 (asignare_for)
+
+
+State 84
+
+   53 declaratii_locale: tip . ID '[' INTNR ']'
+   54                  | tip . ID
+   55                  | tip . ID '=' nr
+   56                  | tip . ID '=' ID
+   57                  | tip . ID '=' BOOLEAN
+   58                  | tip . ID '=' STRINGVAL
+
+    ID  shift, şi mergi în starea 104
+
+
+State 85
+
+   41 term: ID .
+
+    $implicit  reduce folosind regula 41 (term)
+
+
+State 86
+
+   34 whilestatement: WHILE '(' conditie . ')' '{' cod_bloc '}'
+
+    ')'  shift, şi mergi în starea 105
+
+
+State 87
+
+   35 conditie: term . GE term
+   36         | term . LE term
+   37         | term . EQ term
+   38         | term . NE term
+   39         | term . GT term
+   40         | term . LT term
+
+    LE  shift, şi mergi în starea 106
+    GE  shift, şi mergi în starea 107
+    EQ  shift, şi mergi în starea 108
+    NE  shift, şi mergi în starea 109
+    LT  shift, şi mergi în starea 110
+    GT  shift, şi mergi în starea 111
+
+
+State 88
+
+   42 term: nr .
+
+    $implicit  reduce folosind regula 42 (term)
+
+
+State 89
+
+   31 ifstatement: IF '(' conditie . ')' '{' cod_bloc '}'
+   32            | IF '(' conditie . ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+
+    ')'  shift, şi mergi în starea 112
+
+
+State 90
+
+   20 apel: '_' ID '(' . ')'
+
+    ')'  shift, şi mergi în starea 113
+
+
+State 91
+
+   66 declaratie_main: tip ID '=' . nr
+   67                | tip ID '=' . ID
+   68                | tip ID '=' . BOOLEAN
+   69                | tip ID '=' . STRINGVAL
+
+    ID         shift, şi mergi în starea 114
+    INTNR      shift, şi mergi în starea 28
+    FLOATNR    shift, şi mergi în starea 29
+    DOUBLENR   shift, şi mergi în starea 30
+    BOOLEAN    shift, şi mergi în starea 115
+    STRINGVAL  shift, şi mergi în starea 116
+
+    nr  mergi în starea 117
+
+
+State 92
+
+   70 declaratie_main: tip ID '[' . INTNR ']'
+
+    INTNR  shift, şi mergi în starea 118
+
+
+State 93
+
+   72 declaratie_functie: tip ID '(' ')' '{' . bloc_functie '}'
+
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    STRING  shift, şi mergi în starea 9
+
+    INT        [reduce folosind regula 78 (bloc_functie)]
+    FLOAT      [reduce folosind regula 78 (bloc_functie)]
+    BOOL       [reduce folosind regula 78 (bloc_functie)]
+    DOUBLE     [reduce folosind regula 78 (bloc_functie)]
+    CHAR       [reduce folosind regula 78 (bloc_functie)]
+    VOID       [reduce folosind regula 78 (bloc_functie)]
+    STRING     [reduce folosind regula 78 (bloc_functie)]
+    $implicit  reduce folosind regula 78 (bloc_functie)
+
+    bloc_functie      mergi în starea 119
+    cod_functie       mergi în starea 120
+    declaratie_var_f  mergi în starea 121
+    tip               mergi în starea 122
+
+
+State 94
+
+   71 declaratie_functie: tip ID '(' params ')' . '{' bloc_functie '}'
+
+    '{'  shift, şi mergi în starea 123
+
+
+State 95
+
+   74 params: params '#' . param
+
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    STRING  shift, şi mergi în starea 9
+
+    param  mergi în starea 124
+    tip    mergi în starea 73
+
+
+State 96
+
+   75 param: tip ID .
+
+    $implicit  reduce folosind regula 75 (param)
+
+
+State 97
+
+   59 declaratie_g: tip ID '[' INTNR ']' .
+
+    $implicit  reduce folosind regula 59 (declaratie_g)
+
+
+State 98
+
+   22 parametri_apel: ID '#' . parametri_apel
+
+    ID        shift, şi mergi în starea 75
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+    '_'       shift, şi mergi în starea 41
+
+    $implicit  reduce folosind regula 27 (parametri_apel)
+
+    apel            mergi în starea 77
+    parametri_apel  mergi în starea 125
+    nr              mergi în starea 79
+
+
+State 99
+
+   18 apel: ID '(' ')' ';' .
+
+    $implicit  reduce folosind regula 18 (apel)
+
+
+State 100
+
+   26 parametri_apel: apel '#' . parametri_apel
+
+    ID        shift, şi mergi în starea 75
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+    '_'       shift, şi mergi în starea 41
+
+    $implicit  reduce folosind regula 27 (parametri_apel)
+
+    apel            mergi în starea 77
+    parametri_apel  mergi în starea 126
+    nr              mergi în starea 79
+
+
+State 101
+
+   19 apel: ID '(' parametri_apel ')' . ';'
+
+    ';'  shift, şi mergi în starea 127
+
+
+State 102
+
+   24 parametri_apel: nr '#' . parametri_apel
+
+    ID        shift, şi mergi în starea 75
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+    '_'       shift, şi mergi în starea 41
+
+    $implicit  reduce folosind regula 27 (parametri_apel)
+
+    apel            mergi în starea 77
+    parametri_apel  mergi în starea 128
+    nr              mergi în starea 79
+
+
+State 103
+
+   33 forstatement: FOR '(' asignare_for ',' . conditie ',' operatie ')' '{' cod_bloc '}'
+
+    ID        shift, şi mergi în starea 85
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+
+    conditie  mergi în starea 129
+    term      mergi în starea 87
+    nr        mergi în starea 88
+
+
+State 104
+
+   53 declaratii_locale: tip ID . '[' INTNR ']'
+   54                  | tip ID .
+   55                  | tip ID . '=' nr
+   56                  | tip ID . '=' ID
+   57                  | tip ID . '=' BOOLEAN
+   58                  | tip ID . '=' STRINGVAL
+
+    '='  shift, şi mergi în starea 130
+    '['  shift, şi mergi în starea 131
+
+    $implicit  reduce folosind regula 54 (declaratii_locale)
+
+
+State 105
+
+   34 whilestatement: WHILE '(' conditie ')' . '{' cod_bloc '}'
+
+    '{'  shift, şi mergi în starea 132
+
+
+State 106
+
+   36 conditie: term LE . term
+
+    ID        shift, şi mergi în starea 85
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+
+    term  mergi în starea 133
+    nr    mergi în starea 88
+
+
+State 107
+
+   35 conditie: term GE . term
+
+    ID        shift, şi mergi în starea 85
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+
+    term  mergi în starea 134
+    nr    mergi în starea 88
+
+
+State 108
+
+   37 conditie: term EQ . term
+
+    ID        shift, şi mergi în starea 85
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+
+    term  mergi în starea 135
+    nr    mergi în starea 88
+
+
+State 109
+
+   38 conditie: term NE . term
+
+    ID        shift, şi mergi în starea 85
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+
+    term  mergi în starea 136
+    nr    mergi în starea 88
+
+
+State 110
+
+   40 conditie: term LT . term
+
+    ID        shift, şi mergi în starea 85
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+
+    term  mergi în starea 137
+    nr    mergi în starea 88
+
+
+State 111
+
+   39 conditie: term GT . term
+
+    ID        shift, şi mergi în starea 85
+    INTNR     shift, şi mergi în starea 28
+    FLOATNR   shift, şi mergi în starea 29
+    DOUBLENR  shift, şi mergi în starea 30
+
+    term  mergi în starea 138
+    nr    mergi în starea 88
+
+
+State 112
+
+   31 ifstatement: IF '(' conditie ')' . '{' cod_bloc '}'
+   32            | IF '(' conditie ')' . '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+
+    '{'  shift, şi mergi în starea 139
+
+
+State 113
+
+   20 apel: '_' ID '(' ')' .
+
+    $implicit  reduce folosind regula 20 (apel)
+
+
+State 114
+
+   67 declaratie_main: tip ID '=' ID .
+
+    $implicit  reduce folosind regula 67 (declaratie_main)
+
+
+State 115
+
+   68 declaratie_main: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 68 (declaratie_main)
+
+
+State 116
+
+   69 declaratie_main: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 69 (declaratie_main)
+
+
+State 117
+
+   66 declaratie_main: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 66 (declaratie_main)
+
+
+State 118
+
+   70 declaratie_main: tip ID '[' INTNR . ']'
+
+    ']'  shift, şi mergi în starea 140
+
+
+State 119
+
+   72 declaratie_functie: tip ID '(' ')' '{' bloc_functie . '}'
+   77 bloc_functie: bloc_functie . cod_functie
+
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    STRING  shift, şi mergi în starea 9
+    '}'     shift, şi mergi în starea 141
+
+    cod_functie       mergi în starea 142
+    declaratie_var_f  mergi în starea 121
+    tip               mergi în starea 122
+
+
+State 120
+
+   76 bloc_functie: cod_functie .
+
+    $implicit  reduce folosind regula 76 (bloc_functie)
+
+
+State 121
+
+   79 cod_functie: declaratie_var_f . ';'
+
+    ';'  shift, şi mergi în starea 143
+
+
+State 122
+
+   80 declaratie_var_f: tip . ID
+   81                 | tip . ID '=' nr
+   82                 | tip . ID '=' ID
+   83                 | tip . ID '=' BOOLEAN
+   84                 | tip . ID '=' STRINGVAL
+
+    ID  shift, şi mergi în starea 144
+
+
+State 123
+
+   71 declaratie_functie: tip ID '(' params ')' '{' . bloc_functie '}'
+
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    STRING  shift, şi mergi în starea 9
+
+    INT        [reduce folosind regula 78 (bloc_functie)]
+    FLOAT      [reduce folosind regula 78 (bloc_functie)]
+    BOOL       [reduce folosind regula 78 (bloc_functie)]
+    DOUBLE     [reduce folosind regula 78 (bloc_functie)]
+    CHAR       [reduce folosind regula 78 (bloc_functie)]
+    VOID       [reduce folosind regula 78 (bloc_functie)]
+    STRING     [reduce folosind regula 78 (bloc_functie)]
+    $implicit  reduce folosind regula 78 (bloc_functie)
+
+    bloc_functie      mergi în starea 145
+    cod_functie       mergi în starea 120
+    declaratie_var_f  mergi în starea 121
+    tip               mergi în starea 122
+
+
+State 124
+
+   74 params: params '#' param .
+
+    $implicit  reduce folosind regula 74 (params)
+
+
+State 125
+
+   22 parametri_apel: ID '#' parametri_apel .
+
+    $implicit  reduce folosind regula 22 (parametri_apel)
+
+
+State 126
+
+   26 parametri_apel: apel '#' parametri_apel .
+
+    $implicit  reduce folosind regula 26 (parametri_apel)
+
+
+State 127
+
+   19 apel: ID '(' parametri_apel ')' ';' .
+
+    $implicit  reduce folosind regula 19 (apel)
+
+
+State 128
+
+   24 parametri_apel: nr '#' parametri_apel .
+
+    $implicit  reduce folosind regula 24 (parametri_apel)
+
+
+State 129
+
+   33 forstatement: FOR '(' asignare_for ',' conditie . ',' operatie ')' '{' cod_bloc '}'
+
+    ','  shift, şi mergi în starea 146
+
+
+State 130
+
+   55 declaratii_locale: tip ID '=' . nr
+   56                  | tip ID '=' . ID
+   57                  | tip ID '=' . BOOLEAN
+   58                  | tip ID '=' . STRINGVAL
+
+    ID         shift, şi mergi în starea 147
+    INTNR      shift, şi mergi în starea 28
+    FLOATNR    shift, şi mergi în starea 29
+    DOUBLENR   shift, şi mergi în starea 30
+    BOOLEAN    shift, şi mergi în starea 148
+    STRINGVAL  shift, şi mergi în starea 149
+
+    nr  mergi în starea 150
+
+
+State 131
+
+   53 declaratii_locale: tip ID '[' . INTNR ']'
+
+    INTNR  shift, şi mergi în starea 151
+
+
+State 132
+
+   34 whilestatement: WHILE '(' conditie ')' '{' . cod_bloc '}'
+
+    ID      shift, şi mergi în starea 152
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    CONST   shift, şi mergi în starea 153
+    STRING  shift, şi mergi în starea 9
+    FOR     shift, şi mergi în starea 38
+    WHILE   shift, şi mergi în starea 39
+    IF      shift, şi mergi în starea 40
+    '_'     shift, şi mergi în starea 41
+
+    ID         [reduce folosind regula 52 (instructiune_bloc)]
+    INT        [reduce folosind regula 52 (instructiune_bloc)]
+    FLOAT      [reduce folosind regula 52 (instructiune_bloc)]
+    BOOL       [reduce folosind regula 52 (instructiune_bloc)]
+    DOUBLE     [reduce folosind regula 52 (instructiune_bloc)]
+    CHAR       [reduce folosind regula 52 (instructiune_bloc)]
+    VOID       [reduce folosind regula 52 (instructiune_bloc)]
+    CONST      [reduce folosind regula 52 (instructiune_bloc)]
+    STRING     [reduce folosind regula 52 (instructiune_bloc)]
+    FOR        [reduce folosind regula 52 (instructiune_bloc)]
+    WHILE      [reduce folosind regula 52 (instructiune_bloc)]
+    IF         [reduce folosind regula 52 (instructiune_bloc)]
+    '_'        [reduce folosind regula 52 (instructiune_bloc)]
+    $implicit  reduce folosind regula 52 (instructiune_bloc)
+
+    apel               mergi în starea 154
+    statements         mergi în starea 155
+    ifstatement        mergi în starea 46
+    forstatement       mergi în starea 47
+    whilestatement     mergi în starea 48
+    cod_bloc           mergi în starea 156
+    instructiune_bloc  mergi în starea 157
+    declaratii_locale  mergi în starea 158
+    tip                mergi în starea 84
+
+
+State 133
+
+   36 conditie: term LE term .
+
+    $implicit  reduce folosind regula 36 (conditie)
+
+
+State 134
+
+   35 conditie: term GE term .
+
+    $implicit  reduce folosind regula 35 (conditie)
+
+
+State 135
+
+   37 conditie: term EQ term .
+
+    $implicit  reduce folosind regula 37 (conditie)
+
+
+State 136
+
+   38 conditie: term NE term .
+
+    $implicit  reduce folosind regula 38 (conditie)
+
+
+State 137
+
+   40 conditie: term LT term .
+
+    $implicit  reduce folosind regula 40 (conditie)
+
+
+State 138
+
+   39 conditie: term GT term .
+
+    $implicit  reduce folosind regula 39 (conditie)
+
+
+State 139
+
+   31 ifstatement: IF '(' conditie ')' '{' . cod_bloc '}'
+   32            | IF '(' conditie ')' '{' . cod_bloc '}' ELSE '{' cod_bloc '}'
+
+    ID      shift, şi mergi în starea 152
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    CONST   shift, şi mergi în starea 153
+    STRING  shift, şi mergi în starea 9
+    FOR     shift, şi mergi în starea 38
+    WHILE   shift, şi mergi în starea 39
+    IF      shift, şi mergi în starea 40
+    '_'     shift, şi mergi în starea 41
+
+    ID         [reduce folosind regula 52 (instructiune_bloc)]
+    INT        [reduce folosind regula 52 (instructiune_bloc)]
+    FLOAT      [reduce folosind regula 52 (instructiune_bloc)]
+    BOOL       [reduce folosind regula 52 (instructiune_bloc)]
+    DOUBLE     [reduce folosind regula 52 (instructiune_bloc)]
+    CHAR       [reduce folosind regula 52 (instructiune_bloc)]
+    VOID       [reduce folosind regula 52 (instructiune_bloc)]
+    CONST      [reduce folosind regula 52 (instructiune_bloc)]
+    STRING     [reduce folosind regula 52 (instructiune_bloc)]
+    FOR        [reduce folosind regula 52 (instructiune_bloc)]
+    WHILE      [reduce folosind regula 52 (instructiune_bloc)]
+    IF         [reduce folosind regula 52 (instructiune_bloc)]
+    '_'        [reduce folosind regula 52 (instructiune_bloc)]
+    $implicit  reduce folosind regula 52 (instructiune_bloc)
+
+    apel               mergi în starea 154
+    statements         mergi în starea 155
+    ifstatement        mergi în starea 46
+    forstatement       mergi în starea 47
+    whilestatement     mergi în starea 48
+    cod_bloc           mergi în starea 159
+    instructiune_bloc  mergi în starea 157
+    declaratii_locale  mergi în starea 158
+    tip                mergi în starea 84
+
+
+State 140
+
+   70 declaratie_main: tip ID '[' INTNR ']' .
+
+    $implicit  reduce folosind regula 70 (declaratie_main)
+
+
+State 141
+
+   72 declaratie_functie: tip ID '(' ')' '{' bloc_functie '}' .
+
+    $implicit  reduce folosind regula 72 (declaratie_functie)
+
+
+State 142
+
+   77 bloc_functie: bloc_functie cod_functie .
+
+    $implicit  reduce folosind regula 77 (bloc_functie)
+
+
+State 143
+
+   79 cod_functie: declaratie_var_f ';' .
+
+    $implicit  reduce folosind regula 79 (cod_functie)
+
+
+State 144
+
+   80 declaratie_var_f: tip ID .
+   81                 | tip ID . '=' nr
+   82                 | tip ID . '=' ID
+   83                 | tip ID . '=' BOOLEAN
+   84                 | tip ID . '=' STRINGVAL
+
+    '='  shift, şi mergi în starea 160
+
+    $implicit  reduce folosind regula 80 (declaratie_var_f)
+
+
+State 145
+
+   71 declaratie_functie: tip ID '(' params ')' '{' bloc_functie . '}'
+   77 bloc_functie: bloc_functie . cod_functie
+
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    STRING  shift, şi mergi în starea 9
+    '}'     shift, şi mergi în starea 161
+
+    cod_functie       mergi în starea 142
+    declaratie_var_f  mergi în starea 121
+    tip               mergi în starea 122
+
+
+State 146
+
+   33 forstatement: FOR '(' asignare_for ',' conditie ',' . operatie ')' '{' cod_bloc '}'
+
+    $implicit  reduce folosind regula 45 (operatie)
+
+    operatie  mergi în starea 162
+
+
+State 147
+
+   56 declaratii_locale: tip ID '=' ID .
+
+    $implicit  reduce folosind regula 56 (declaratii_locale)
+
+
+State 148
+
+   57 declaratii_locale: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 57 (declaratii_locale)
+
+
+State 149
+
+   58 declaratii_locale: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 58 (declaratii_locale)
+
+
+State 150
+
+   55 declaratii_locale: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 55 (declaratii_locale)
+
+
+State 151
+
+   53 declaratii_locale: tip ID '[' INTNR . ']'
+
+    ']'  shift, şi mergi în starea 163
+
+
+State 152
+
+   18 apel: ID . '(' ')' ';'
+   19     | ID . '(' parametri_apel ')' ';'
+
+    '('  shift, şi mergi în starea 55
+
+
+State 153
+
+   50 instructiune_bloc: CONST . declaratii_locale ';'
+
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    STRING  shift, şi mergi în starea 9
+
+    declaratii_locale  mergi în starea 164
+    tip                mergi în starea 84
+
+
+State 154
+
+   51 instructiune_bloc: apel .
+
+    $implicit  reduce folosind regula 51 (instructiune_bloc)
+
+
+State 155
+
+   49 instructiune_bloc: statements .
+
+    $implicit  reduce folosind regula 49 (instructiune_bloc)
+
+
+State 156
+
+   34 whilestatement: WHILE '(' conditie ')' '{' cod_bloc . '}'
+   47 cod_bloc: cod_bloc . instructiune_bloc
+
+    ID      shift, şi mergi în starea 152
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    CONST   shift, şi mergi în starea 153
+    STRING  shift, şi mergi în starea 9
+    FOR     shift, şi mergi în starea 38
+    WHILE   shift, şi mergi în starea 39
+    IF      shift, şi mergi în starea 40
+    '_'     shift, şi mergi în starea 41
+    '}'     shift, şi mergi în starea 165
+
+    ID      [reduce folosind regula 52 (instructiune_bloc)]
+    INT     [reduce folosind regula 52 (instructiune_bloc)]
+    FLOAT   [reduce folosind regula 52 (instructiune_bloc)]
+    BOOL    [reduce folosind regula 52 (instructiune_bloc)]
+    DOUBLE  [reduce folosind regula 52 (instructiune_bloc)]
+    CHAR    [reduce folosind regula 52 (instructiune_bloc)]
+    VOID    [reduce folosind regula 52 (instructiune_bloc)]
+    CONST   [reduce folosind regula 52 (instructiune_bloc)]
+    STRING  [reduce folosind regula 52 (instructiune_bloc)]
+    FOR     [reduce folosind regula 52 (instructiune_bloc)]
+    WHILE   [reduce folosind regula 52 (instructiune_bloc)]
+    IF      [reduce folosind regula 52 (instructiune_bloc)]
+    '_'     [reduce folosind regula 52 (instructiune_bloc)]
+    '}'     [reduce folosind regula 52 (instructiune_bloc)]
+
+    apel               mergi în starea 154
+    statements         mergi în starea 155
+    ifstatement        mergi în starea 46
+    forstatement       mergi în starea 47
+    whilestatement     mergi în starea 48
+    instructiune_bloc  mergi în starea 166
+    declaratii_locale  mergi în starea 158
+    tip                mergi în starea 84
+
+
+State 157
+
+   46 cod_bloc: instructiune_bloc .
+
+    $implicit  reduce folosind regula 46 (cod_bloc)
+
+
+State 158
+
+   48 instructiune_bloc: declaratii_locale . ';'
+
+    ';'  shift, şi mergi în starea 167
+
+
+State 159
+
+   31 ifstatement: IF '(' conditie ')' '{' cod_bloc . '}'
+   32            | IF '(' conditie ')' '{' cod_bloc . '}' ELSE '{' cod_bloc '}'
+   47 cod_bloc: cod_bloc . instructiune_bloc
+
+    ID      shift, şi mergi în starea 152
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    CONST   shift, şi mergi în starea 153
+    STRING  shift, şi mergi în starea 9
+    FOR     shift, şi mergi în starea 38
+    WHILE   shift, şi mergi în starea 39
+    IF      shift, şi mergi în starea 40
+    '_'     shift, şi mergi în starea 41
+    '}'     shift, şi mergi în starea 168
+
+    ID      [reduce folosind regula 52 (instructiune_bloc)]
+    INT     [reduce folosind regula 52 (instructiune_bloc)]
+    FLOAT   [reduce folosind regula 52 (instructiune_bloc)]
+    BOOL    [reduce folosind regula 52 (instructiune_bloc)]
+    DOUBLE  [reduce folosind regula 52 (instructiune_bloc)]
+    CHAR    [reduce folosind regula 52 (instructiune_bloc)]
+    VOID    [reduce folosind regula 52 (instructiune_bloc)]
+    CONST   [reduce folosind regula 52 (instructiune_bloc)]
+    STRING  [reduce folosind regula 52 (instructiune_bloc)]
+    FOR     [reduce folosind regula 52 (instructiune_bloc)]
+    WHILE   [reduce folosind regula 52 (instructiune_bloc)]
+    IF      [reduce folosind regula 52 (instructiune_bloc)]
+    '_'     [reduce folosind regula 52 (instructiune_bloc)]
+    '}'     [reduce folosind regula 52 (instructiune_bloc)]
+
+    apel               mergi în starea 154
+    statements         mergi în starea 155
+    ifstatement        mergi în starea 46
+    forstatement       mergi în starea 47
+    whilestatement     mergi în starea 48
+    instructiune_bloc  mergi în starea 166
+    declaratii_locale  mergi în starea 158
+    tip                mergi în starea 84
+
+
+State 160
+
+   81 declaratie_var_f: tip ID '=' . nr
+   82                 | tip ID '=' . ID
+   83                 | tip ID '=' . BOOLEAN
+   84                 | tip ID '=' . STRINGVAL
+
+    ID         shift, şi mergi în starea 169
+    INTNR      shift, şi mergi în starea 28
+    FLOATNR    shift, şi mergi în starea 29
+    DOUBLENR   shift, şi mergi în starea 30
+    BOOLEAN    shift, şi mergi în starea 170
+    STRINGVAL  shift, şi mergi în starea 171
+
+    nr  mergi în starea 172
+
+
+State 161
+
+   71 declaratie_functie: tip ID '(' params ')' '{' bloc_functie '}' .
+
+    $implicit  reduce folosind regula 71 (declaratie_functie)
+
+
+State 162
+
+   33 forstatement: FOR '(' asignare_for ',' conditie ',' operatie . ')' '{' cod_bloc '}'
+
+    ')'  shift, şi mergi în starea 173
+
+
+State 163
+
+   53 declaratii_locale: tip ID '[' INTNR ']' .
+
+    $implicit  reduce folosind regula 53 (declaratii_locale)
+
+
+State 164
+
+   50 instructiune_bloc: CONST declaratii_locale . ';'
+
+    ';'  shift, şi mergi în starea 174
+
+
+State 165
+
+   34 whilestatement: WHILE '(' conditie ')' '{' cod_bloc '}' .
+
+    $implicit  reduce folosind regula 34 (whilestatement)
+
+
+State 166
+
+   47 cod_bloc: cod_bloc instructiune_bloc .
+
+    $implicit  reduce folosind regula 47 (cod_bloc)
+
+
+State 167
+
+   48 instructiune_bloc: declaratii_locale ';' .
+
+    $implicit  reduce folosind regula 48 (instructiune_bloc)
+
+
+State 168
+
+   31 ifstatement: IF '(' conditie ')' '{' cod_bloc '}' .
+   32            | IF '(' conditie ')' '{' cod_bloc '}' . ELSE '{' cod_bloc '}'
+
+    ELSE  shift, şi mergi în starea 175
+
+    $implicit  reduce folosind regula 31 (ifstatement)
+
+
+State 169
+
+   82 declaratie_var_f: tip ID '=' ID .
+
+    $implicit  reduce folosind regula 82 (declaratie_var_f)
+
+
+State 170
+
+   83 declaratie_var_f: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 83 (declaratie_var_f)
+
+
+State 171
+
+   84 declaratie_var_f: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 84 (declaratie_var_f)
+
+
+State 172
+
+   81 declaratie_var_f: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 81 (declaratie_var_f)
+
+
+State 173
+
+   33 forstatement: FOR '(' asignare_for ',' conditie ',' operatie ')' . '{' cod_bloc '}'
+
+    '{'  shift, şi mergi în starea 176
+
+
+State 174
+
+   50 instructiune_bloc: CONST declaratii_locale ';' .
+
+    $implicit  reduce folosind regula 50 (instructiune_bloc)
+
+
+State 175
+
+   32 ifstatement: IF '(' conditie ')' '{' cod_bloc '}' ELSE . '{' cod_bloc '}'
+
+    '{'  shift, şi mergi în starea 177
+
+
+State 176
+
+   33 forstatement: FOR '(' asignare_for ',' conditie ',' operatie ')' '{' . cod_bloc '}'
+
+    ID      shift, şi mergi în starea 152
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    CONST   shift, şi mergi în starea 153
+    STRING  shift, şi mergi în starea 9
+    FOR     shift, şi mergi în starea 38
+    WHILE   shift, şi mergi în starea 39
+    IF      shift, şi mergi în starea 40
+    '_'     shift, şi mergi în starea 41
+
+    ID         [reduce folosind regula 52 (instructiune_bloc)]
+    INT        [reduce folosind regula 52 (instructiune_bloc)]
+    FLOAT      [reduce folosind regula 52 (instructiune_bloc)]
+    BOOL       [reduce folosind regula 52 (instructiune_bloc)]
+    DOUBLE     [reduce folosind regula 52 (instructiune_bloc)]
+    CHAR       [reduce folosind regula 52 (instructiune_bloc)]
+    VOID       [reduce folosind regula 52 (instructiune_bloc)]
+    CONST      [reduce folosind regula 52 (instructiune_bloc)]
+    STRING     [reduce folosind regula 52 (instructiune_bloc)]
+    FOR        [reduce folosind regula 52 (instructiune_bloc)]
+    WHILE      [reduce folosind regula 52 (instructiune_bloc)]
+    IF         [reduce folosind regula 52 (instructiune_bloc)]
+    '_'        [reduce folosind regula 52 (instructiune_bloc)]
+    $implicit  reduce folosind regula 52 (instructiune_bloc)
+
+    apel               mergi în starea 154
+    statements         mergi în starea 155
+    ifstatement        mergi în starea 46
+    forstatement       mergi în starea 47
+    whilestatement     mergi în starea 48
+    cod_bloc           mergi în starea 178
+    instructiune_bloc  mergi în starea 157
+    declaratii_locale  mergi în starea 158
+    tip                mergi în starea 84
+
+
+State 177
+
+   32 ifstatement: IF '(' conditie ')' '{' cod_bloc '}' ELSE '{' . cod_bloc '}'
+
+    ID      shift, şi mergi în starea 152
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    CONST   shift, şi mergi în starea 153
+    STRING  shift, şi mergi în starea 9
+    FOR     shift, şi mergi în starea 38
+    WHILE   shift, şi mergi în starea 39
+    IF      shift, şi mergi în starea 40
+    '_'     shift, şi mergi în starea 41
+
+    ID         [reduce folosind regula 52 (instructiune_bloc)]
+    INT        [reduce folosind regula 52 (instructiune_bloc)]
+    FLOAT      [reduce folosind regula 52 (instructiune_bloc)]
+    BOOL       [reduce folosind regula 52 (instructiune_bloc)]
+    DOUBLE     [reduce folosind regula 52 (instructiune_bloc)]
+    CHAR       [reduce folosind regula 52 (instructiune_bloc)]
+    VOID       [reduce folosind regula 52 (instructiune_bloc)]
+    CONST      [reduce folosind regula 52 (instructiune_bloc)]
+    STRING     [reduce folosind regula 52 (instructiune_bloc)]
+    FOR        [reduce folosind regula 52 (instructiune_bloc)]
+    WHILE      [reduce folosind regula 52 (instructiune_bloc)]
+    IF         [reduce folosind regula 52 (instructiune_bloc)]
+    '_'        [reduce folosind regula 52 (instructiune_bloc)]
+    $implicit  reduce folosind regula 52 (instructiune_bloc)
+
+    apel               mergi în starea 154
+    statements         mergi în starea 155
+    ifstatement        mergi în starea 46
+    forstatement       mergi în starea 47
+    whilestatement     mergi în starea 48
+    cod_bloc           mergi în starea 179
+    instructiune_bloc  mergi în starea 157
+    declaratii_locale  mergi în starea 158
+    tip                mergi în starea 84
+
+
+State 178
+
+   33 forstatement: FOR '(' asignare_for ',' conditie ',' operatie ')' '{' cod_bloc . '}'
+   47 cod_bloc: cod_bloc . instructiune_bloc
+
+    ID      shift, şi mergi în starea 152
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    CONST   shift, şi mergi în starea 153
+    STRING  shift, şi mergi în starea 9
+    FOR     shift, şi mergi în starea 38
+    WHILE   shift, şi mergi în starea 39
+    IF      shift, şi mergi în starea 40
+    '_'     shift, şi mergi în starea 41
+    '}'     shift, şi mergi în starea 180
+
+    ID      [reduce folosind regula 52 (instructiune_bloc)]
+    INT     [reduce folosind regula 52 (instructiune_bloc)]
+    FLOAT   [reduce folosind regula 52 (instructiune_bloc)]
+    BOOL    [reduce folosind regula 52 (instructiune_bloc)]
+    DOUBLE  [reduce folosind regula 52 (instructiune_bloc)]
+    CHAR    [reduce folosind regula 52 (instructiune_bloc)]
+    VOID    [reduce folosind regula 52 (instructiune_bloc)]
+    CONST   [reduce folosind regula 52 (instructiune_bloc)]
+    STRING  [reduce folosind regula 52 (instructiune_bloc)]
+    FOR     [reduce folosind regula 52 (instructiune_bloc)]
+    WHILE   [reduce folosind regula 52 (instructiune_bloc)]
+    IF      [reduce folosind regula 52 (instructiune_bloc)]
+    '_'     [reduce folosind regula 52 (instructiune_bloc)]
+    '}'     [reduce folosind regula 52 (instructiune_bloc)]
+
+    apel               mergi în starea 154
+    statements         mergi în starea 155
+    ifstatement        mergi în starea 46
+    forstatement       mergi în starea 47
+    whilestatement     mergi în starea 48
+    instructiune_bloc  mergi în starea 166
+    declaratii_locale  mergi în starea 158
+    tip                mergi în starea 84
+
+
+State 179
+
+   32 ifstatement: IF '(' conditie ')' '{' cod_bloc '}' ELSE '{' cod_bloc . '}'
+   47 cod_bloc: cod_bloc . instructiune_bloc
+
+    ID      shift, şi mergi în starea 152
+    INT     shift, şi mergi în starea 2
+    FLOAT   shift, şi mergi în starea 3
+    BOOL    shift, şi mergi în starea 4
+    DOUBLE  shift, şi mergi în starea 5
+    CHAR    shift, şi mergi în starea 6
+    VOID    shift, şi mergi în starea 7
+    CONST   shift, şi mergi în starea 153
+    STRING  shift, şi mergi în starea 9
+    FOR     shift, şi mergi în starea 38
+    WHILE   shift, şi mergi în starea 39
+    IF      shift, şi mergi în starea 40
+    '_'     shift, şi mergi în starea 41
+    '}'     shift, şi mergi în starea 181
+
+    ID      [reduce folosind regula 52 (instructiune_bloc)]
+    INT     [reduce folosind regula 52 (instructiune_bloc)]
+    FLOAT   [reduce folosind regula 52 (instructiune_bloc)]
+    BOOL    [reduce folosind regula 52 (instructiune_bloc)]
+    DOUBLE  [reduce folosind regula 52 (instructiune_bloc)]
+    CHAR    [reduce folosind regula 52 (instructiune_bloc)]
+    VOID    [reduce folosind regula 52 (instructiune_bloc)]
+    CONST   [reduce folosind regula 52 (instructiune_bloc)]
+    STRING  [reduce folosind regula 52 (instructiune_bloc)]
+    FOR     [reduce folosind regula 52 (instructiune_bloc)]
+    WHILE   [reduce folosind regula 52 (instructiune_bloc)]
+    IF      [reduce folosind regula 52 (instructiune_bloc)]
+    '_'     [reduce folosind regula 52 (instructiune_bloc)]
+    '}'     [reduce folosind regula 52 (instructiune_bloc)]
+
+    apel               mergi în starea 154
+    statements         mergi în starea 155
+    ifstatement        mergi în starea 46
+    forstatement       mergi în starea 47
+    whilestatement     mergi în starea 48
+    instructiune_bloc  mergi în starea 166
+    declaratii_locale  mergi în starea 158
+    tip                mergi în starea 84
+
+
+State 180
+
+   33 forstatement: FOR '(' asignare_for ',' conditie ',' operatie ')' '{' cod_bloc '}' .
+
+    $implicit  reduce folosind regula 33 (forstatement)
+
+
+State 181
+
+   32 ifstatement: IF '(' conditie ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}' .
+
+    $implicit  reduce folosind regula 32 (ifstatement)

@@ -39,6 +39,7 @@ string_val      ["]([^"\\\n]|\\.|\\\n)*["]
 ">"      {return LT;}
 "&&"     {return AND;}
 "||"     {return OR;}
+'!'      {return  NOT;}
 
 {bool}             {printf("%s bool\n",yytext); yylval.textt = strdup(yytext); return BOOLEAN;}
 {identifier}       {printf("%s identificator\n",yytext); yylval.textt = strdup(yytext); return ID;}

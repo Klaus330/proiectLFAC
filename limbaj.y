@@ -34,7 +34,7 @@ void initializare_id (char *scope, char *type, char *name, char *value){
         nr_var++; 
 }
 %}
-%token  ID INTNR ARR FLOATNR DOUBLENR BOOLEAN AND OR
+%token  ID INTNR ARR FLOATNR DOUBLENR BOOLEAN AND OR NOT
 %token  INT FLOAT BOOL DOUBLE CHAR VOID CONST STRING STRINGVAL 
 %token FOR WHILE STRUCT
 %token IF ELSE print
@@ -88,6 +88,9 @@ expresie : expresie '+' expresie
          | '(' expresie ')'
          | nr
          | ID
+         | NOT ID
+         | NOT BOOLEAN
+         | BOOLEAN
         ;
 
 declaratie_structura : tip ID '[' INTNR ']'
@@ -213,7 +216,8 @@ params : param
           ;
 
 param : tip ID
-      ;
+    | expresie
+    ;
 
 vec : tip ID '[' INTNR ']'
     ;
