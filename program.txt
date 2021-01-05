@@ -36,6 +36,10 @@ float n;
 int nr;
 }
 
+void g(){
+    
+}
+
 
 start_main
 const int a = 2 ;
@@ -71,7 +75,7 @@ st.a = 5;
 
 b = ((1+2)+3*d) ;
 int arr2[10];
-f (a # b # 2) ;
+functieparam (a # b # 2) ;
 
 double dd = 2.3;
 int aan;

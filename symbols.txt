@@ -29,3 +29,4 @@ Functiile declarate :
 int - test - int int 
 void - functie -  
 int - functieparam - int float 
+void - g -  

@@ -94,6 +94,20 @@ void checkIfIsInScope(char *scope, char *name){
     }
 }
 
+void checkIfFunctionExists(char *name){
+    int found = 0 ;
+    for(int i=0; i<nr_functii; ++i){
+        if(strcmp(fun[i].name,name) == 0)
+        {
+            found = 1;
+        }
+    }
+    if(found == 0){
+        perror("\e[1;33m Eroare: nu exista nicio functie cu acest nume \e[0m \n");
+        exit(1);
+    }
+}
+
 void initializare_tip_id (char *scope, char *type, char *name){
        checkIfIsInScope(scope,name);
         strcpy(var[nr_var].name,name);
@@ -257,7 +271,7 @@ cod_main : declaratie_main ';'
          | apel_eval
          ;
 
-apel : ID '(' parametri_apel ')' ';'
+apel : ID '(' parametri_apel ')' ';' {checkIfFunctionExists($1);}
      ;
 
 apel_eval : EVAL '(' parametri_eval_apel ')' ';' { printf("\e[1;33mEval A returnat:%d\e[0m\n",$3);}
