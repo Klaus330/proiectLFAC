@@ -49,7 +49,7 @@ string d;
 s = "abc" + "cde";
 s= "abc" + d ;
 
-if ((a>3) || (c==d)) {
+if ((a>4) || (c==d)) {
    int temp;
    b = ((1+2)+3*d) ;
    int i;
@@ -67,7 +67,7 @@ for(int j=0, j<4 , j++){
 }
 
 struct id st;
-st.a = 3;
+st.a = 5;
 
 b = ((1+2)+3*d) ;
 int arr2[10];

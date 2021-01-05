@@ -1,19 +1,9 @@
-Nonterminals useless in grammar
-
-   vec
-
-
 Terminals unused in grammar
 
    ARR
    print
    '<'
    '>'
-
-
-Rules useless in grammar
-
-  154 vec: tip ID '[' INTNR ']'
 
 
 Rules useless in parser due to conflicts

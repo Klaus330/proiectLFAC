@@ -360,9 +360,6 @@ params : param {strcpy(params_list,$1); $$=params_list; }
 param : tip ID
     ;
 
-vec : tip ID '[' INTNR ']'
-    ;
-
 bloc_functie :  bloc_functie cod_functie
               |
               ;

@@ -652,9 +652,9 @@ static const yytype_uint16 yyrline[] =
      320,   321,   322,   323,   326,   327,   328,   329,   330,   331,
      332,   333,   334,   335,   336,   339,   340,   341,   342,   343,
      344,   345,   346,   347,   348,   349,   352,   353,   356,   357,
-     360,   366,   367,   370,   371,   374,   375,   376,   377,   378,
-     379,   382,   383,   386,   389,   393,   394,   395,   396,   397,
-     398,   399,   402,   403,   404
+     360,   363,   364,   367,   368,   371,   372,   373,   374,   375,
+     376,   379,   380,   383,   386,   390,   391,   392,   393,   394,
+     395,   396,   399,   400,   401
 };
 #endif
 
@@ -2119,115 +2119,115 @@ yyreduce:
     break;
 
   case 135:
-#line 374 "limbaj.y" /* yacc.c:1646  */
+#line 371 "limbaj.y" /* yacc.c:1646  */
     {initializare_tip_id ("functie",(yyvsp[-1].textt), (yyvsp[0].textt)); }
 #line 2125 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 136:
-#line 375 "limbaj.y" /* yacc.c:1646  */
+#line 372 "limbaj.y" /* yacc.c:1646  */
     {initializare_id("functie", (yyvsp[-3].textt), (yyvsp[-2].textt),(yyvsp[0].textt));}
 #line 2131 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 137:
-#line 376 "limbaj.y" /* yacc.c:1646  */
+#line 373 "limbaj.y" /* yacc.c:1646  */
     {initializare_id("functie", (yyvsp[-3].textt), (yyvsp[-2].textt),(yyvsp[0].textt));}
 #line 2137 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 138:
-#line 377 "limbaj.y" /* yacc.c:1646  */
+#line 374 "limbaj.y" /* yacc.c:1646  */
     {initializare_id("functie", (yyvsp[-3].textt), (yyvsp[-2].textt),(yyvsp[0].textt));}
 #line 2143 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 139:
-#line 378 "limbaj.y" /* yacc.c:1646  */
+#line 375 "limbaj.y" /* yacc.c:1646  */
     {initializare_id("functie", (yyvsp[-3].textt), (yyvsp[-2].textt),(yyvsp[0].textt));}
 #line 2149 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 140:
-#line 379 "limbaj.y" /* yacc.c:1646  */
+#line 376 "limbaj.y" /* yacc.c:1646  */
     {initializare_tip_id("functie",(yyvsp[-1].textt), (yyvsp[0].textt));}
 #line 2155 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 141:
-#line 382 "limbaj.y" /* yacc.c:1646  */
+#line 379 "limbaj.y" /* yacc.c:1646  */
     {printf("ID:%s", (yyvsp[-2].textt));asignare((yyvsp[-2].textt), (yyvsp[0].textt));}
 #line 2161 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 143:
-#line 386 "limbaj.y" /* yacc.c:1646  */
+#line 383 "limbaj.y" /* yacc.c:1646  */
     {asignare((yyvsp[-2].textt), (yyvsp[0].textt));}
 #line 2167 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 144:
-#line 389 "limbaj.y" /* yacc.c:1646  */
+#line 386 "limbaj.y" /* yacc.c:1646  */
     {char c[30]; strcpy(c,(yyvsp[-1].textt)); strcat(c," "); strcat(c,(yyvsp[0].textt)); (yyval.textt) = c;}
 #line 2173 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 145:
-#line 393 "limbaj.y" /* yacc.c:1646  */
+#line 390 "limbaj.y" /* yacc.c:1646  */
     {(yyval.textt) = "int";}
 #line 2179 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 146:
-#line 394 "limbaj.y" /* yacc.c:1646  */
+#line 391 "limbaj.y" /* yacc.c:1646  */
     {(yyval.textt) = "float";}
 #line 2185 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 147:
-#line 395 "limbaj.y" /* yacc.c:1646  */
+#line 392 "limbaj.y" /* yacc.c:1646  */
     {(yyval.textt) = "bool";}
 #line 2191 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 148:
-#line 396 "limbaj.y" /* yacc.c:1646  */
+#line 393 "limbaj.y" /* yacc.c:1646  */
     {(yyval.textt) = "double";}
 #line 2197 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 149:
-#line 397 "limbaj.y" /* yacc.c:1646  */
+#line 394 "limbaj.y" /* yacc.c:1646  */
     {(yyval.textt) = "char";}
 #line 2203 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 150:
-#line 398 "limbaj.y" /* yacc.c:1646  */
+#line 395 "limbaj.y" /* yacc.c:1646  */
     {(yyval.textt) = "void";}
 #line 2209 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 151:
-#line 399 "limbaj.y" /* yacc.c:1646  */
+#line 396 "limbaj.y" /* yacc.c:1646  */
     {(yyval.textt) = "string";}
 #line 2215 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 152:
-#line 402 "limbaj.y" /* yacc.c:1646  */
+#line 399 "limbaj.y" /* yacc.c:1646  */
     {(yyval.textt)=(yyvsp[0].textt);}
 #line 2221 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 153:
-#line 403 "limbaj.y" /* yacc.c:1646  */
+#line 400 "limbaj.y" /* yacc.c:1646  */
     {(yyval.textt)=(yyvsp[0].textt);}
 #line 2227 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 154:
-#line 404 "limbaj.y" /* yacc.c:1646  */
+#line 401 "limbaj.y" /* yacc.c:1646  */
     {(yyval.textt)=(yyvsp[0].textt);}
 #line 2233 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -2461,7 +2461,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 407 "limbaj.y" /* yacc.c:1906  */
+#line 404 "limbaj.y" /* yacc.c:1906  */
 
 int count=0;
 yyerror(char *s) {
