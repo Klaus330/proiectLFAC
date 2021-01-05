@@ -31,10 +31,10 @@ int nr_functii = 0;
 int checkIfAlreadyExists(char *nume){
     int found=0, index;
     for(int i=0; i<=nr_var; i++){
-        if(strstr(var[i].name,nume)==0){
+        if(strcmp(var[i].name,nume)==0){
             found=1;
             index=i;
-             printf("\n%d %s\n",index, var[index].name);
+            
         }
     }
 
@@ -48,11 +48,16 @@ int checkIfAlreadyExists(char *nume){
 
 void asignare(char *nume, char *valoare){
     int index = checkIfAlreadyExists(nume);
-   
+     printf("\n%d %s %s\n",index, var[index].type,valoare);
+     strcpy(var[index].value,valoare);
      if(strstr(var[index].type,"int"))
     {   var[index].valoare_int = atoi(valoare);
     }
-    else if (strstr(var[index].type,"float")|| strstr(var[index].type,"double")){
+     if (strstr(var[index].type,"float")){
+        var[index].valoare_float = atof(valoare);
+    }
+
+    if( strstr(var[index].type,"double")){
         var[index].valoare_float = atof(valoare);
     }
 }
