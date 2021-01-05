@@ -301,8 +301,10 @@ asignare_for : declaratii_locale
               | asignare
               ;
 
-operatie :
-         ;
+operatie : ID '+''+'
+        | ID '-''-'
+        | ID '=' ID '+' ID
+        ;
 
 cod_bloc : cod_bloc instructiune_bloc
          |
