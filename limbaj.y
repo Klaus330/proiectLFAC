@@ -63,18 +63,7 @@ void asignare(char *nume, char *valoare){
 }
 
 int evaluare_id(char* id, char *scope){
-    int found=0, index;
-    for(int i=0; i<nr_var; i++){
-        if(strcmp(var[i].name,id)==0){
-            found=1;
-            index=i;
-        }
-    }
-
-    if(found==0){
-        perror("\e[1;33m Eroare: nu exista nicio variabila cu acest nume\e[0m \n");
-        exit(1);
-    }
+    int index = checkIfAlreadyExists(id);
 
     printf("Am id-ul %s scopul %s \n",id,scope);
     if(strcmp(scope,"eval") ==0 ){
@@ -95,15 +84,18 @@ int evaluare_id(char* id, char *scope){
    }
   
 }
+void checkIfIsInScope(char *scope, char *name){
+    for(int i=0 ; i<nr_var;++i)
+    {
+        if(strcmp(var[i].name,name) == 0 && strcmp(var[i].scope,scope)==0){
+            perror("\e[1;33m Eroare: nu pot exista doua variabile identice \e[0m \n");
+            exit(1);
+        }
+    }
+}
 
 void initializare_tip_id (char *scope, char *type, char *name){
-        for(int i=0 ; i<nr_var;++i)
-        {
-            if(strcmp(var[i].name,name) == 0 && strcmp(var[i].scope,scope)==0){
-                perror("\e[1;33m Eroare: nu pot exista doua variabile identice \e[0m \n");
-                exit(1);
-            }
-        }
+       checkIfIsInScope(scope,name);
         strcpy(var[nr_var].name,name);
         strcpy(var[nr_var].type,type);
         strcpy(var[nr_var].scope,scope);
@@ -113,13 +105,8 @@ void initializare_tip_id (char *scope, char *type, char *name){
 
 void initializare_id (char *scope, char *type, char *name, char *value){
 
-      for(int i=0 ; i<nr_var;++i)
-        {
-            if(strcmp(var[i].name,name) == 0 && strcmp(var[i].scope,scope)==0){
-                perror("\e[1;33m Eroare: nu pot exista doua variabile identice \e[0m \n");
-                exit(1);
-            }
-        }
+        checkIfIsInScope(scope,name);
+
         strcpy(var[nr_var].name,name);
         strcpy(var[nr_var].type,type);
         strcpy(var[nr_var].scope,scope);

@@ -12,7 +12,7 @@ Variabile declarate :
  int - fvar - functie - 
  float - n - functie - 
  int - nr - functie - 
- const int - a - main - 3
+ const int - a - main - 2
  float - c - main - 
  bool - abool - main - true
  string - s - main - "abc"d
@@ -20,11 +20,6 @@ Variabile declarate :
  int - temp - local - 
  int - i - local - 
  float - r - local - 2.4
- int - j - local - 0
- id - st - main - 
- int - arr2 - main - 
- double - dd - main - 5.3
- int - aan - main - 
 Functiile declarate :
 int - test - int int 
 void - functie -  

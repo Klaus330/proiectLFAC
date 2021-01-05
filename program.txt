@@ -25,9 +25,11 @@ struct ceva {
 }
 }
 
+
 void functie (){
     int fvar;
 }
+
 
 int functieparam (int s # float nr) {
 float n;
