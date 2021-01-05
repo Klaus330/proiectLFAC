@@ -14,6 +14,8 @@ struct vars {
     char name[50];
     char type[50];
     char scope[50];
+    int valoare_int;
+    float valoare_float;
 }var[100];
 
 struct functions {
@@ -26,7 +28,7 @@ struct functions {
 int nr_var = 0;
 int nr_functii = 0;
 
-int asignare_numar(char* nume, int valoare){
+int asignare_numar(char* nume, char *valoare){
     int found=0, index;
     for(int i=0; i<nr_var; i++){
         if(strcmp(var[i].name,nume)==0){
@@ -41,11 +43,12 @@ int asignare_numar(char* nume, int valoare){
     }
 
     if(strstr(var[index].type,"int"))
-    {
-        return atoi(var[index].value);
+    {   var[index].valoare_int = atoi(var[index].value);
+        return var[index].valoare_int;
     }
     else if (strstr(var[index].type,"float")|| strstr(var[index].type,"double")){
-        return atof(var[index].value);
+        var[index].valoare_float = atof(var[index].value);
+        return var[index].valoare_float;
     }
 }
 
@@ -196,7 +199,7 @@ expresie_eval : expresie_eval '+' expresie_eval {$$=$1+$3;}
          | expresie_eval '*' expresie_eval {$$=$1*$3;}
          | expresie_eval '/' expresie_eval {$$=$1/$3;}
          | '(' expresie_eval ')' {$$ = $2;}
-         | INTNR { $$ = $1;}
+         | INTNR { $$ = atoi($1);}
          | ID {$$ = evaluare_id($1,"eval");}
          ;
 

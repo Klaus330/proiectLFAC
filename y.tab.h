@@ -54,29 +54,30 @@ extern int yydebug;
     AND = 264,
     OR = 265,
     NOT = 266,
-    INT = 267,
-    FLOAT = 268,
-    BOOL = 269,
-    DOUBLE = 270,
-    CHAR = 271,
-    VOID = 272,
-    CONST = 273,
-    STRING = 274,
-    STRINGVAL = 275,
-    FOR = 276,
-    WHILE = 277,
-    STRUCT = 278,
-    IF = 279,
-    ELSE = 280,
-    print = 281,
-    START_MAIN = 282,
-    END_MAIN = 283,
-    LE = 284,
-    GE = 285,
-    EQ = 286,
-    NE = 287,
-    LT = 288,
-    GT = 289
+    EVAL = 267,
+    INT = 268,
+    FLOAT = 269,
+    BOOL = 270,
+    DOUBLE = 271,
+    CHAR = 272,
+    VOID = 273,
+    CONST = 274,
+    STRING = 275,
+    STRINGVAL = 276,
+    FOR = 277,
+    WHILE = 278,
+    STRUCT = 279,
+    IF = 280,
+    ELSE = 281,
+    print = 282,
+    START_MAIN = 283,
+    END_MAIN = 284,
+    LE = 285,
+    GE = 286,
+    EQ = 287,
+    NE = 288,
+    LT = 289,
+    GT = 290
   };
 #endif
 /* Tokens.  */
@@ -89,40 +90,42 @@ extern int yydebug;
 #define AND 264
 #define OR 265
 #define NOT 266
-#define INT 267
-#define FLOAT 268
-#define BOOL 269
-#define DOUBLE 270
-#define CHAR 271
-#define VOID 272
-#define CONST 273
-#define STRING 274
-#define STRINGVAL 275
-#define FOR 276
-#define WHILE 277
-#define STRUCT 278
-#define IF 279
-#define ELSE 280
-#define print 281
-#define START_MAIN 282
-#define END_MAIN 283
-#define LE 284
-#define GE 285
-#define EQ 286
-#define NE 287
-#define LT 288
-#define GT 289
+#define EVAL 267
+#define INT 268
+#define FLOAT 269
+#define BOOL 270
+#define DOUBLE 271
+#define CHAR 272
+#define VOID 273
+#define CONST 274
+#define STRING 275
+#define STRINGVAL 276
+#define FOR 277
+#define WHILE 278
+#define STRUCT 279
+#define IF 280
+#define ELSE 281
+#define print 282
+#define START_MAIN 283
+#define END_MAIN 284
+#define LE 285
+#define GE 286
+#define EQ 287
+#define NE 288
+#define LT 289
+#define GT 290
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 49 "limbaj.y" /* yacc.c:1909  */
+#line 151 "limbaj.y" /* yacc.c:1909  */
 
    char* textt;
+   int int_number;
 
-#line 126 "y.tab.h" /* yacc.c:1909  */
+#line 129 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
