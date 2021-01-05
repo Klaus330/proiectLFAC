@@ -163,7 +163,7 @@ void initializare_functie (char *type, char *name, char* params){
 
 start : start global
       | start main 
-      |
+      | %empty
       ;
 
 global : declaratie_g ';'
@@ -185,7 +185,7 @@ structura : STRUCT ID '{' bloc_structura '}'
 
 bloc_structura : bloc_structura declaratie_structura ';'
                 | bloc_structura declaratie_functie 
-                |
+                | %empty
                 ;
 expresie_eval : expresie_eval '+' expresie_eval {$$=$1+$3;}
          | expresie_eval '-' expresie_eval {$$=$1-$3;}
@@ -247,7 +247,7 @@ main : START_MAIN bloc_main END_MAIN
      ;
 
 bloc_main : bloc_main cod_main
-          |
+          | %empty
           ;
 
 cod_main : declaratie_main ';'
@@ -271,7 +271,7 @@ parametri_apel : parametru_apel
                 ;
 parametru_apel: expresie 
                 | '_' ID '(' ')' 
-                |
+                | %empty
                 ;
 
 statements : ifstatement 
@@ -300,14 +300,13 @@ operatie : ID '+''+'
         ;
 
 cod_bloc : cod_bloc instructiune_bloc
-         |
+         | %empty
          ;
  
 instructiune_bloc : declaratii_locale ';'
                   | statements
                   | apel
                   | asignare ';'
-                  |
                   ;
 
 declaratii_locale :  tip ID '[' INTNR ']'
@@ -361,7 +360,7 @@ param : tip ID
     ;
 
 bloc_functie :  bloc_functie cod_functie
-              |
+              | %empty
               ;
 
 cod_functie : declaratie_var_f ';'

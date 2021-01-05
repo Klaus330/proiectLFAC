@@ -6,17 +6,6 @@ Terminals unused in grammar
    '>'
 
 
-Rules useless in parser due to conflicts
-
-   91 instructiune_bloc: %empty
-
-
-Stare 254 conflicte: 14 shift/reduce
-Stare 255 conflicte: 14 shift/reduce
-Stare 291 conflicte: 14 shift/reduce
-Stare 292 conflicte: 14 shift/reduce
-
-
 Gramatică
 
     0 $accept: start $end
@@ -138,134 +127,133 @@ Gramatică
    88                  | statements
    89                  | apel
    90                  | asignare ';'
-   91                  | %empty
 
-   92 declaratii_locale: tip ID '[' INTNR ']'
-   93                  | tip ID
-   94                  | tip ID '=' nr
-   95                  | tip ID '=' ID
-   96                  | tip ID '=' BOOLEAN
-   97                  | tip ID '=' STRINGVAL
-   98                  | STRUCT ID ID
-   99                  | constant ID '=' nr
-  100                  | constant ID '=' ID
-  101                  | constant ID '=' STRINGVAL
-  102                  | constant ID '=' BOOLEAN
+   91 declaratii_locale: tip ID '[' INTNR ']'
+   92                  | tip ID
+   93                  | tip ID '=' nr
+   94                  | tip ID '=' ID
+   95                  | tip ID '=' BOOLEAN
+   96                  | tip ID '=' STRINGVAL
+   97                  | STRUCT ID ID
+   98                  | constant ID '=' nr
+   99                  | constant ID '=' ID
+  100                  | constant ID '=' STRINGVAL
+  101                  | constant ID '=' BOOLEAN
 
-  103 declaratie_g: tip ID '[' INTNR ']'
-  104             | tip ID
-  105             | tip ID '=' nr
-  106             | tip ID '=' ID
-  107             | tip ID '=' BOOLEAN
-  108             | tip ID '=' STRINGVAL
-  109             | STRUCT ID ID
-  110             | constant ID '=' nr
-  111             | constant ID '=' ID
-  112             | constant ID '=' STRINGVAL
-  113             | constant ID '=' BOOLEAN
+  102 declaratie_g: tip ID '[' INTNR ']'
+  103             | tip ID
+  104             | tip ID '=' nr
+  105             | tip ID '=' ID
+  106             | tip ID '=' BOOLEAN
+  107             | tip ID '=' STRINGVAL
+  108             | STRUCT ID ID
+  109             | constant ID '=' nr
+  110             | constant ID '=' ID
+  111             | constant ID '=' STRINGVAL
+  112             | constant ID '=' BOOLEAN
 
-  114 declaratie_main: tip ID
-  115                | tip ID '=' nr
-  116                | tip ID '=' ID
-  117                | tip ID '=' BOOLEAN
-  118                | tip ID '=' STRINGVAL
-  119                | tip ID '[' INTNR ']'
-  120                | STRUCT ID ID
-  121                | constant ID '=' nr
-  122                | constant ID '=' ID
-  123                | constant ID '=' STRINGVAL
-  124                | constant ID '=' BOOLEAN
+  113 declaratie_main: tip ID
+  114                | tip ID '=' nr
+  115                | tip ID '=' ID
+  116                | tip ID '=' BOOLEAN
+  117                | tip ID '=' STRINGVAL
+  118                | tip ID '[' INTNR ']'
+  119                | STRUCT ID ID
+  120                | constant ID '=' nr
+  121                | constant ID '=' ID
+  122                | constant ID '=' STRINGVAL
+  123                | constant ID '=' BOOLEAN
 
-  125 declaratie_functie: tip ID '(' params ')' '{' bloc_functie '}'
-  126                   | tip ID '(' ')' '{' bloc_functie '}'
+  124 declaratie_functie: tip ID '(' params ')' '{' bloc_functie '}'
+  125                   | tip ID '(' ')' '{' bloc_functie '}'
 
-  127 params: param
-  128       | params '#' param
+  126 params: param
+  127       | params '#' param
 
-  129 param: tip ID
+  128 param: tip ID
 
-  130 bloc_functie: bloc_functie cod_functie
-  131             | %empty
+  129 bloc_functie: bloc_functie cod_functie
+  130             | %empty
 
-  132 cod_functie: declaratie_var_f ';'
-  133            | asignare ';'
+  131 cod_functie: declaratie_var_f ';'
+  132            | asignare ';'
 
-  134 declaratie_var_f: tip ID
-  135                 | tip ID '=' nr
-  136                 | tip ID '=' ID
-  137                 | tip ID '=' BOOLEAN
-  138                 | tip ID '=' STRINGVAL
-  139                 | STRUCT ID ID
+  133 declaratie_var_f: tip ID
+  134                 | tip ID '=' nr
+  135                 | tip ID '=' ID
+  136                 | tip ID '=' BOOLEAN
+  137                 | tip ID '=' STRINGVAL
+  138                 | STRUCT ID ID
 
-  140 asignare: ID '=' expresie
-  141         | asignare_structura
+  139 asignare: ID '=' expresie
+  140         | asignare_structura
 
-  142 asignare_structura: ID '.' ID '=' expresie
+  141 asignare_structura: ID '.' ID '=' expresie
 
-  143 constant: CONST tip
+  142 constant: CONST tip
 
-  144 tip: INT
-  145    | FLOAT
-  146    | BOOL
-  147    | DOUBLE
-  148    | CHAR
-  149    | VOID
-  150    | STRING
+  143 tip: INT
+  144    | FLOAT
+  145    | BOOL
+  146    | DOUBLE
+  147    | CHAR
+  148    | VOID
+  149    | STRING
 
-  151 nr: INTNR
-  152   | FLOATNR
-  153   | DOUBLENR
+  150 nr: INTNR
+  151   | FLOATNR
+  152   | DOUBLENR
 
 
 Terminale, cu reguli acolo unde acestea apar
 
 $end (0) 0
-'#' (35) 69 128
-'(' (40) 8 19 26 34 65 66 71 76 77 78 79 125 126
-')' (41) 8 19 26 34 65 66 71 76 77 78 79 125 126
+'#' (35) 69 127
+'(' (40) 8 19 26 34 65 66 71 76 77 78 79 124 125
+')' (41) 8 19 26 34 65 66 71 76 77 78 79 124 125
 '*' (42) 17 24
 '+' (43) 15 22 41 42 82 84
 ',' (44) 78
 '-' (45) 16 23 83
-'.' (46) 142
+'.' (46) 141
 '/' (47) 18 25
-';' (59) 4 5 10 12 60 61 65 66 87 90 132 133
+';' (59) 4 5 10 12 60 61 65 66 87 90 131 132
 '<' (60)
-'=' (61) 48 49 50 51 53 54 55 56 84 94 95 96 97 99 100 101 102 105
-    106 107 108 110 111 112 113 115 116 117 118 121 122 123 124 135
-    136 137 138 140 142
+'=' (61) 48 49 50 51 53 54 55 56 84 93 94 95 96 98 99 100 101 104 105
+    106 107 109 110 111 112 114 115 116 117 120 121 122 123 134 135
+    136 137 139 141
 '>' (62)
-'[' (91) 46 92 103 119
-']' (93) 46 92 103 119
+'[' (91) 46 91 102 118
+']' (93) 46 91 102 118
 '_' (95) 71
-'{' (123) 8 11 76 77 78 79 125 126
-'}' (125) 8 11 76 77 78 79 125 126
+'{' (123) 8 11 76 77 78 79 124 125
+'}' (125) 8 11 76 77 78 79 124 125
 error (256)
 ID (258) 9 11 21 28 29 41 46 47 48 49 50 51 52 53 54 55 56 65 71 82
-    83 84 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108
-    109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124
-    125 126 129 134 135 136 137 138 139 140 142
-INTNR (259) 20 46 92 103 119 151
+    83 84 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107
+    108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123
+    124 125 128 133 134 135 136 137 138 139 141
+INTNR (259) 20 46 91 102 118 150
 ARR (260)
-FLOATNR (261) 152
-DOUBLENR (262) 153
-BOOLEAN (263) 30 31 50 56 96 102 107 113 117 124 137
+FLOATNR (261) 151
+DOUBLENR (262) 152
+BOOLEAN (263) 30 31 50 56 95 101 106 112 116 123 136
 AND (264) 32
 OR (265) 33
 NOT (266) 29 31
 EVAL (267) 8 66
-INT (268) 9 144
-FLOAT (269) 145
-BOOL (270) 146
-DOUBLE (271) 147
-CHAR (272) 148
-VOID (273) 149
-CONST (274) 143
-STRING (275) 150
-STRINGVAL (276) 41 42 51 55 97 101 108 112 118 123 138
+INT (268) 9 143
+FLOAT (269) 144
+BOOL (270) 145
+DOUBLE (271) 146
+CHAR (272) 147
+VOID (273) 148
+CONST (274) 142
+STRING (275) 149
+STRINGVAL (276) 41 42 51 55 96 100 107 111 117 122 137
 FOR (277) 78
 WHILE (278) 79
-STRUCT (279) 11 52 98 109 120 139
+STRUCT (279) 11 52 97 108 119 138
 IF (280) 76 77
 ELSE (281) 77
 print (282)
@@ -305,8 +293,8 @@ expresie_bool (63)
 expresie_string (64)
     pe stânga: 41 42, pe dreapta: 45
 expresie (65)
-    pe stânga: 43 44 45, pe dreapta: 32 33 35 36 37 38 39 40 70 140
-    142
+    pe stânga: 43 44 45, pe dreapta: 32 33 35 36 37 38 39 40 70 139
+    141
 declaratie_structura (66)
     pe stânga: 46 47 48 49 50 51 52 53 54 55 56, pe dreapta: 12
 main (67)
@@ -340,42 +328,42 @@ operatie (80)
 cod_bloc (81)
     pe stânga: 85 86, pe dreapta: 76 77 78 79 85
 instructiune_bloc (82)
-    pe stânga: 87 88 89 90 91, pe dreapta: 85
+    pe stânga: 87 88 89 90, pe dreapta: 85
 declaratii_locale (83)
-    pe stânga: 92 93 94 95 96 97 98 99 100 101 102, pe dreapta: 10
+    pe stânga: 91 92 93 94 95 96 97 98 99 100 101, pe dreapta: 10
     80 87
 declaratie_g (84)
-    pe stânga: 103 104 105 106 107 108 109 110 111 112 113, pe dreapta:
+    pe stânga: 102 103 104 105 106 107 108 109 110 111 112, pe dreapta:
     4
 declaratie_main (85)
-    pe stânga: 114 115 116 117 118 119 120 121 122 123 124, pe dreapta:
+    pe stânga: 113 114 115 116 117 118 119 120 121 122 123, pe dreapta:
     60
 declaratie_functie (86)
-    pe stânga: 125 126, pe dreapta: 6 13
+    pe stânga: 124 125, pe dreapta: 6 13
 params (87)
-    pe stânga: 127 128, pe dreapta: 125 128
+    pe stânga: 126 127, pe dreapta: 124 127
 param (88)
-    pe stânga: 129, pe dreapta: 127 128
+    pe stânga: 128, pe dreapta: 126 127
 bloc_functie (89)
-    pe stânga: 130 131, pe dreapta: 125 126 130
+    pe stânga: 129 130, pe dreapta: 124 125 129
 cod_functie (90)
-    pe stânga: 132 133, pe dreapta: 130
+    pe stânga: 131 132, pe dreapta: 129
 declaratie_var_f (91)
-    pe stânga: 134 135 136 137 138 139, pe dreapta: 132
+    pe stânga: 133 134 135 136 137 138, pe dreapta: 131
 asignare (92)
-    pe stânga: 140 141, pe dreapta: 5 61 81 90 133
+    pe stânga: 139 140, pe dreapta: 5 61 81 90 132
 asignare_structura (93)
-    pe stânga: 142, pe dreapta: 141
+    pe stânga: 141, pe dreapta: 140
 constant (94)
-    pe stânga: 143, pe dreapta: 53 54 55 56 99 100 101 102 110 111
-    112 113 121 122 123 124
+    pe stânga: 142, pe dreapta: 53 54 55 56 98 99 100 101 109 110
+    111 112 120 121 122 123
 tip (95)
-    pe stânga: 144 145 146 147 148 149 150, pe dreapta: 46 47 48 49
-    50 51 92 93 94 95 96 97 103 104 105 106 107 108 114 115 116 117
-    118 119 125 126 129 134 135 136 137 138 143
+    pe stânga: 143 144 145 146 147 148 149, pe dreapta: 46 47 48 49
+    50 51 91 92 93 94 95 96 102 103 104 105 106 107 113 114 115 116
+    117 118 124 125 128 133 134 135 136 137 142
 nr (96)
-    pe stânga: 151 152 153, pe dreapta: 27 48 53 94 99 105 110 115
-    121 135
+    pe stânga: 150 151 152, pe dreapta: 27 48 53 93 98 104 109 114
+    120 134
 
 
 State 0
@@ -402,30 +390,30 @@ State 1
     8       | . EVAL '(' parametru_eval ')' '{' bloc_eval '}'
    11 structura: . STRUCT ID '{' bloc_structura '}'
    57 main: . START_MAIN bloc_main END_MAIN
-  103 declaratie_g: . tip ID '[' INTNR ']'
-  104             | . tip ID
-  105             | . tip ID '=' nr
-  106             | . tip ID '=' ID
-  107             | . tip ID '=' BOOLEAN
-  108             | . tip ID '=' STRINGVAL
-  109             | . STRUCT ID ID
-  110             | . constant ID '=' nr
-  111             | . constant ID '=' ID
-  112             | . constant ID '=' STRINGVAL
-  113             | . constant ID '=' BOOLEAN
-  125 declaratie_functie: . tip ID '(' params ')' '{' bloc_functie '}'
-  126                   | . tip ID '(' ')' '{' bloc_functie '}'
-  140 asignare: . ID '=' expresie
-  141         | . asignare_structura
-  142 asignare_structura: . ID '.' ID '=' expresie
-  143 constant: . CONST tip
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+  102 declaratie_g: . tip ID '[' INTNR ']'
+  103             | . tip ID
+  104             | . tip ID '=' nr
+  105             | . tip ID '=' ID
+  106             | . tip ID '=' BOOLEAN
+  107             | . tip ID '=' STRINGVAL
+  108             | . STRUCT ID ID
+  109             | . constant ID '=' nr
+  110             | . constant ID '=' ID
+  111             | . constant ID '=' STRINGVAL
+  112             | . constant ID '=' BOOLEAN
+  124 declaratie_functie: . tip ID '(' params ')' '{' bloc_functie '}'
+  125                   | . tip ID '(' ')' '{' bloc_functie '}'
+  139 asignare: . ID '=' expresie
+  140         | . asignare_structura
+  141 asignare_structura: . ID '.' ID '=' expresie
+  142 constant: . CONST tip
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     $end        shift, şi mergi în starea 2
     ID          shift, şi mergi în starea 3
@@ -461,8 +449,8 @@ State 2
 
 State 3
 
-  140 asignare: ID . '=' expresie
-  142 asignare_structura: ID . '.' ID '=' expresie
+  139 asignare: ID . '=' expresie
+  141 asignare_structura: ID . '.' ID '=' expresie
 
     '='  shift, şi mergi în starea 24
     '.'  shift, şi mergi în starea 25
@@ -477,56 +465,56 @@ State 4
 
 State 5
 
-  144 tip: INT .
+  143 tip: INT .
 
-    $implicit  reduce folosind regula 144 (tip)
+    $implicit  reduce folosind regula 143 (tip)
 
 
 State 6
 
-  145 tip: FLOAT .
+  144 tip: FLOAT .
 
-    $implicit  reduce folosind regula 145 (tip)
+    $implicit  reduce folosind regula 144 (tip)
 
 
 State 7
 
-  146 tip: BOOL .
+  145 tip: BOOL .
 
-    $implicit  reduce folosind regula 146 (tip)
+    $implicit  reduce folosind regula 145 (tip)
 
 
 State 8
 
-  147 tip: DOUBLE .
+  146 tip: DOUBLE .
 
-    $implicit  reduce folosind regula 147 (tip)
+    $implicit  reduce folosind regula 146 (tip)
 
 
 State 9
 
-  148 tip: CHAR .
+  147 tip: CHAR .
 
-    $implicit  reduce folosind regula 148 (tip)
+    $implicit  reduce folosind regula 147 (tip)
 
 
 State 10
 
-  149 tip: VOID .
+  148 tip: VOID .
 
-    $implicit  reduce folosind regula 149 (tip)
+    $implicit  reduce folosind regula 148 (tip)
 
 
 State 11
 
-  143 constant: CONST . tip
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+  142 constant: CONST . tip
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     INT     shift, şi mergi în starea 5
     FLOAT   shift, şi mergi în starea 6
@@ -541,15 +529,15 @@ State 11
 
 State 12
 
-  150 tip: STRING .
+  149 tip: STRING .
 
-    $implicit  reduce folosind regula 150 (tip)
+    $implicit  reduce folosind regula 149 (tip)
 
 
 State 13
 
    11 structura: STRUCT . ID '{' bloc_structura '}'
-  109 declaratie_g: STRUCT . ID ID
+  108 declaratie_g: STRUCT . ID ID
 
     ID  shift, şi mergi în starea 28
 
@@ -609,31 +597,31 @@ State 20
 
 State 21
 
-  141 asignare: asignare_structura .
+  140 asignare: asignare_structura .
 
-    $implicit  reduce folosind regula 141 (asignare)
+    $implicit  reduce folosind regula 140 (asignare)
 
 
 State 22
 
-  110 declaratie_g: constant . ID '=' nr
-  111             | constant . ID '=' ID
-  112             | constant . ID '=' STRINGVAL
-  113             | constant . ID '=' BOOLEAN
+  109 declaratie_g: constant . ID '=' nr
+  110             | constant . ID '=' ID
+  111             | constant . ID '=' STRINGVAL
+  112             | constant . ID '=' BOOLEAN
 
     ID  shift, şi mergi în starea 32
 
 
 State 23
 
-  103 declaratie_g: tip . ID '[' INTNR ']'
-  104             | tip . ID
-  105             | tip . ID '=' nr
-  106             | tip . ID '=' ID
-  107             | tip . ID '=' BOOLEAN
-  108             | tip . ID '=' STRINGVAL
-  125 declaratie_functie: tip . ID '(' params ')' '{' bloc_functie '}'
-  126                   | tip . ID '(' ')' '{' bloc_functie '}'
+  102 declaratie_g: tip . ID '[' INTNR ']'
+  103             | tip . ID
+  104             | tip . ID '=' nr
+  105             | tip . ID '=' ID
+  106             | tip . ID '=' BOOLEAN
+  107             | tip . ID '=' STRINGVAL
+  124 declaratie_functie: tip . ID '(' params ')' '{' bloc_functie '}'
+  125                   | tip . ID '(' ')' '{' bloc_functie '}'
 
     ID  shift, şi mergi în starea 33
 
@@ -664,10 +652,10 @@ State 24
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  140 asignare: ID '=' . expresie
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  139 asignare: ID '=' . expresie
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -687,7 +675,7 @@ State 24
 
 State 25
 
-  142 asignare_structura: ID '.' . ID '=' expresie
+  141 asignare_structura: ID '.' . ID '=' expresie
 
     ID  shift, şi mergi în starea 47
 
@@ -704,15 +692,15 @@ State 26
 
 State 27
 
-  143 constant: CONST tip .
+  142 constant: CONST tip .
 
-    $implicit  reduce folosind regula 143 (constant)
+    $implicit  reduce folosind regula 142 (constant)
 
 
 State 28
 
    11 structura: STRUCT ID . '{' bloc_structura '}'
-  109 declaratie_g: STRUCT ID . ID
+  108 declaratie_g: STRUCT ID . ID
 
     ID   shift, şi mergi în starea 50
     '{'  shift, şi mergi în starea 51
@@ -736,28 +724,28 @@ State 29
    77            | . IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
    78 forstatement: . FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
    79 whilestatement: . WHILE '(' expresie_bool ')' '{' cod_bloc '}'
-  114 declaratie_main: . tip ID
-  115                | . tip ID '=' nr
-  116                | . tip ID '=' ID
-  117                | . tip ID '=' BOOLEAN
-  118                | . tip ID '=' STRINGVAL
-  119                | . tip ID '[' INTNR ']'
-  120                | . STRUCT ID ID
-  121                | . constant ID '=' nr
-  122                | . constant ID '=' ID
-  123                | . constant ID '=' STRINGVAL
-  124                | . constant ID '=' BOOLEAN
-  140 asignare: . ID '=' expresie
-  141         | . asignare_structura
-  142 asignare_structura: . ID '.' ID '=' expresie
-  143 constant: . CONST tip
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+  113 declaratie_main: . tip ID
+  114                | . tip ID '=' nr
+  115                | . tip ID '=' ID
+  116                | . tip ID '=' BOOLEAN
+  117                | . tip ID '=' STRINGVAL
+  118                | . tip ID '[' INTNR ']'
+  119                | . STRUCT ID ID
+  120                | . constant ID '=' nr
+  121                | . constant ID '=' ID
+  122                | . constant ID '=' STRINGVAL
+  123                | . constant ID '=' BOOLEAN
+  139 asignare: . ID '=' expresie
+  140         | . asignare_structura
+  141 asignare_structura: . ID '.' ID '=' expresie
+  142 constant: . CONST tip
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     ID        shift, şi mergi în starea 52
     EVAL      shift, şi mergi în starea 53
@@ -805,30 +793,30 @@ State 31
 
 State 32
 
-  110 declaratie_g: constant ID . '=' nr
-  111             | constant ID . '=' ID
-  112             | constant ID . '=' STRINGVAL
-  113             | constant ID . '=' BOOLEAN
+  109 declaratie_g: constant ID . '=' nr
+  110             | constant ID . '=' ID
+  111             | constant ID . '=' STRINGVAL
+  112             | constant ID . '=' BOOLEAN
 
     '='  shift, şi mergi în starea 70
 
 
 State 33
 
-  103 declaratie_g: tip ID . '[' INTNR ']'
-  104             | tip ID .  [';']
-  105             | tip ID . '=' nr
-  106             | tip ID . '=' ID
-  107             | tip ID . '=' BOOLEAN
-  108             | tip ID . '=' STRINGVAL
-  125 declaratie_functie: tip ID . '(' params ')' '{' bloc_functie '}'
-  126                   | tip ID . '(' ')' '{' bloc_functie '}'
+  102 declaratie_g: tip ID . '[' INTNR ']'
+  103             | tip ID .  [';']
+  104             | tip ID . '=' nr
+  105             | tip ID . '=' ID
+  106             | tip ID . '=' BOOLEAN
+  107             | tip ID . '=' STRINGVAL
+  124 declaratie_functie: tip ID . '(' params ')' '{' bloc_functie '}'
+  125                   | tip ID . '(' ')' '{' bloc_functie '}'
 
     '='  shift, şi mergi în starea 71
     '('  shift, şi mergi în starea 72
     '['  shift, şi mergi în starea 73
 
-    $implicit  reduce folosind regula 104 (declaratie_g)
+    $implicit  reduce folosind regula 103 (declaratie_g)
 
 
 State 34
@@ -840,23 +828,23 @@ State 34
 
 State 35
 
-  151 nr: INTNR .
+  150 nr: INTNR .
 
-    $implicit  reduce folosind regula 151 (nr)
+    $implicit  reduce folosind regula 150 (nr)
 
 
 State 36
 
-  152 nr: FLOATNR .
+  151 nr: FLOATNR .
 
-    $implicit  reduce folosind regula 152 (nr)
+    $implicit  reduce folosind regula 151 (nr)
 
 
 State 37
 
-  153 nr: DOUBLENR .
+  152 nr: DOUBLENR .
 
-    $implicit  reduce folosind regula 153 (nr)
+    $implicit  reduce folosind regula 152 (nr)
 
 
 State 38
@@ -911,9 +899,9 @@ State 41
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -971,7 +959,7 @@ State 45
    38              | expresie . NE expresie
    39              | expresie . GT expresie
    40              | expresie . LT expresie
-  140 asignare: ID '=' expresie .  [';', ',']
+  139 asignare: ID '=' expresie .  [';', ',']
 
     AND  shift, şi mergi în starea 84
     OR   shift, şi mergi în starea 85
@@ -982,7 +970,7 @@ State 45
     LT   shift, şi mergi în starea 90
     GT   shift, şi mergi în starea 91
 
-    $implicit  reduce folosind regula 140 (asignare)
+    $implicit  reduce folosind regula 139 (asignare)
 
 
 State 46
@@ -994,7 +982,7 @@ State 46
 
 State 47
 
-  142 asignare_structura: ID '.' ID . '=' expresie
+  141 asignare_structura: ID '.' ID . '=' expresie
 
     '='  shift, şi mergi în starea 92
 
@@ -1015,9 +1003,9 @@ State 49
 
 State 50
 
-  109 declaratie_g: STRUCT ID ID .
+  108 declaratie_g: STRUCT ID ID .
 
-    $implicit  reduce folosind regula 109 (declaratie_g)
+    $implicit  reduce folosind regula 108 (declaratie_g)
 
 
 State 51
@@ -1035,8 +1023,8 @@ State 51
 State 52
 
    65 apel: ID . '(' parametri_apel ')' ';'
-  140 asignare: ID . '=' expresie
-  142 asignare_structura: ID . '.' ID '=' expresie
+  139 asignare: ID . '=' expresie
+  141 asignare_structura: ID . '.' ID '=' expresie
 
     '='  shift, şi mergi în starea 24
     '('  shift, şi mergi în starea 96
@@ -1066,7 +1054,7 @@ State 55
 
 State 56
 
-  120 declaratie_main: STRUCT . ID ID
+  119 declaratie_main: STRUCT . ID ID
 
     ID  shift, şi mergi în starea 100
 
@@ -1151,35 +1139,35 @@ State 67
 
 State 68
 
-  121 declaratie_main: constant . ID '=' nr
-  122                | constant . ID '=' ID
-  123                | constant . ID '=' STRINGVAL
-  124                | constant . ID '=' BOOLEAN
+  120 declaratie_main: constant . ID '=' nr
+  121                | constant . ID '=' ID
+  122                | constant . ID '=' STRINGVAL
+  123                | constant . ID '=' BOOLEAN
 
     ID  shift, şi mergi în starea 104
 
 
 State 69
 
-  114 declaratie_main: tip . ID
-  115                | tip . ID '=' nr
-  116                | tip . ID '=' ID
-  117                | tip . ID '=' BOOLEAN
-  118                | tip . ID '=' STRINGVAL
-  119                | tip . ID '[' INTNR ']'
+  113 declaratie_main: tip . ID
+  114                | tip . ID '=' nr
+  115                | tip . ID '=' ID
+  116                | tip . ID '=' BOOLEAN
+  117                | tip . ID '=' STRINGVAL
+  118                | tip . ID '[' INTNR ']'
 
     ID  shift, şi mergi în starea 105
 
 
 State 70
 
-  110 declaratie_g: constant ID '=' . nr
-  111             | constant ID '=' . ID
-  112             | constant ID '=' . STRINGVAL
-  113             | constant ID '=' . BOOLEAN
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  109 declaratie_g: constant ID '=' . nr
+  110             | constant ID '=' . ID
+  111             | constant ID '=' . STRINGVAL
+  112             | constant ID '=' . BOOLEAN
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 106
     INTNR      shift, şi mergi în starea 35
@@ -1193,13 +1181,13 @@ State 70
 
 State 71
 
-  105 declaratie_g: tip ID '=' . nr
-  106             | tip ID '=' . ID
-  107             | tip ID '=' . BOOLEAN
-  108             | tip ID '=' . STRINGVAL
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  104 declaratie_g: tip ID '=' . nr
+  105             | tip ID '=' . ID
+  106             | tip ID '=' . BOOLEAN
+  107             | tip ID '=' . STRINGVAL
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 110
     INTNR      shift, şi mergi în starea 35
@@ -1213,18 +1201,18 @@ State 71
 
 State 72
 
-  125 declaratie_functie: tip ID '(' . params ')' '{' bloc_functie '}'
-  126                   | tip ID '(' . ')' '{' bloc_functie '}'
-  127 params: . param
-  128       | . params '#' param
-  129 param: . tip ID
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+  124 declaratie_functie: tip ID '(' . params ')' '{' bloc_functie '}'
+  125                   | tip ID '(' . ')' '{' bloc_functie '}'
+  126 params: . param
+  127       | . params '#' param
+  128 param: . tip ID
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     INT     shift, şi mergi în starea 5
     FLOAT   shift, şi mergi în starea 6
@@ -1242,7 +1230,7 @@ State 72
 
 State 73
 
-  103 declaratie_g: tip ID '[' . INTNR ']'
+  102 declaratie_g: tip ID '[' . INTNR ']'
 
     INTNR  shift, şi mergi în starea 118
 
@@ -1329,9 +1317,9 @@ State 80
    26                    | . '(' expresie_matematica ')'
    27                    | . nr
    28                    | . ID
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID        shift, şi mergi în starea 34
     INTNR     shift, şi mergi în starea 35
@@ -1353,9 +1341,9 @@ State 81
    26                    | . '(' expresie_matematica ')'
    27                    | . nr
    28                    | . ID
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID        shift, şi mergi în starea 34
     INTNR     shift, şi mergi în starea 35
@@ -1377,9 +1365,9 @@ State 82
    26                    | . '(' expresie_matematica ')'
    27                    | . nr
    28                    | . ID
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID        shift, şi mergi în starea 34
     INTNR     shift, şi mergi în starea 35
@@ -1401,9 +1389,9 @@ State 83
    26                    | . '(' expresie_matematica ')'
    27                    | . nr
    28                    | . ID
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID        shift, şi mergi în starea 34
     INTNR     shift, şi mergi în starea 35
@@ -1442,9 +1430,9 @@ State 84
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -1489,9 +1477,9 @@ State 85
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -1536,9 +1524,9 @@ State 86
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -1583,9 +1571,9 @@ State 87
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -1630,9 +1618,9 @@ State 88
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -1677,9 +1665,9 @@ State 89
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -1724,9 +1712,9 @@ State 90
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -1771,9 +1759,9 @@ State 91
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -1817,10 +1805,10 @@ State 92
    43 expresie: . expresie_matematica
    44         | . expresie_bool
    45         | . expresie_string
-  142 asignare_structura: ID '.' ID '=' . expresie
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  141 asignare_structura: ID '.' ID '=' . expresie
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -1868,16 +1856,16 @@ State 95
    54                     | . constant ID '=' ID
    55                     | . constant ID '=' STRINGVAL
    56                     | . constant ID '=' BOOLEAN
-  125 declaratie_functie: . tip ID '(' params ')' '{' bloc_functie '}'
-  126                   | . tip ID '(' ')' '{' bloc_functie '}'
-  143 constant: . CONST tip
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+  124 declaratie_functie: . tip ID '(' params ')' '{' bloc_functie '}'
+  125                   | . tip ID '(' ')' '{' bloc_functie '}'
+  142 constant: . CONST tip
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     INT     shift, şi mergi în starea 5
     FLOAT   shift, şi mergi în starea 6
@@ -1928,9 +1916,9 @@ State 96
    70 parametru_apel: . expresie
    71               | . '_' ID '(' ')'
    72               | . %empty  [')', '#']
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -1978,28 +1966,28 @@ State 98
    78 forstatement: FOR '(' . asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
    80 asignare_for: . declaratii_locale
    81             | . asignare
-   92 declaratii_locale: . tip ID '[' INTNR ']'
-   93                  | . tip ID
-   94                  | . tip ID '=' nr
-   95                  | . tip ID '=' ID
-   96                  | . tip ID '=' BOOLEAN
-   97                  | . tip ID '=' STRINGVAL
-   98                  | . STRUCT ID ID
-   99                  | . constant ID '=' nr
-  100                  | . constant ID '=' ID
-  101                  | . constant ID '=' STRINGVAL
-  102                  | . constant ID '=' BOOLEAN
-  140 asignare: . ID '=' expresie
-  141         | . asignare_structura
-  142 asignare_structura: . ID '.' ID '=' expresie
-  143 constant: . CONST tip
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+   91 declaratii_locale: . tip ID '[' INTNR ']'
+   92                  | . tip ID
+   93                  | . tip ID '=' nr
+   94                  | . tip ID '=' ID
+   95                  | . tip ID '=' BOOLEAN
+   96                  | . tip ID '=' STRINGVAL
+   97                  | . STRUCT ID ID
+   98                  | . constant ID '=' nr
+   99                  | . constant ID '=' ID
+  100                  | . constant ID '=' STRINGVAL
+  101                  | . constant ID '=' BOOLEAN
+  139 asignare: . ID '=' expresie
+  140         | . asignare_structura
+  141 asignare_structura: . ID '.' ID '=' expresie
+  142 constant: . CONST tip
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     ID      shift, şi mergi în starea 3
     INT     shift, şi mergi în starea 5
@@ -2047,9 +2035,9 @@ State 99
    44         | . expresie_bool
    45         | . expresie_string
    79 whilestatement: WHILE '(' . expresie_bool ')' '{' cod_bloc '}'
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -2069,7 +2057,7 @@ State 99
 
 State 100
 
-  120 declaratie_main: STRUCT ID . ID
+  119 declaratie_main: STRUCT ID . ID
 
     ID  shift, şi mergi în starea 160
 
@@ -2102,9 +2090,9 @@ State 101
    45         | . expresie_string
    76 ifstatement: IF '(' . expresie_bool ')' '{' cod_bloc '}'
    77            | IF '(' . expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -2138,96 +2126,96 @@ State 103
 
 State 104
 
-  121 declaratie_main: constant ID . '=' nr
-  122                | constant ID . '=' ID
-  123                | constant ID . '=' STRINGVAL
-  124                | constant ID . '=' BOOLEAN
+  120 declaratie_main: constant ID . '=' nr
+  121                | constant ID . '=' ID
+  122                | constant ID . '=' STRINGVAL
+  123                | constant ID . '=' BOOLEAN
 
     '='  shift, şi mergi în starea 162
 
 
 State 105
 
-  114 declaratie_main: tip ID .  [';']
-  115                | tip ID . '=' nr
-  116                | tip ID . '=' ID
-  117                | tip ID . '=' BOOLEAN
-  118                | tip ID . '=' STRINGVAL
-  119                | tip ID . '[' INTNR ']'
+  113 declaratie_main: tip ID .  [';']
+  114                | tip ID . '=' nr
+  115                | tip ID . '=' ID
+  116                | tip ID . '=' BOOLEAN
+  117                | tip ID . '=' STRINGVAL
+  118                | tip ID . '[' INTNR ']'
 
     '='  shift, şi mergi în starea 163
     '['  shift, şi mergi în starea 164
 
-    $implicit  reduce folosind regula 114 (declaratie_main)
+    $implicit  reduce folosind regula 113 (declaratie_main)
 
 
 State 106
 
-  111 declaratie_g: constant ID '=' ID .
-
-    $implicit  reduce folosind regula 111 (declaratie_g)
-
-
-State 107
-
-  113 declaratie_g: constant ID '=' BOOLEAN .
-
-    $implicit  reduce folosind regula 113 (declaratie_g)
-
-
-State 108
-
-  112 declaratie_g: constant ID '=' STRINGVAL .
-
-    $implicit  reduce folosind regula 112 (declaratie_g)
-
-
-State 109
-
-  110 declaratie_g: constant ID '=' nr .
+  110 declaratie_g: constant ID '=' ID .
 
     $implicit  reduce folosind regula 110 (declaratie_g)
 
 
+State 107
+
+  112 declaratie_g: constant ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 112 (declaratie_g)
+
+
+State 108
+
+  111 declaratie_g: constant ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 111 (declaratie_g)
+
+
+State 109
+
+  109 declaratie_g: constant ID '=' nr .
+
+    $implicit  reduce folosind regula 109 (declaratie_g)
+
+
 State 110
 
-  106 declaratie_g: tip ID '=' ID .
-
-    $implicit  reduce folosind regula 106 (declaratie_g)
-
-
-State 111
-
-  107 declaratie_g: tip ID '=' BOOLEAN .
-
-    $implicit  reduce folosind regula 107 (declaratie_g)
-
-
-State 112
-
-  108 declaratie_g: tip ID '=' STRINGVAL .
-
-    $implicit  reduce folosind regula 108 (declaratie_g)
-
-
-State 113
-
-  105 declaratie_g: tip ID '=' nr .
+  105 declaratie_g: tip ID '=' ID .
 
     $implicit  reduce folosind regula 105 (declaratie_g)
 
 
+State 111
+
+  106 declaratie_g: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 106 (declaratie_g)
+
+
+State 112
+
+  107 declaratie_g: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 107 (declaratie_g)
+
+
+State 113
+
+  104 declaratie_g: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 104 (declaratie_g)
+
+
 State 114
 
-  126 declaratie_functie: tip ID '(' ')' . '{' bloc_functie '}'
+  125 declaratie_functie: tip ID '(' ')' . '{' bloc_functie '}'
 
     '{'  shift, şi mergi în starea 165
 
 
 State 115
 
-  125 declaratie_functie: tip ID '(' params . ')' '{' bloc_functie '}'
-  128 params: params . '#' param
+  124 declaratie_functie: tip ID '(' params . ')' '{' bloc_functie '}'
+  127 params: params . '#' param
 
     ')'  shift, şi mergi în starea 166
     '#'  shift, şi mergi în starea 167
@@ -2235,21 +2223,21 @@ State 115
 
 State 116
 
-  127 params: param .
+  126 params: param .
 
-    $implicit  reduce folosind regula 127 (params)
+    $implicit  reduce folosind regula 126 (params)
 
 
 State 117
 
-  129 param: tip . ID
+  128 param: tip . ID
 
     ID  shift, şi mergi în starea 168
 
 
 State 118
 
-  103 declaratie_g: tip ID '[' INTNR . ']'
+  102 declaratie_g: tip ID '[' INTNR . ']'
 
     ']'  shift, şi mergi în starea 169
 
@@ -2292,9 +2280,9 @@ State 123
    26                    | '(' . expresie_matematica ')'
    27                    | . nr
    28                    | . ID
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID        shift, şi mergi în starea 34
     INTNR     shift, şi mergi în starea 35
@@ -2592,7 +2580,7 @@ State 136
    38              | expresie . NE expresie
    39              | expresie . GT expresie
    40              | expresie . LT expresie
-  142 asignare_structura: ID '.' ID '=' expresie .  [';', ',']
+  141 asignare_structura: ID '.' ID '=' expresie .  [';', ',']
 
     AND  shift, şi mergi în starea 84
     OR   shift, şi mergi în starea 85
@@ -2603,32 +2591,32 @@ State 136
     LT   shift, şi mergi în starea 90
     GT   shift, şi mergi în starea 91
 
-    $implicit  reduce folosind regula 142 (asignare_structura)
+    $implicit  reduce folosind regula 141 (asignare_structura)
 
 
 State 137
 
     8 global: EVAL '(' parametru_eval ')' '{' . bloc_eval '}'
    10 bloc_eval: . declaratii_locale ';'
-   92 declaratii_locale: . tip ID '[' INTNR ']'
-   93                  | . tip ID
-   94                  | . tip ID '=' nr
-   95                  | . tip ID '=' ID
-   96                  | . tip ID '=' BOOLEAN
-   97                  | . tip ID '=' STRINGVAL
-   98                  | . STRUCT ID ID
-   99                  | . constant ID '=' nr
-  100                  | . constant ID '=' ID
-  101                  | . constant ID '=' STRINGVAL
-  102                  | . constant ID '=' BOOLEAN
-  143 constant: . CONST tip
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+   91 declaratii_locale: . tip ID '[' INTNR ']'
+   92                  | . tip ID
+   93                  | . tip ID '=' nr
+   94                  | . tip ID '=' ID
+   95                  | . tip ID '=' BOOLEAN
+   96                  | . tip ID '=' STRINGVAL
+   97                  | . STRUCT ID ID
+   98                  | . constant ID '=' nr
+   99                  | . constant ID '=' ID
+  100                  | . constant ID '=' STRINGVAL
+  101                  | . constant ID '=' BOOLEAN
+  142 constant: . CONST tip
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     INT     shift, şi mergi în starea 5
     FLOAT   shift, şi mergi în starea 6
@@ -2692,8 +2680,8 @@ State 143
    49                     | tip . ID '=' ID
    50                     | tip . ID '=' BOOLEAN
    51                     | tip . ID '=' STRINGVAL
-  125 declaratie_functie: tip . ID '(' params ')' '{' bloc_functie '}'
-  126                   | tip . ID '(' ')' '{' bloc_functie '}'
+  124 declaratie_functie: tip . ID '(' params ')' '{' bloc_functie '}'
+  125                   | tip . ID '(' ')' '{' bloc_functie '}'
 
     ID  shift, şi mergi în starea 176
 
@@ -2802,7 +2790,7 @@ State 152
 
 State 153
 
-   98 declaratii_locale: STRUCT . ID ID
+   97 declaratii_locale: STRUCT . ID ID
 
     ID  shift, şi mergi în starea 186
 
@@ -2830,22 +2818,22 @@ State 156
 
 State 157
 
-   99 declaratii_locale: constant . ID '=' nr
-  100                  | constant . ID '=' ID
-  101                  | constant . ID '=' STRINGVAL
-  102                  | constant . ID '=' BOOLEAN
+   98 declaratii_locale: constant . ID '=' nr
+   99                  | constant . ID '=' ID
+  100                  | constant . ID '=' STRINGVAL
+  101                  | constant . ID '=' BOOLEAN
 
     ID  shift, şi mergi în starea 188
 
 
 State 158
 
-   92 declaratii_locale: tip . ID '[' INTNR ']'
-   93                  | tip . ID
-   94                  | tip . ID '=' nr
-   95                  | tip . ID '=' ID
-   96                  | tip . ID '=' BOOLEAN
-   97                  | tip . ID '=' STRINGVAL
+   91 declaratii_locale: tip . ID '[' INTNR ']'
+   92                  | tip . ID
+   93                  | tip . ID '=' nr
+   94                  | tip . ID '=' ID
+   95                  | tip . ID '=' BOOLEAN
+   96                  | tip . ID '=' STRINGVAL
 
     ID  shift, şi mergi în starea 189
 
@@ -2862,9 +2850,9 @@ State 159
 
 State 160
 
-  120 declaratie_main: STRUCT ID ID .
+  119 declaratie_main: STRUCT ID ID .
 
-    $implicit  reduce folosind regula 120 (declaratie_main)
+    $implicit  reduce folosind regula 119 (declaratie_main)
 
 
 State 161
@@ -2880,13 +2868,13 @@ State 161
 
 State 162
 
-  121 declaratie_main: constant ID '=' . nr
-  122                | constant ID '=' . ID
-  123                | constant ID '=' . STRINGVAL
-  124                | constant ID '=' . BOOLEAN
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  120 declaratie_main: constant ID '=' . nr
+  121                | constant ID '=' . ID
+  122                | constant ID '=' . STRINGVAL
+  123                | constant ID '=' . BOOLEAN
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 192
     INTNR      shift, şi mergi în starea 35
@@ -2900,13 +2888,13 @@ State 162
 
 State 163
 
-  115 declaratie_main: tip ID '=' . nr
-  116                | tip ID '=' . ID
-  117                | tip ID '=' . BOOLEAN
-  118                | tip ID '=' . STRINGVAL
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  114 declaratie_main: tip ID '=' . nr
+  115                | tip ID '=' . ID
+  116                | tip ID '=' . BOOLEAN
+  117                | tip ID '=' . STRINGVAL
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 196
     INTNR      shift, şi mergi în starea 35
@@ -2920,40 +2908,40 @@ State 163
 
 State 164
 
-  119 declaratie_main: tip ID '[' . INTNR ']'
+  118 declaratie_main: tip ID '[' . INTNR ']'
 
     INTNR  shift, şi mergi în starea 200
 
 
 State 165
 
-  126 declaratie_functie: tip ID '(' ')' '{' . bloc_functie '}'
-  130 bloc_functie: . bloc_functie cod_functie
-  131             | . %empty
+  125 declaratie_functie: tip ID '(' ')' '{' . bloc_functie '}'
+  129 bloc_functie: . bloc_functie cod_functie
+  130             | . %empty
 
-    $implicit  reduce folosind regula 131 (bloc_functie)
+    $implicit  reduce folosind regula 130 (bloc_functie)
 
     bloc_functie  mergi în starea 201
 
 
 State 166
 
-  125 declaratie_functie: tip ID '(' params ')' . '{' bloc_functie '}'
+  124 declaratie_functie: tip ID '(' params ')' . '{' bloc_functie '}'
 
     '{'  shift, şi mergi în starea 202
 
 
 State 167
 
-  128 params: params '#' . param
-  129 param: . tip ID
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+  127 params: params '#' . param
+  128 param: . tip ID
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     INT     shift, şi mergi în starea 5
     FLOAT   shift, şi mergi în starea 6
@@ -2969,16 +2957,16 @@ State 167
 
 State 168
 
-  129 param: tip ID .
+  128 param: tip ID .
 
-    $implicit  reduce folosind regula 129 (param)
+    $implicit  reduce folosind regula 128 (param)
 
 
 State 169
 
-  103 declaratie_g: tip ID '[' INTNR ']' .
+  102 declaratie_g: tip ID '[' INTNR ']' .
 
-    $implicit  reduce folosind regula 103 (declaratie_g)
+    $implicit  reduce folosind regula 102 (declaratie_g)
 
 
 State 170
@@ -3042,8 +3030,8 @@ State 176
    49                     | tip ID . '=' ID
    50                     | tip ID . '=' BOOLEAN
    51                     | tip ID . '=' STRINGVAL
-  125 declaratie_functie: tip ID . '(' params ')' '{' bloc_functie '}'
-  126                   | tip ID . '(' ')' '{' bloc_functie '}'
+  124 declaratie_functie: tip ID . '(' params ')' '{' bloc_functie '}'
+  125                   | tip ID . '(' ')' '{' bloc_functie '}'
 
     '='  shift, şi mergi în starea 208
     '('  shift, şi mergi în starea 72
@@ -3096,9 +3084,9 @@ State 179
    70 parametru_apel: . expresie
    71               | . '_' ID '(' ')'
    72               | . %empty  [')', '#']
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -3216,7 +3204,7 @@ State 185
 
 State 186
 
-   98 declaratii_locale: STRUCT ID . ID
+   97 declaratii_locale: STRUCT ID . ID
 
     ID  shift, şi mergi în starea 219
 
@@ -3248,9 +3236,9 @@ State 187
    44         | . expresie_bool
    45         | . expresie_string
    78 forstatement: FOR '(' asignare_for ',' . expresie_bool ',' operatie ')' '{' cod_bloc '}'
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 34
     INTNR      shift, şi mergi în starea 35
@@ -3270,27 +3258,27 @@ State 187
 
 State 188
 
-   99 declaratii_locale: constant ID . '=' nr
-  100                  | constant ID . '=' ID
-  101                  | constant ID . '=' STRINGVAL
-  102                  | constant ID . '=' BOOLEAN
+   98 declaratii_locale: constant ID . '=' nr
+   99                  | constant ID . '=' ID
+  100                  | constant ID . '=' STRINGVAL
+  101                  | constant ID . '=' BOOLEAN
 
     '='  shift, şi mergi în starea 221
 
 
 State 189
 
-   92 declaratii_locale: tip ID . '[' INTNR ']'
-   93                  | tip ID .  [';', ',']
-   94                  | tip ID . '=' nr
-   95                  | tip ID . '=' ID
-   96                  | tip ID . '=' BOOLEAN
-   97                  | tip ID . '=' STRINGVAL
+   91 declaratii_locale: tip ID . '[' INTNR ']'
+   92                  | tip ID .  [';', ',']
+   93                  | tip ID . '=' nr
+   94                  | tip ID . '=' ID
+   95                  | tip ID . '=' BOOLEAN
+   96                  | tip ID . '=' STRINGVAL
 
     '='  shift, şi mergi în starea 222
     '['  shift, şi mergi în starea 223
 
-    $implicit  reduce folosind regula 93 (declaratii_locale)
+    $implicit  reduce folosind regula 92 (declaratii_locale)
 
 
 State 190
@@ -3310,89 +3298,89 @@ State 191
 
 State 192
 
-  122 declaratie_main: constant ID '=' ID .
-
-    $implicit  reduce folosind regula 122 (declaratie_main)
-
-
-State 193
-
-  124 declaratie_main: constant ID '=' BOOLEAN .
-
-    $implicit  reduce folosind regula 124 (declaratie_main)
-
-
-State 194
-
-  123 declaratie_main: constant ID '=' STRINGVAL .
-
-    $implicit  reduce folosind regula 123 (declaratie_main)
-
-
-State 195
-
-  121 declaratie_main: constant ID '=' nr .
+  121 declaratie_main: constant ID '=' ID .
 
     $implicit  reduce folosind regula 121 (declaratie_main)
 
 
+State 193
+
+  123 declaratie_main: constant ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 123 (declaratie_main)
+
+
+State 194
+
+  122 declaratie_main: constant ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 122 (declaratie_main)
+
+
+State 195
+
+  120 declaratie_main: constant ID '=' nr .
+
+    $implicit  reduce folosind regula 120 (declaratie_main)
+
+
 State 196
 
-  116 declaratie_main: tip ID '=' ID .
-
-    $implicit  reduce folosind regula 116 (declaratie_main)
-
-
-State 197
-
-  117 declaratie_main: tip ID '=' BOOLEAN .
-
-    $implicit  reduce folosind regula 117 (declaratie_main)
-
-
-State 198
-
-  118 declaratie_main: tip ID '=' STRINGVAL .
-
-    $implicit  reduce folosind regula 118 (declaratie_main)
-
-
-State 199
-
-  115 declaratie_main: tip ID '=' nr .
+  115 declaratie_main: tip ID '=' ID .
 
     $implicit  reduce folosind regula 115 (declaratie_main)
 
 
+State 197
+
+  116 declaratie_main: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 116 (declaratie_main)
+
+
+State 198
+
+  117 declaratie_main: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 117 (declaratie_main)
+
+
+State 199
+
+  114 declaratie_main: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 114 (declaratie_main)
+
+
 State 200
 
-  119 declaratie_main: tip ID '[' INTNR . ']'
+  118 declaratie_main: tip ID '[' INTNR . ']'
 
     ']'  shift, şi mergi în starea 226
 
 
 State 201
 
-  126 declaratie_functie: tip ID '(' ')' '{' bloc_functie . '}'
-  130 bloc_functie: bloc_functie . cod_functie
-  132 cod_functie: . declaratie_var_f ';'
-  133            | . asignare ';'
-  134 declaratie_var_f: . tip ID
-  135                 | . tip ID '=' nr
-  136                 | . tip ID '=' ID
-  137                 | . tip ID '=' BOOLEAN
-  138                 | . tip ID '=' STRINGVAL
-  139                 | . STRUCT ID ID
-  140 asignare: . ID '=' expresie
-  141         | . asignare_structura
-  142 asignare_structura: . ID '.' ID '=' expresie
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+  125 declaratie_functie: tip ID '(' ')' '{' bloc_functie . '}'
+  129 bloc_functie: bloc_functie . cod_functie
+  131 cod_functie: . declaratie_var_f ';'
+  132            | . asignare ';'
+  133 declaratie_var_f: . tip ID
+  134                 | . tip ID '=' nr
+  135                 | . tip ID '=' ID
+  136                 | . tip ID '=' BOOLEAN
+  137                 | . tip ID '=' STRINGVAL
+  138                 | . STRUCT ID ID
+  139 asignare: . ID '=' expresie
+  140         | . asignare_structura
+  141 asignare_structura: . ID '.' ID '=' expresie
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     ID      shift, şi mergi în starea 3
     INT     shift, şi mergi în starea 5
@@ -3414,20 +3402,20 @@ State 201
 
 State 202
 
-  125 declaratie_functie: tip ID '(' params ')' '{' . bloc_functie '}'
-  130 bloc_functie: . bloc_functie cod_functie
-  131             | . %empty
+  124 declaratie_functie: tip ID '(' params ')' '{' . bloc_functie '}'
+  129 bloc_functie: . bloc_functie cod_functie
+  130             | . %empty
 
-    $implicit  reduce folosind regula 131 (bloc_functie)
+    $implicit  reduce folosind regula 130 (bloc_functie)
 
     bloc_functie  mergi în starea 233
 
 
 State 203
 
-  128 params: params '#' param .
+  127 params: params '#' param .
 
-    $implicit  reduce folosind regula 128 (params)
+    $implicit  reduce folosind regula 127 (params)
 
 
 State 204
@@ -3457,9 +3445,9 @@ State 207
    54                     | constant ID '=' . ID
    55                     | constant ID '=' . STRINGVAL
    56                     | constant ID '=' . BOOLEAN
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 234
     INTNR      shift, şi mergi în starea 35
@@ -3477,9 +3465,9 @@ State 208
    49                     | tip ID '=' . ID
    50                     | tip ID '=' . BOOLEAN
    51                     | tip ID '=' . STRINGVAL
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 238
     INTNR      shift, şi mergi în starea 35
@@ -3605,9 +3593,9 @@ State 218
 
 State 219
 
-   98 declaratii_locale: STRUCT ID ID .
+   97 declaratii_locale: STRUCT ID ID .
 
-    $implicit  reduce folosind regula 98 (declaratii_locale)
+    $implicit  reduce folosind regula 97 (declaratii_locale)
 
 
 State 220
@@ -3622,13 +3610,13 @@ State 220
 
 State 221
 
-   99 declaratii_locale: constant ID '=' . nr
-  100                  | constant ID '=' . ID
-  101                  | constant ID '=' . STRINGVAL
-  102                  | constant ID '=' . BOOLEAN
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+   98 declaratii_locale: constant ID '=' . nr
+   99                  | constant ID '=' . ID
+  100                  | constant ID '=' . STRINGVAL
+  101                  | constant ID '=' . BOOLEAN
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 245
     INTNR      shift, şi mergi în starea 35
@@ -3642,13 +3630,13 @@ State 221
 
 State 222
 
-   94 declaratii_locale: tip ID '=' . nr
-   95                  | tip ID '=' . ID
-   96                  | tip ID '=' . BOOLEAN
-   97                  | tip ID '=' . STRINGVAL
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+   93 declaratii_locale: tip ID '=' . nr
+   94                  | tip ID '=' . ID
+   95                  | tip ID '=' . BOOLEAN
+   96                  | tip ID '=' . STRINGVAL
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 249
     INTNR      shift, şi mergi în starea 35
@@ -3662,7 +3650,7 @@ State 222
 
 State 223
 
-   92 declaratii_locale: tip ID '[' . INTNR ']'
+   91 declaratii_locale: tip ID '[' . INTNR ']'
 
     INTNR  shift, şi mergi în starea 253
 
@@ -3692,79 +3680,79 @@ State 225
 
 State 226
 
-  119 declaratie_main: tip ID '[' INTNR ']' .
+  118 declaratie_main: tip ID '[' INTNR ']' .
 
-    $implicit  reduce folosind regula 119 (declaratie_main)
+    $implicit  reduce folosind regula 118 (declaratie_main)
 
 
 State 227
 
-  139 declaratie_var_f: STRUCT . ID ID
+  138 declaratie_var_f: STRUCT . ID ID
 
     ID  shift, şi mergi în starea 256
 
 
 State 228
 
-  126 declaratie_functie: tip ID '(' ')' '{' bloc_functie '}' .
+  125 declaratie_functie: tip ID '(' ')' '{' bloc_functie '}' .
 
-    $implicit  reduce folosind regula 126 (declaratie_functie)
+    $implicit  reduce folosind regula 125 (declaratie_functie)
 
 
 State 229
 
-  130 bloc_functie: bloc_functie cod_functie .
+  129 bloc_functie: bloc_functie cod_functie .
 
-    $implicit  reduce folosind regula 130 (bloc_functie)
+    $implicit  reduce folosind regula 129 (bloc_functie)
 
 
 State 230
 
-  132 cod_functie: declaratie_var_f . ';'
+  131 cod_functie: declaratie_var_f . ';'
 
     ';'  shift, şi mergi în starea 257
 
 
 State 231
 
-  133 cod_functie: asignare . ';'
+  132 cod_functie: asignare . ';'
 
     ';'  shift, şi mergi în starea 258
 
 
 State 232
 
-  134 declaratie_var_f: tip . ID
-  135                 | tip . ID '=' nr
-  136                 | tip . ID '=' ID
-  137                 | tip . ID '=' BOOLEAN
-  138                 | tip . ID '=' STRINGVAL
+  133 declaratie_var_f: tip . ID
+  134                 | tip . ID '=' nr
+  135                 | tip . ID '=' ID
+  136                 | tip . ID '=' BOOLEAN
+  137                 | tip . ID '=' STRINGVAL
 
     ID  shift, şi mergi în starea 259
 
 
 State 233
 
-  125 declaratie_functie: tip ID '(' params ')' '{' bloc_functie . '}'
-  130 bloc_functie: bloc_functie . cod_functie
-  132 cod_functie: . declaratie_var_f ';'
-  133            | . asignare ';'
-  134 declaratie_var_f: . tip ID
-  135                 | . tip ID '=' nr
-  136                 | . tip ID '=' ID
-  137                 | . tip ID '=' BOOLEAN
-  138                 | . tip ID '=' STRINGVAL
-  139                 | . STRUCT ID ID
-  140 asignare: . ID '=' expresie
-  141         | . asignare_structura
-  142 asignare_structura: . ID '.' ID '=' expresie
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+  124 declaratie_functie: tip ID '(' params ')' '{' bloc_functie . '}'
+  129 bloc_functie: bloc_functie . cod_functie
+  131 cod_functie: . declaratie_var_f ';'
+  132            | . asignare ';'
+  133 declaratie_var_f: . tip ID
+  134                 | . tip ID '=' nr
+  135                 | . tip ID '=' ID
+  136                 | . tip ID '=' BOOLEAN
+  137                 | . tip ID '=' STRINGVAL
+  138                 | . STRUCT ID ID
+  139 asignare: . ID '=' expresie
+  140         | . asignare_structura
+  141 asignare_structura: . ID '.' ID '=' expresie
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     ID      shift, şi mergi în starea 3
     INT     shift, şi mergi în starea 5
@@ -3868,63 +3856,63 @@ State 244
 
 State 245
 
-  100 declaratii_locale: constant ID '=' ID .
-
-    $implicit  reduce folosind regula 100 (declaratii_locale)
-
-
-State 246
-
-  102 declaratii_locale: constant ID '=' BOOLEAN .
-
-    $implicit  reduce folosind regula 102 (declaratii_locale)
-
-
-State 247
-
-  101 declaratii_locale: constant ID '=' STRINGVAL .
-
-    $implicit  reduce folosind regula 101 (declaratii_locale)
-
-
-State 248
-
-   99 declaratii_locale: constant ID '=' nr .
+   99 declaratii_locale: constant ID '=' ID .
 
     $implicit  reduce folosind regula 99 (declaratii_locale)
 
 
+State 246
+
+  101 declaratii_locale: constant ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 101 (declaratii_locale)
+
+
+State 247
+
+  100 declaratii_locale: constant ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 100 (declaratii_locale)
+
+
+State 248
+
+   98 declaratii_locale: constant ID '=' nr .
+
+    $implicit  reduce folosind regula 98 (declaratii_locale)
+
+
 State 249
 
-   95 declaratii_locale: tip ID '=' ID .
-
-    $implicit  reduce folosind regula 95 (declaratii_locale)
-
-
-State 250
-
-   96 declaratii_locale: tip ID '=' BOOLEAN .
-
-    $implicit  reduce folosind regula 96 (declaratii_locale)
-
-
-State 251
-
-   97 declaratii_locale: tip ID '=' STRINGVAL .
-
-    $implicit  reduce folosind regula 97 (declaratii_locale)
-
-
-State 252
-
-   94 declaratii_locale: tip ID '=' nr .
+   94 declaratii_locale: tip ID '=' ID .
 
     $implicit  reduce folosind regula 94 (declaratii_locale)
 
 
+State 250
+
+   95 declaratii_locale: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 95 (declaratii_locale)
+
+
+State 251
+
+   96 declaratii_locale: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 96 (declaratii_locale)
+
+
+State 252
+
+   93 declaratii_locale: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 93 (declaratii_locale)
+
+
 State 253
 
-   92 declaratii_locale: tip ID '[' INTNR . ']'
+   91 declaratii_locale: tip ID '[' INTNR . ']'
 
     ']'  shift, şi mergi în starea 264
 
@@ -3945,29 +3933,28 @@ State 254
    88                  | . statements
    89                  | . apel
    90                  | . asignare ';'
-   91                  | . %empty  [ID, INT, FLOAT, BOOL, DOUBLE, CHAR, VOID, CONST, STRING, FOR, WHILE, STRUCT, IF, '}']
-   92 declaratii_locale: . tip ID '[' INTNR ']'
-   93                  | . tip ID
-   94                  | . tip ID '=' nr
-   95                  | . tip ID '=' ID
-   96                  | . tip ID '=' BOOLEAN
-   97                  | . tip ID '=' STRINGVAL
-   98                  | . STRUCT ID ID
-   99                  | . constant ID '=' nr
-  100                  | . constant ID '=' ID
-  101                  | . constant ID '=' STRINGVAL
-  102                  | . constant ID '=' BOOLEAN
-  140 asignare: . ID '=' expresie
-  141         | . asignare_structura
-  142 asignare_structura: . ID '.' ID '=' expresie
-  143 constant: . CONST tip
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+   91 declaratii_locale: . tip ID '[' INTNR ']'
+   92                  | . tip ID
+   93                  | . tip ID '=' nr
+   94                  | . tip ID '=' ID
+   95                  | . tip ID '=' BOOLEAN
+   96                  | . tip ID '=' STRINGVAL
+   97                  | . STRUCT ID ID
+   98                  | . constant ID '=' nr
+   99                  | . constant ID '=' ID
+  100                  | . constant ID '=' STRINGVAL
+  101                  | . constant ID '=' BOOLEAN
+  139 asignare: . ID '=' expresie
+  140         | . asignare_structura
+  141 asignare_structura: . ID '.' ID '=' expresie
+  142 constant: . CONST tip
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     ID      shift, şi mergi în starea 52
     INT     shift, şi mergi în starea 5
@@ -3983,21 +3970,6 @@ State 254
     STRUCT  shift, şi mergi în starea 153
     IF      shift, şi mergi în starea 57
     '}'     shift, şi mergi în starea 265
-
-    ID      [reduce folosind regula 91 (instructiune_bloc)]
-    INT     [reduce folosind regula 91 (instructiune_bloc)]
-    FLOAT   [reduce folosind regula 91 (instructiune_bloc)]
-    BOOL    [reduce folosind regula 91 (instructiune_bloc)]
-    DOUBLE  [reduce folosind regula 91 (instructiune_bloc)]
-    CHAR    [reduce folosind regula 91 (instructiune_bloc)]
-    VOID    [reduce folosind regula 91 (instructiune_bloc)]
-    CONST   [reduce folosind regula 91 (instructiune_bloc)]
-    STRING  [reduce folosind regula 91 (instructiune_bloc)]
-    FOR     [reduce folosind regula 91 (instructiune_bloc)]
-    WHILE   [reduce folosind regula 91 (instructiune_bloc)]
-    STRUCT  [reduce folosind regula 91 (instructiune_bloc)]
-    IF      [reduce folosind regula 91 (instructiune_bloc)]
-    '}'     [reduce folosind regula 91 (instructiune_bloc)]
 
     apel                mergi în starea 266
     statements          mergi în starea 267
@@ -4029,29 +4001,28 @@ State 255
    88                  | . statements
    89                  | . apel
    90                  | . asignare ';'
-   91                  | . %empty  [ID, INT, FLOAT, BOOL, DOUBLE, CHAR, VOID, CONST, STRING, FOR, WHILE, STRUCT, IF, '}']
-   92 declaratii_locale: . tip ID '[' INTNR ']'
-   93                  | . tip ID
-   94                  | . tip ID '=' nr
-   95                  | . tip ID '=' ID
-   96                  | . tip ID '=' BOOLEAN
-   97                  | . tip ID '=' STRINGVAL
-   98                  | . STRUCT ID ID
-   99                  | . constant ID '=' nr
-  100                  | . constant ID '=' ID
-  101                  | . constant ID '=' STRINGVAL
-  102                  | . constant ID '=' BOOLEAN
-  140 asignare: . ID '=' expresie
-  141         | . asignare_structura
-  142 asignare_structura: . ID '.' ID '=' expresie
-  143 constant: . CONST tip
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+   91 declaratii_locale: . tip ID '[' INTNR ']'
+   92                  | . tip ID
+   93                  | . tip ID '=' nr
+   94                  | . tip ID '=' ID
+   95                  | . tip ID '=' BOOLEAN
+   96                  | . tip ID '=' STRINGVAL
+   97                  | . STRUCT ID ID
+   98                  | . constant ID '=' nr
+   99                  | . constant ID '=' ID
+  100                  | . constant ID '=' STRINGVAL
+  101                  | . constant ID '=' BOOLEAN
+  139 asignare: . ID '=' expresie
+  140         | . asignare_structura
+  141 asignare_structura: . ID '.' ID '=' expresie
+  142 constant: . CONST tip
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     ID      shift, şi mergi în starea 52
     INT     shift, şi mergi în starea 5
@@ -4068,21 +4039,6 @@ State 255
     IF      shift, şi mergi în starea 57
     '}'     shift, şi mergi în starea 271
 
-    ID      [reduce folosind regula 91 (instructiune_bloc)]
-    INT     [reduce folosind regula 91 (instructiune_bloc)]
-    FLOAT   [reduce folosind regula 91 (instructiune_bloc)]
-    BOOL    [reduce folosind regula 91 (instructiune_bloc)]
-    DOUBLE  [reduce folosind regula 91 (instructiune_bloc)]
-    CHAR    [reduce folosind regula 91 (instructiune_bloc)]
-    VOID    [reduce folosind regula 91 (instructiune_bloc)]
-    CONST   [reduce folosind regula 91 (instructiune_bloc)]
-    STRING  [reduce folosind regula 91 (instructiune_bloc)]
-    FOR     [reduce folosind regula 91 (instructiune_bloc)]
-    WHILE   [reduce folosind regula 91 (instructiune_bloc)]
-    STRUCT  [reduce folosind regula 91 (instructiune_bloc)]
-    IF      [reduce folosind regula 91 (instructiune_bloc)]
-    '}'     [reduce folosind regula 91 (instructiune_bloc)]
-
     apel                mergi în starea 266
     statements          mergi în starea 267
     ifstatement         mergi în starea 63
@@ -4098,43 +4054,43 @@ State 255
 
 State 256
 
-  139 declaratie_var_f: STRUCT ID . ID
+  138 declaratie_var_f: STRUCT ID . ID
 
     ID  shift, şi mergi în starea 272
 
 
 State 257
 
-  132 cod_functie: declaratie_var_f ';' .
+  131 cod_functie: declaratie_var_f ';' .
 
-    $implicit  reduce folosind regula 132 (cod_functie)
+    $implicit  reduce folosind regula 131 (cod_functie)
 
 
 State 258
 
-  133 cod_functie: asignare ';' .
+  132 cod_functie: asignare ';' .
 
-    $implicit  reduce folosind regula 133 (cod_functie)
+    $implicit  reduce folosind regula 132 (cod_functie)
 
 
 State 259
 
-  134 declaratie_var_f: tip ID .  [';']
-  135                 | tip ID . '=' nr
-  136                 | tip ID . '=' ID
-  137                 | tip ID . '=' BOOLEAN
-  138                 | tip ID . '=' STRINGVAL
+  133 declaratie_var_f: tip ID .  [';']
+  134                 | tip ID . '=' nr
+  135                 | tip ID . '=' ID
+  136                 | tip ID . '=' BOOLEAN
+  137                 | tip ID . '=' STRINGVAL
 
     '='  shift, şi mergi în starea 273
 
-    $implicit  reduce folosind regula 134 (declaratie_var_f)
+    $implicit  reduce folosind regula 133 (declaratie_var_f)
 
 
 State 260
 
-  125 declaratie_functie: tip ID '(' params ')' '{' bloc_functie '}' .
+  124 declaratie_functie: tip ID '(' params ')' '{' bloc_functie '}' .
 
-    $implicit  reduce folosind regula 125 (declaratie_functie)
+    $implicit  reduce folosind regula 124 (declaratie_functie)
 
 
 State 261
@@ -4164,9 +4120,9 @@ State 263
 
 State 264
 
-   92 declaratii_locale: tip ID '[' INTNR ']' .
+   91 declaratii_locale: tip ID '[' INTNR ']' .
 
-    $implicit  reduce folosind regula 92 (declaratii_locale)
+    $implicit  reduce folosind regula 91 (declaratii_locale)
 
 
 State 265
@@ -4223,20 +4179,20 @@ State 271
 
 State 272
 
-  139 declaratie_var_f: STRUCT ID ID .
+  138 declaratie_var_f: STRUCT ID ID .
 
-    $implicit  reduce folosind regula 139 (declaratie_var_f)
+    $implicit  reduce folosind regula 138 (declaratie_var_f)
 
 
 State 273
 
-  135 declaratie_var_f: tip ID '=' . nr
-  136                 | tip ID '=' . ID
-  137                 | tip ID '=' . BOOLEAN
-  138                 | tip ID '=' . STRINGVAL
-  151 nr: . INTNR
-  152   | . FLOATNR
-  153   | . DOUBLENR
+  134 declaratie_var_f: tip ID '=' . nr
+  135                 | tip ID '=' . ID
+  136                 | tip ID '=' . BOOLEAN
+  137                 | tip ID '=' . STRINGVAL
+  150 nr: . INTNR
+  151   | . FLOATNR
+  152   | . DOUBLENR
 
     ID         shift, şi mergi în starea 281
     INTNR      shift, şi mergi în starea 35
@@ -4299,30 +4255,30 @@ State 280
 
 State 281
 
-  136 declaratie_var_f: tip ID '=' ID .
+  135 declaratie_var_f: tip ID '=' ID .
 
-    $implicit  reduce folosind regula 136 (declaratie_var_f)
+    $implicit  reduce folosind regula 135 (declaratie_var_f)
 
 
 State 282
 
-  137 declaratie_var_f: tip ID '=' BOOLEAN .
+  136 declaratie_var_f: tip ID '=' BOOLEAN .
 
-    $implicit  reduce folosind regula 137 (declaratie_var_f)
+    $implicit  reduce folosind regula 136 (declaratie_var_f)
 
 
 State 283
 
-  138 declaratie_var_f: tip ID '=' STRINGVAL .
+  137 declaratie_var_f: tip ID '=' STRINGVAL .
 
-    $implicit  reduce folosind regula 138 (declaratie_var_f)
+    $implicit  reduce folosind regula 137 (declaratie_var_f)
 
 
 State 284
 
-  135 declaratie_var_f: tip ID '=' nr .
+  134 declaratie_var_f: tip ID '=' nr .
 
-    $implicit  reduce folosind regula 135 (declaratie_var_f)
+    $implicit  reduce folosind regula 134 (declaratie_var_f)
 
 
 State 285
@@ -4391,29 +4347,28 @@ State 291
    88                  | . statements
    89                  | . apel
    90                  | . asignare ';'
-   91                  | . %empty  [ID, INT, FLOAT, BOOL, DOUBLE, CHAR, VOID, CONST, STRING, FOR, WHILE, STRUCT, IF, '}']
-   92 declaratii_locale: . tip ID '[' INTNR ']'
-   93                  | . tip ID
-   94                  | . tip ID '=' nr
-   95                  | . tip ID '=' ID
-   96                  | . tip ID '=' BOOLEAN
-   97                  | . tip ID '=' STRINGVAL
-   98                  | . STRUCT ID ID
-   99                  | . constant ID '=' nr
-  100                  | . constant ID '=' ID
-  101                  | . constant ID '=' STRINGVAL
-  102                  | . constant ID '=' BOOLEAN
-  140 asignare: . ID '=' expresie
-  141         | . asignare_structura
-  142 asignare_structura: . ID '.' ID '=' expresie
-  143 constant: . CONST tip
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+   91 declaratii_locale: . tip ID '[' INTNR ']'
+   92                  | . tip ID
+   93                  | . tip ID '=' nr
+   94                  | . tip ID '=' ID
+   95                  | . tip ID '=' BOOLEAN
+   96                  | . tip ID '=' STRINGVAL
+   97                  | . STRUCT ID ID
+   98                  | . constant ID '=' nr
+   99                  | . constant ID '=' ID
+  100                  | . constant ID '=' STRINGVAL
+  101                  | . constant ID '=' BOOLEAN
+  139 asignare: . ID '=' expresie
+  140         | . asignare_structura
+  141 asignare_structura: . ID '.' ID '=' expresie
+  142 constant: . CONST tip
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     ID      shift, şi mergi în starea 52
     INT     shift, şi mergi în starea 5
@@ -4429,21 +4384,6 @@ State 291
     STRUCT  shift, şi mergi în starea 153
     IF      shift, şi mergi în starea 57
     '}'     shift, şi mergi în starea 294
-
-    ID      [reduce folosind regula 91 (instructiune_bloc)]
-    INT     [reduce folosind regula 91 (instructiune_bloc)]
-    FLOAT   [reduce folosind regula 91 (instructiune_bloc)]
-    BOOL    [reduce folosind regula 91 (instructiune_bloc)]
-    DOUBLE  [reduce folosind regula 91 (instructiune_bloc)]
-    CHAR    [reduce folosind regula 91 (instructiune_bloc)]
-    VOID    [reduce folosind regula 91 (instructiune_bloc)]
-    CONST   [reduce folosind regula 91 (instructiune_bloc)]
-    STRING  [reduce folosind regula 91 (instructiune_bloc)]
-    FOR     [reduce folosind regula 91 (instructiune_bloc)]
-    WHILE   [reduce folosind regula 91 (instructiune_bloc)]
-    STRUCT  [reduce folosind regula 91 (instructiune_bloc)]
-    IF      [reduce folosind regula 91 (instructiune_bloc)]
-    '}'     [reduce folosind regula 91 (instructiune_bloc)]
 
     apel                mergi în starea 266
     statements          mergi în starea 267
@@ -4474,29 +4414,28 @@ State 292
    88                  | . statements
    89                  | . apel
    90                  | . asignare ';'
-   91                  | . %empty  [ID, INT, FLOAT, BOOL, DOUBLE, CHAR, VOID, CONST, STRING, FOR, WHILE, STRUCT, IF, '}']
-   92 declaratii_locale: . tip ID '[' INTNR ']'
-   93                  | . tip ID
-   94                  | . tip ID '=' nr
-   95                  | . tip ID '=' ID
-   96                  | . tip ID '=' BOOLEAN
-   97                  | . tip ID '=' STRINGVAL
-   98                  | . STRUCT ID ID
-   99                  | . constant ID '=' nr
-  100                  | . constant ID '=' ID
-  101                  | . constant ID '=' STRINGVAL
-  102                  | . constant ID '=' BOOLEAN
-  140 asignare: . ID '=' expresie
-  141         | . asignare_structura
-  142 asignare_structura: . ID '.' ID '=' expresie
-  143 constant: . CONST tip
-  144 tip: . INT
-  145    | . FLOAT
-  146    | . BOOL
-  147    | . DOUBLE
-  148    | . CHAR
-  149    | . VOID
-  150    | . STRING
+   91 declaratii_locale: . tip ID '[' INTNR ']'
+   92                  | . tip ID
+   93                  | . tip ID '=' nr
+   94                  | . tip ID '=' ID
+   95                  | . tip ID '=' BOOLEAN
+   96                  | . tip ID '=' STRINGVAL
+   97                  | . STRUCT ID ID
+   98                  | . constant ID '=' nr
+   99                  | . constant ID '=' ID
+  100                  | . constant ID '=' STRINGVAL
+  101                  | . constant ID '=' BOOLEAN
+  139 asignare: . ID '=' expresie
+  140         | . asignare_structura
+  141 asignare_structura: . ID '.' ID '=' expresie
+  142 constant: . CONST tip
+  143 tip: . INT
+  144    | . FLOAT
+  145    | . BOOL
+  146    | . DOUBLE
+  147    | . CHAR
+  148    | . VOID
+  149    | . STRING
 
     ID      shift, şi mergi în starea 52
     INT     shift, şi mergi în starea 5
@@ -4512,21 +4451,6 @@ State 292
     STRUCT  shift, şi mergi în starea 153
     IF      shift, şi mergi în starea 57
     '}'     shift, şi mergi în starea 295
-
-    ID      [reduce folosind regula 91 (instructiune_bloc)]
-    INT     [reduce folosind regula 91 (instructiune_bloc)]
-    FLOAT   [reduce folosind regula 91 (instructiune_bloc)]
-    BOOL    [reduce folosind regula 91 (instructiune_bloc)]
-    DOUBLE  [reduce folosind regula 91 (instructiune_bloc)]
-    CHAR    [reduce folosind regula 91 (instructiune_bloc)]
-    VOID    [reduce folosind regula 91 (instructiune_bloc)]
-    CONST   [reduce folosind regula 91 (instructiune_bloc)]
-    STRING  [reduce folosind regula 91 (instructiune_bloc)]
-    FOR     [reduce folosind regula 91 (instructiune_bloc)]
-    WHILE   [reduce folosind regula 91 (instructiune_bloc)]
-    STRUCT  [reduce folosind regula 91 (instructiune_bloc)]
-    IF      [reduce folosind regula 91 (instructiune_bloc)]
-    '}'     [reduce folosind regula 91 (instructiune_bloc)]
 
     apel                mergi în starea 266
     statements          mergi în starea 267
