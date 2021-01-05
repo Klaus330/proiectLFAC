@@ -52,6 +52,31 @@ int asignare_numar(char* nume, char *valoare){
     }
 }
 
+
+float asignare_expresie(char* nume, char *valoare){
+    int found=0, index;
+    for(int i=0; i<nr_var; i++){
+        if(strcmp(var[i].name,nume)==0){
+            found=1;
+            index=i;
+        }
+    }
+
+    if(found==0){
+        perror("\e[1;33m Eroare: nu exista nicio variabila cu acest nume\e[0m \n");
+        exit(1);
+    }
+
+    if(strstr(var[index].type,"int"))
+    {   var[index].valoare_int = atoi(var[index].value);
+        return var[index].valoare_int;
+    }
+    else if (strstr(var[index].type,"float")|| strstr(var[index].type,"double")){
+        var[index].valoare_float = atof(var[index].value);
+        return var[index].valoare_float;
+    }
+}
+
 int evaluare_id(char* id, char *scope){
     int found=0, index;
     for(int i=0; i<nr_var; i++){
@@ -152,8 +177,8 @@ void initializare_functie (char *type, char *name, char* params){
    char* textt;
    int int_number;
 }
-%type <int_number> expresie_matematica expresie_eval parametri_eval_apel  termen asignare
-%type <textt> ID nr ARR INT FLOAT BOOL DOUBLE CHAR VOID STRUCT FLOATNR DOUBLENR INTNR CONST constant STRING STRINGVAL tip BOOLEAN param params
+%type <int_number> expresie_matematica expresie_eval parametri_eval_apel  asignare
+%type <textt> ID nr ARR INT FLOAT BOOL DOUBLE expresie CHAR VOID STRUCT FLOATNR DOUBLENR INTNR CONST constant STRING STRINGVAL tip BOOLEAN param params
 %%
 
 start : start global
@@ -191,7 +216,8 @@ expresie_matematica : expresie_matematica '+' expresie_matematica {$$=$1+$3;}
          | expresie_matematica '*' expresie_matematica {$$=$1*$3;}
          | expresie_matematica '/' expresie_matematica {$$=$1/$3;}
          | '(' expresie_matematica ')' {$$ = $2;}
-         | termen {$$ = $1;}
+         | nr {$$ = atoi($1);}
+         | ID {$$ = evaluare_id($1,"");}
         ;
 
 expresie_eval : expresie_eval '+' expresie_eval {$$=$1+$3;}
@@ -202,10 +228,6 @@ expresie_eval : expresie_eval '+' expresie_eval {$$=$1+$3;}
          | INTNR { $$ = atoi($1);}
          | ID {$$ = evaluare_id($1,"eval");}
          ;
-
-termen : nr {$$ = $1;}
-         | ID {$$ = evaluare_id($1,"");}
-        ;
 
 expresie_bool : NOT ID
               | BOOLEAN
@@ -395,7 +417,7 @@ asignare : ID '=' ID
          | nr
          | STRINGVAL
          | BOOLEAN
-         | ID '=' expresie
+         | ID '=' expresie {$$=asignare_expresie($1,$3);}
          | expresie
          | STRUCT ID ID
          ;
@@ -416,9 +438,9 @@ tip : INT {$$ = "int";}
     | STRING {$$ = "string";}
     ;
 
-nr : INTNR {printf("%s\n", $1);$$=$1;}
-    | FLOATNR {printf("%s\n", $1);$$=$1;}
-    | DOUBLENR {printf("%s\n", $1);$$=$1;}
+nr : INTNR {$$=$1;}
+    | FLOATNR {$$=$1;}
+    | DOUBLENR {$$=$1;}
     ;
 
 %%

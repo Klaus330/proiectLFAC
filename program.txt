@@ -29,8 +29,6 @@ void functie (){
     int fvar;
 }
 
-
-
 int functieparam (int s # float nr) {
 float n;
 int nr;
@@ -62,6 +60,10 @@ if ((a>3) || (c==d)) {
 Eval(a);
 Eval(2*6);
 
+for(int j=0, j<4 , j++){
+
+}
+
 struct id st;
 st.a = 3;
 
@@ -73,4 +75,5 @@ f (a # b # 2) ;
 
 double dd = 2.3;
 dd = 5.3;
+
 end_main
