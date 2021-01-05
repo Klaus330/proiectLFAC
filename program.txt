@@ -5,7 +5,7 @@ int b ;
 double d = 2.4;
 bool s = true;
 string str;
-
+double z;
 int arr [5] ;
 
 b = ((1+2)+3*d) ;
@@ -35,10 +35,10 @@ int nr;
 }
 
 
-
 start_main
 const int a = 2 ;
 float c;
+
 
 bool abool = true;
 string s = "ana are 2 mere ?";
@@ -58,7 +58,7 @@ if ((a>3) || (c==d)) {
 }
 
 Eval(a);
-Eval(2*6);
+Eval(2*6-8);
 
 for(int j=0, j<4 , j++){
 
@@ -67,13 +67,11 @@ for(int j=0, j<4 , j++){
 struct id st;
 st.a = 3;
 
-
-b = (!b && (2+3));
 b = ((1+2)+3*d) ;
 int arr2[10];
 f (a # b # 2) ;
 
 double dd = 2.3;
+int aan;
 dd = 5.3;
-
 end_main

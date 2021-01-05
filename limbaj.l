@@ -48,7 +48,6 @@ string_val      ["]([^"\\\n]|\\.|\\\n)*["]
 {numar}            {printf("%s numar intreg\n",yytext);yylval.textt = strdup(yytext); return INTNR;}
 {float_num}        {printf("%s float number\n",yytext); yylval.textt = strdup(yytext); return FLOATNR;}
 {double_num}       {printf("%s double number\n",yytext); yylval.textt = strdup(yytext); return DOUBLENR;}
-\-{numar}          {printf("%s numar negativ\n",yytext);}
 {string_val}       {printf("%s string value\n",yytext); yylval.textt = strdup(yytext); return STRINGVAL;}
 
 {spatiu} ;

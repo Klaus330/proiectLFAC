@@ -5,6 +5,7 @@ Variabile declarate :
  double - d - global - 2.4
  bool - s - global - true
  string - str - global - 
+ double - z - global - 
  int - b - local - 
  int - a - structura - 
  int - b - functie - 
@@ -20,8 +21,8 @@ Variabile declarate :
  int - i - local - 
  float - r - local - 2.4
  int - j - local - 0
- id - st - main - 
  double - dd - main - 2.3
+ int - aan - main - 
 Functiile declarate :
 int - test - int int 
 void - functie -  

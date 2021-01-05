@@ -10,17 +10,17 @@ extern int yylineno;
 char params_list[200];
 
 struct vars {
-    char value[50];
-    char name[50];
-    char type[50];
-    char scope[50];
+    char value[70];
+    char name[70];
+    char type[70];
+    char scope[70];
     int valoare_int;
     float valoare_float;
 }var[100];
 
 struct functions {
-    char name[50];
-    char type[50];
+    char name[80];
+    char type[80];
     char params[200];
 }fun[100];
 
@@ -28,12 +28,13 @@ struct functions {
 int nr_var = 0;
 int nr_functii = 0;
 
-int asignare_numar(char* nume, char *valoare){
+int checkIfAlreadyExists(char *nume){
     int found=0, index;
-    for(int i=0; i<nr_var; i++){
-        if(strcmp(var[i].name,nume)==0){
+    for(int i=0; i<=nr_var; i++){
+        if(strstr(var[i].name,nume)==0){
             found=1;
             index=i;
+             printf("\n%d %s\n",index, var[index].name);
         }
     }
 
@@ -42,38 +43,17 @@ int asignare_numar(char* nume, char *valoare){
         exit(1);
     }
 
-    if(strstr(var[index].type,"int"))
-    {   var[index].valoare_int = atoi(var[index].value);
-        return var[index].valoare_int;
-    }
-    else if (strstr(var[index].type,"float")|| strstr(var[index].type,"double")){
-        var[index].valoare_float = atof(var[index].value);
-        return var[index].valoare_float;
-    }
+    return index;
 }
 
-
-float asignare_expresie(char* nume, char *valoare){
-    int found=0, index;
-    for(int i=0; i<nr_var; i++){
-        if(strcmp(var[i].name,nume)==0){
-            found=1;
-            index=i;
-        }
-    }
-
-    if(found==0){
-        perror("\e[1;33m Eroare: nu exista nicio variabila cu acest nume\e[0m \n");
-        exit(1);
-    }
-
-    if(strstr(var[index].type,"int"))
-    {   var[index].valoare_int = atoi(var[index].value);
-        return var[index].valoare_int;
+void asignare(char *nume, char *valoare){
+    int index = checkIfAlreadyExists(nume);
+   
+     if(strstr(var[index].type,"int"))
+    {   var[index].valoare_int = atoi(valoare);
     }
     else if (strstr(var[index].type,"float")|| strstr(var[index].type,"double")){
-        var[index].valoare_float = atof(var[index].value);
-        return var[index].valoare_float;
+        var[index].valoare_float = atof(valoare);
     }
 }
 
@@ -94,7 +74,7 @@ int evaluare_id(char* id, char *scope){
     printf("Am id-ul %s scopul %s \n",id,scope);
     if(strcmp(scope,"eval") ==0 ){
         if(strstr(var[index].type,"int")){
-            printf("Sunt variabila %s si am valoare %s\n",var[index].name,var[index].value);
+          
             return atoi(var[index].value);
         }
         else{
@@ -103,7 +83,6 @@ int evaluare_id(char* id, char *scope){
         }
     }
 
-   printf("Sunt variabila %s si am valoare %s\n",var[index].name,var[index].value);
    if(strstr(var[index].type,"int")){
         return atoi(var[index].value);
    }else if (strstr(var[index].type,"float") || strstr(var[index].type,"double") ){
@@ -120,9 +99,9 @@ void initializare_tip_id (char *scope, char *type, char *name){
                 exit(1);
             }
         }
-        strcat(var[nr_var].name,name);
-        strcat(var[nr_var].type,type);
-        strcat(var[nr_var].scope,scope);
+        strcpy(var[nr_var].name,name);
+        strcpy(var[nr_var].type,type);
+        strcpy(var[nr_var].scope,scope);
         printf("\e[1;34m %s - %s - %s \e[0m \n", var[nr_var].type, var[nr_var].name, var[nr_var].scope); 
         nr_var++; 
 }
@@ -140,8 +119,17 @@ void initializare_id (char *scope, char *type, char *name, char *value){
         strcpy(var[nr_var].type,type);
         strcpy(var[nr_var].scope,scope);
         strcpy(var[nr_var].value,value);
- printf("\e[1;34m %s - %s - %s - %s\e[0m \n", var[nr_var].type, var[nr_var].name, var[nr_var].scope,var[nr_var].value); 
-   
+        printf("\e[1;34m %s - %s - %s - %s\e[0m \n", var[nr_var].type, var[nr_var].name, var[nr_var].scope,var[nr_var].value); 
+        
+        if(strstr(var[nr_var].type,"int"))
+        {   var[nr_var].valoare_int = atoi(var[nr_var].value);
+        }
+        if (strstr(var[nr_var].type,"float")){
+            var[nr_var].valoare_float = atof(var[nr_var].value);
+        }
+        if ( strstr(var[nr_var].type,"double")){
+            var[nr_var].valoare_float = atof(var[nr_var].value);
+        }
         nr_var++; 
 }
 
@@ -177,8 +165,8 @@ void initializare_functie (char *type, char *name, char* params){
    char* textt;
    int int_number;
 }
-%type <int_number> expresie_matematica expresie_eval parametri_eval_apel  asignare
-%type <textt> ID nr ARR INT FLOAT BOOL DOUBLE expresie CHAR VOID STRUCT FLOATNR DOUBLENR INTNR CONST constant STRING STRINGVAL tip BOOLEAN param params
+%type <int_number>  expresie_eval parametri_eval_apel  
+%type <textt> ID nr ARR INT FLOAT BOOL DOUBLE expresie CHAR VOID STRUCT FLOATNR DOUBLENR INTNR CONST constant BOOLEAN STRING STRINGVAL tip  param params asignare_structura asignare expresie_string expresie_bool expresie_matematica
 %%
 
 start : start global
@@ -190,14 +178,11 @@ global : declaratie_g ';'
        | asignare ';'
        | declaratie_functie
        | structura
-       | EVAL '(' params_eval ')' '{' bloc_eval '}' 
+       | EVAL '(' parametru_eval ')' '{' bloc_eval '}' 
        ;
 
-params_eval : INT ID ',' params_eval
-            | INT ID
-            | params_eval
-            |
-            ;
+parametru_eval: INT ID
+                ;
 
 bloc_eval : declaratii_locale ';'
           ;
@@ -210,16 +195,6 @@ bloc_structura : bloc_structura declaratie_structura ';'
                 | bloc_structura declaratie_functie 
                 |
                 ;
-
-expresie_matematica : expresie_matematica '+' expresie_matematica {$$=$1+$3;}
-         | expresie_matematica '-' expresie_matematica {$$=$1-$3;}
-         | expresie_matematica '*' expresie_matematica {$$=$1*$3;}
-         | expresie_matematica '/' expresie_matematica {$$=$1/$3;}
-         | '(' expresie_matematica ')' {$$ = $2;}
-         | nr {$$ = atoi($1);}
-         | ID {$$ = evaluare_id($1,"");}
-        ;
-
 expresie_eval : expresie_eval '+' expresie_eval {$$=$1+$3;}
          | expresie_eval '-' expresie_eval {$$=$1-$3;}
          | expresie_eval '*' expresie_eval {$$=$1*$3;}
@@ -229,27 +204,37 @@ expresie_eval : expresie_eval '+' expresie_eval {$$=$1+$3;}
          | ID {$$ = evaluare_id($1,"eval");}
          ;
 
-expresie_bool : NOT ID
-              | BOOLEAN
-              | NOT BOOLEAN
-              | expresie AND expresie
-              | expresie OR expresie
-              | '(' expresie_bool ')'
-              | expresie GE expresie
-              | expresie LE expresie
-              | expresie EQ expresie
-              | expresie NE expresie
-              | expresie GT expresie
-              | expresie LT expresie 
+
+expresie_matematica : expresie_matematica '+' expresie_matematica {sprintf($1, "%d", atoi($1)+atoi($3)); $$=$1;}
+         | expresie_matematica '-' expresie_matematica {sprintf($1, "%d", atoi($1)-atoi($3)); $$=$1;}
+         | expresie_matematica '*' expresie_matematica {sprintf($1, "%d", atoi($1)*atoi($3)); $$=$1;}
+         | expresie_matematica '/' expresie_matematica {sprintf($1, "%d", atoi($1)/atoi($3)); $$=$1;}
+         | '(' expresie_matematica ')' {$$ = $2;}
+         | nr {$$ = $1;}
+         | ID {$$ = $1;}
+        ;
+
+expresie_bool : NOT ID {$$=$2;}
+              | BOOLEAN {$$=$1;}
+              | NOT BOOLEAN {$$=!$2;}
+              | expresie AND expresie {$$=$1&&$3;}
+              | expresie OR expresie  {$$=$1||$3;}
+              | '(' expresie_bool ')'  {$$=$2;}
+              | expresie GE expresie  {$$=$1 >= $3;}
+              | expresie LE expresie   {$$=$1<=$3;}
+              | expresie EQ expresie    {$$=$1==$3;}
+              | expresie NE expresie    {$$=$1<=$3;}
+              | expresie GT expresie    {$$=$1>$3;}
+              | expresie LT expresie    {$$=$1<$3;}
               ;
 
-expresie_string : STRINGVAL '+' ID
-                | STRINGVAL '+' STRINGVAL
+expresie_string : STRINGVAL '+' ID {strcat($1,$3);$$=$1;}
+                | STRINGVAL '+' STRINGVAL {strcat($1,$3);$$=$1;}
                 ;
 
-expresie : expresie_matematica
-        | expresie_bool
-        | expresie_string
+expresie : expresie_matematica {$$=$1;}
+        | expresie_bool {$$=$1;}
+        | expresie_string {$$=$1;}
         ;
 
 
@@ -280,9 +265,7 @@ cod_main : declaratie_main ';'
          | apel_eval
          ;
 
-apel : ID '(' ')' ';'
-     | ID '(' parametri_apel ')' ';'
-     | '_' ID '(' ')' 
+apel : ID '(' parametri_apel ')' ';'
      ;
 
 apel_eval : EVAL '(' parametri_eval_apel ')' ';' { printf("\e[1;33mEval A returnat:%d\e[0m\n",$3);}
@@ -291,17 +274,13 @@ apel_eval : EVAL '(' parametri_eval_apel ')' ';' { printf("\e[1;33mEval A return
 parametri_eval_apel: expresie_eval {$$ = $1;}
                     ;
 
-parametri_apel :  ID 
-               | ID '#' parametri_apel
-               | nr 
-               | nr '#' parametri_apel
-               | apel 
-               | apel '#' parametri_apel
-               | expresie
-               | expresie '#' parametri_apel
-               |
+parametri_apel : parametru_apel
+                | parametri_apel '#' parametru_apel
                 ;
-
+parametru_apel: expresie 
+                | '_' ID '(' ')' 
+                |
+                ;
 
 statements : ifstatement 
            | forstatement
@@ -370,7 +349,7 @@ declaratie_main : tip ID {initializare_tip_id ("main",$1, $2); }
            | tip ID '=' ID {initializare_id("main", $1, $2, $4);}
            | tip ID '=' BOOLEAN {initializare_id("main", $1, $2, $4);}
            | tip ID '=' STRINGVAL {initializare_id("main", $1, $2, $4);}
-           |  tip ID '[' INTNR ']' 
+           |  tip ID '[' INTNR ']'  {initializare_tip_id("main", $1, $2);}
            | STRUCT ID ID  {initializare_tip_id("main",$2, $3);}
            | constant ID '=' nr {initializare_id("main", $1, $2, $4);}
            | constant ID '=' ID {initializare_id("main", $1, $2, $4);}
@@ -408,21 +387,11 @@ declaratie_var_f : tip ID {initializare_tip_id ("functie",$1, $2); }
            | STRUCT ID ID  {initializare_tip_id("functie",$2, $3);}
            ;
 
-asignare : ID '=' ID 
-         | ID '=' nr {$$=asignare_numar($1,$3);}
-         | ID '=' STRINGVAL
-         | ID '=' BOOLEAN
+asignare : ID '=' expresie   {printf("ID:%s", $1);asignare($1, $3);}     
          | asignare_structura
-         | ID
-         | nr
-         | STRINGVAL
-         | BOOLEAN
-         | ID '=' expresie {$$=asignare_expresie($1,$3);}
-         | expresie
-         | STRUCT ID ID
          ;
 
-asignare_structura : ID '.' ID '=' asignare
+asignare_structura : ID '.' ID '=' expresie {asignare($3, $5);}
                    ;
 
 constant : CONST tip {char c[30]; strcpy(c,$1); strcat(c," "); strcat(c,$2); $$ = c;}

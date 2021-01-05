@@ -120,7 +120,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 176 "limbaj.y" /* yacc.c:1909  */
+#line 164 "limbaj.y" /* yacc.c:1909  */
 
    char* textt;
    int int_number;
