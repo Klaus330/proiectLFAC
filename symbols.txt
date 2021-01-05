@@ -1,20 +1,28 @@
 Variabile declarate :
- float - a - global - 
- id - s - global - 
- int - b - global - 4
- int - c - global - 2.4
- float - f - global - 2.3f
- int - d - global - a
+ float - a - global - 2.5
+ int - in - global - 2
+ int - b - global - 
+ double - d - global - 2.4
  bool - s - global - true
- string - s - global - 
+ string - str - global - 
+ int - b - local - 
  int - a - structura - 
+ int - b - functie - 
  int - fvar - functie - 
  float - n - functie - 
  int - nr - functie - 
- int - a - main - 
- const float - c - main - 
- bool - a - main - true
+ const int - a - main - 2
+ float - c - main - 
+ bool - abool - main - true
  string - s - main - "ana are 2 mere ?"
+ string - d - main - 
  int - temp - local - 
- float - r - local - 2.4f
- id - s - main - 
+ int - i - local - 
+ float - r - local - 2.4
+ int - j - local - 0
+ id - st - main - 
+ double - dd - main - 2.3
+Functiile declarate :
+int - test - int int 
+void - functie -  
+int - functieparam - int float 

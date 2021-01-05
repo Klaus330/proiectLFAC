@@ -22,6 +22,7 @@ string_val      ["]([^"\\\n]|\\.|\\\n)*["]
 "start_main" {printf ("Am intrat in main %s\n",yytext); return START_MAIN;}
 "end_main" {return END_MAIN;}
 "Eval"     {return EVAL;}
+"for"      {return FOR;}
 
 "int"    {printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return INT;}
 "float"  {printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return FLOAT;}
