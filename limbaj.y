@@ -8,12 +8,12 @@ extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
 char params_list[200];
+
 struct vars {
     char value[50];
     char name[50];
     char type[50];
     char scope[50];
-    int valoare_int;
 }var[100];
 
 struct functions {
@@ -26,8 +26,8 @@ struct functions {
 int nr_var = 0;
 int nr_functii = 0;
 
-int asigrnare_numar(char* nume, int valoare){
-     int found=0, index;
+int asignare_numar(char* nume, int valoare){
+    int found=0, index;
     for(int i=0; i<nr_var; i++){
         if(strcmp(var[i].name,nume)==0){
             found=1;
@@ -40,10 +40,16 @@ int asigrnare_numar(char* nume, int valoare){
         exit(1);
     }
 
-    return var[index].valoare_int;
+    if(strstr(var[index].type,"int"))
+    {
+        return atoi(var[index].value);
+    }
+    else if (strstr(var[index].type,"float")|| strstr(var[index].type,"double")){
+        return atof(var[index].value);
+    }
 }
 
-int evaluare_id(char* id){
+int evaluare_id(char* id, char *scope){
     int found=0, index;
     for(int i=0; i<nr_var; i++){
         if(strcmp(var[i].name,id)==0){
@@ -57,12 +63,25 @@ int evaluare_id(char* id){
         exit(1);
     }
 
-    if(strcmp(var[index].type,"int")==0){
-        printf("Sunt variabila %s si am valoare %d\n",var[index].name,var[index].valoare_int);
-        return var[index].valoare_int;
+    printf("Am id-ul %s scopul %s \n",id,scope);
+    if(strcmp(scope,"eval") ==0 ){
+        if(strstr(var[index].type,"int")){
+            printf("Sunt variabila %s si am valoare %s\n",var[index].name,var[index].value);
+            return atoi(var[index].value);
+        }
+        else{
+            perror("\e[1;33m Eroare: toti parametrii pentru functia Eval trebuie sa fie de tip int\e[0m \n");
+            exit(1);
+        }
     }
-    perror("\e[1;33m Eroare: variabila nu este de tip int\e[0m \n");
-    exit(1);
+
+   printf("Sunt variabila %s si am valoare %s\n",var[index].name,var[index].value);
+   if(strstr(var[index].type,"int")){
+        return atoi(var[index].value);
+   }else if (strstr(var[index].type,"float") || strstr(var[index].type,"double") ){
+       return atof(var[index].value);
+   }
+  
 }
 
 void initializare_tip_id (char *scope, char *type, char *name){
@@ -80,7 +99,7 @@ void initializare_tip_id (char *scope, char *type, char *name){
         nr_var++; 
 }
 
-void initializare_id (char *scope, char *type, char *name, int value){
+void initializare_id (char *scope, char *type, char *name, char *value){
 
       for(int i=0 ; i<nr_var;++i)
         {
@@ -89,12 +108,12 @@ void initializare_id (char *scope, char *type, char *name, int value){
                 exit(1);
             }
         }
-        strcat(var[nr_var].name,name);
-        strcat(var[nr_var].type,type);
-        strcat(var[nr_var].scope,scope);
-        // strcat(var[nr_var].value,itoa(value));
-        var[nr_var].valoare_int = value;
-        printf("\e[1;34m %s - %s - %s - %d\e[0m \n", var[nr_var].type, var[nr_var].name, var[nr_var].scope,var[nr_var].valoare_int); 
+        strcpy(var[nr_var].name,name);
+        strcpy(var[nr_var].type,type);
+        strcpy(var[nr_var].scope,scope);
+        strcpy(var[nr_var].value,value);
+ printf("\e[1;34m %s - %s - %s - %s\e[0m \n", var[nr_var].type, var[nr_var].name, var[nr_var].scope,var[nr_var].value); 
+   
         nr_var++; 
 }
 
@@ -112,6 +131,7 @@ void initializare_functie (char *type, char *name, char* params){
     printf("\e[1;35m %s - %s - %s \e[0m \n", fun[nr_functii].type, fun[nr_functii].name, fun[nr_functii].params);
     nr_functii ++ ;
 }
+
 %}
 %token  ID INTNR ARR FLOATNR DOUBLENR BOOLEAN AND OR NOT EVAL
 %token  INT FLOAT BOOL DOUBLE CHAR VOID CONST STRING STRINGVAL 
@@ -127,11 +147,10 @@ void initializare_functie (char *type, char *name, char* params){
 %union 
 {
    char* textt;
-   int rezultat;
+   int int_number;
 }
-%type <rezultat> expresie_matematica parametri_eval_apel nr INTNR DOUBLENR FLOATNR
-%type <textt> ID ARR INT FLOAT BOOL DOUBLE CHAR VOID STRUCT CONST constant STRING STRINGVAL tip BOOLEAN param params
-
+%type <int_number> expresie_matematica expresie_eval parametri_eval_apel  termen asignare
+%type <textt> ID nr ARR INT FLOAT BOOL DOUBLE CHAR VOID STRUCT FLOATNR DOUBLENR INTNR CONST constant STRING STRINGVAL tip BOOLEAN param params
 %%
 
 start : start global
@@ -169,8 +188,20 @@ expresie_matematica : expresie_matematica '+' expresie_matematica {$$=$1+$3;}
          | expresie_matematica '*' expresie_matematica {$$=$1*$3;}
          | expresie_matematica '/' expresie_matematica {$$=$1/$3;}
          | '(' expresie_matematica ')' {$$ = $2;}
-         | nr {$$ = $1;}
-         | ID {$$ = evaluare_id($1);}
+         | termen {$$ = $1;}
+        ;
+
+expresie_eval : expresie_eval '+' expresie_eval {$$=$1+$3;}
+         | expresie_eval '-' expresie_eval {$$=$1-$3;}
+         | expresie_eval '*' expresie_eval {$$=$1*$3;}
+         | expresie_eval '/' expresie_eval {$$=$1/$3;}
+         | '(' expresie_eval ')' {$$ = $2;}
+         | INTNR { $$ = $1;}
+         | ID {$$ = evaluare_id($1,"eval");}
+         ;
+
+termen : nr {$$ = $1;}
+         | ID {$$ = evaluare_id($1,"");}
         ;
 
 expresie_bool : NOT ID
@@ -232,9 +263,7 @@ apel : ID '(' ')' ';'
 apel_eval : EVAL '(' parametri_eval_apel ')' ';' { printf("\e[1;33mEval A returnat:%d\e[0m\n",$3);}
           ;
 
-parametri_eval_apel: ID {$$=evaluare_id($1);}
-                    | nr {$$=$1;}
-                    | expresie_matematica {$$=$1;}
+parametri_eval_apel: expresie_eval {$$ = $1;}
                     ;
 
 parametri_apel :  ID 
@@ -345,15 +374,15 @@ cod_functie : declaratie_var_f ';'
             ;
 
 declaratie_var_f : tip ID {initializare_tip_id ("functie",$1, $2); }
-           | tip ID '=' nr {initializare_id("functie", $1, $2, $4);}
-           | tip ID '=' ID {initializare_id("functie", $1, $2, $4);}
-           | tip ID '=' BOOLEAN {initializare_id("functie", $1, $2, $4);}
-           | tip ID '=' STRINGVAL {initializare_id("functie", $1, $2, $4);}
+           | tip ID '=' nr {initializare_id("functie", $1, $2,$4);}
+           | tip ID '=' ID {initializare_id("functie", $1, $2,$4);}
+           | tip ID '=' BOOLEAN {initializare_id("functie", $1, $2,$4);}
+           | tip ID '=' STRINGVAL {initializare_id("functie", $1, $2,$4);}
            | STRUCT ID ID  {initializare_tip_id("functie",$2, $3);}
            ;
 
 asignare : ID '=' ID 
-         | ID '=' nr {$$=asigrnare_numar($1,$3);}
+         | ID '=' nr {$$=asignare_numar($1,$3);}
          | ID '=' STRINGVAL
          | ID '=' BOOLEAN
          | asignare_structura
@@ -382,9 +411,9 @@ tip : INT {$$ = "int";}
     | STRING {$$ = "string";}
     ;
 
-nr : INTNR {$$=$1;}
-    | FLOATNR {$$=$1;}
-    | DOUBLENR {$$=$1;}
+nr : INTNR {printf("%s\n", $1);$$=$1;}
+    | FLOATNR {printf("%s\n", $1);$$=$1;}
+    | DOUBLENR {printf("%s\n", $1);$$=$1;}
     ;
 
 %%
@@ -404,9 +433,9 @@ int main(int argc, char *argv[])
     fprintf(f, "Variabile declarate :\n");
 
     for(int i=0; i<nr_var; ++i){
-        if(var[i].valoare_int){
+       if(var[i].value){
 
-            fprintf(f, " %s - %s - %s - %d\n", var[i].type, var[i].name, var[i].scope,var[i].valoare_int); 
+            fprintf(f, " %s - %s - %s - %s\n", var[i].type, var[i].name, var[i].scope,var[i].value); 
         }
         else
 
