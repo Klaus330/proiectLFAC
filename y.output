@@ -1,0 +1,4479 @@
+Terminals unused in grammar
+
+   ARR
+   print
+   '<'
+   '>'
+
+
+Gramatică
+
+    0 $accept: start $end
+
+    1 start: start global
+    2      | start main
+    3      | %empty
+
+    4 global: declaratie_g ';'
+    5       | asignare ';'
+    6       | declaratie_functie
+    7       | structura
+    8       | EVAL '(' parametru_eval ')' '{' bloc_eval '}'
+
+    9 parametru_eval: INT ID
+
+   10 bloc_eval: declaratii_locale ';'
+
+   11 structura: STRUCT ID '{' bloc_structura '}'
+
+   12 bloc_structura: bloc_structura declaratie_structura ';'
+   13               | bloc_structura declaratie_functie
+   14               | %empty
+
+   15 expresie_eval: expresie_eval '+' expresie_eval
+   16              | expresie_eval '-' expresie_eval
+   17              | expresie_eval '*' expresie_eval
+   18              | expresie_eval '/' expresie_eval
+   19              | '(' expresie_eval ')'
+   20              | INTNR
+   21              | ID
+
+   22 expresie_matematica: expresie_matematica '+' expresie_matematica
+   23                    | expresie_matematica '-' expresie_matematica
+   24                    | expresie_matematica '*' expresie_matematica
+   25                    | expresie_matematica '/' expresie_matematica
+   26                    | '(' expresie_matematica ')'
+   27                    | nr
+   28                    | ID
+
+   29 expresie_bool: NOT ID
+   30              | BOOLEAN
+   31              | NOT BOOLEAN
+   32              | expresie AND expresie
+   33              | expresie OR expresie
+   34              | '(' expresie_bool ')'
+   35              | expresie GE expresie
+   36              | expresie LE expresie
+   37              | expresie EQ expresie
+   38              | expresie NE expresie
+   39              | expresie GT expresie
+   40              | expresie LT expresie
+
+   41 expresie_string: STRINGVAL '+' ID
+   42                | STRINGVAL '+' STRINGVAL
+
+   43 expresie: expresie_matematica
+   44         | expresie_bool
+   45         | expresie_string
+
+   46 declaratie_structura: tip ID '[' INTNR ']'
+   47                     | tip ID
+   48                     | tip ID '=' nr
+   49                     | tip ID '=' ID
+   50                     | tip ID '=' BOOLEAN
+   51                     | tip ID '=' STRINGVAL
+   52                     | STRUCT ID ID
+   53                     | constant ID '=' nr
+   54                     | constant ID '=' ID
+   55                     | constant ID '=' STRINGVAL
+   56                     | constant ID '=' BOOLEAN
+
+   57 main: START_MAIN bloc_main END_MAIN
+
+   58 bloc_main: bloc_main cod_main
+   59          | %empty
+
+   60 cod_main: declaratie_main ';'
+   61         | asignare ';'
+   62         | statements
+   63         | apel
+   64         | apel_eval
+
+   65 apel: ID '(' parametri_apel ')' ';'
+
+   66 apel_eval: EVAL '(' parametri_eval_apel ')' ';'
+
+   67 parametri_eval_apel: expresie_eval
+
+   68 parametri_apel: parametru_apel
+   69               | parametri_apel '#' parametru_apel
+
+   70 parametru_apel: expresie
+   71               | '_' ID '(' ')'
+
+   72 statements: ifstatement
+   73           | forstatement
+   74           | whilestatement
+
+   75 ifstatement: IF '(' expresie_bool ')' '{' cod_bloc '}'
+   76            | IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+
+   77 forstatement: FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
+
+   78 whilestatement: WHILE '(' expresie_bool ')' '{' cod_bloc '}'
+
+   79 asignare_for: declaratii_locale
+   80             | asignare
+
+   81 operatie: ID '+' '+'
+   82         | ID '-' '-'
+   83         | ID '=' ID '+' ID
+
+   84 cod_bloc: cod_bloc instructiune_bloc
+   85         | %empty
+
+   86 instructiune_bloc: declaratii_locale ';'
+   87                  | statements
+   88                  | apel
+   89                  | asignare ';'
+
+   90 declaratii_locale: tip ID '[' INTNR ']'
+   91                  | tip ID
+   92                  | tip ID '=' nr
+   93                  | tip ID '=' ID
+   94                  | tip ID '=' BOOLEAN
+   95                  | tip ID '=' STRINGVAL
+   96                  | STRUCT ID ID
+   97                  | constant ID '=' nr
+   98                  | constant ID '=' ID
+   99                  | constant ID '=' STRINGVAL
+  100                  | constant ID '=' BOOLEAN
+
+  101 declaratie_g: tip ID '[' INTNR ']'
+  102             | tip ID
+  103             | tip ID '=' nr
+  104             | tip ID '=' ID
+  105             | tip ID '=' BOOLEAN
+  106             | tip ID '=' STRINGVAL
+  107             | STRUCT ID ID
+  108             | constant ID '=' nr
+  109             | constant ID '=' ID
+  110             | constant ID '=' STRINGVAL
+  111             | constant ID '=' BOOLEAN
+
+  112 declaratie_main: tip ID
+  113                | tip ID '=' nr
+  114                | tip ID '=' ID
+  115                | tip ID '=' BOOLEAN
+  116                | tip ID '=' STRINGVAL
+  117                | tip ID '[' INTNR ']'
+  118                | STRUCT ID ID
+  119                | constant ID '=' nr
+  120                | constant ID '=' ID
+  121                | constant ID '=' STRINGVAL
+  122                | constant ID '=' BOOLEAN
+
+  123 declaratie_functie: tip ID '(' params ')' '{' bloc_functie '}'
+  124                   | tip ID '(' ')' '{' bloc_functie '}'
+
+  125 params: param
+  126       | params '#' param
+
+  127 param: tip ID
+
+  128 bloc_functie: bloc_functie cod_functie
+  129             | %empty
+
+  130 cod_functie: declaratie_var_f ';'
+  131            | asignare ';'
+
+  132 declaratie_var_f: tip ID
+  133                 | tip ID '=' nr
+  134                 | tip ID '=' ID
+  135                 | tip ID '=' BOOLEAN
+  136                 | tip ID '=' STRINGVAL
+  137                 | STRUCT ID ID
+
+  138 asignare: ID '=' expresie
+  139         | asignare_structura
+
+  140 asignare_structura: ID '.' ID '=' expresie
+
+  141 constant: CONST tip
+
+  142 tip: INT
+  143    | FLOAT
+  144    | BOOL
+  145    | DOUBLE
+  146    | CHAR
+  147    | VOID
+  148    | STRING
+
+  149 nr: INTNR
+  150   | FLOATNR
+  151   | DOUBLENR
+
+
+Terminale, cu reguli acolo unde acestea apar
+
+$end (0) 0
+'#' (35) 69 126
+'(' (40) 8 19 26 34 65 66 71 75 76 77 78 123 124
+')' (41) 8 19 26 34 65 66 71 75 76 77 78 123 124
+'*' (42) 17 24
+'+' (43) 15 22 41 42 81 83
+',' (44) 77
+'-' (45) 16 23 82
+'.' (46) 140
+'/' (47) 18 25
+';' (59) 4 5 10 12 60 61 65 66 86 89 130 131
+'<' (60)
+'=' (61) 48 49 50 51 53 54 55 56 83 92 93 94 95 97 98 99 100 103 104
+    105 106 108 109 110 111 113 114 115 116 119 120 121 122 133 134
+    135 136 138 140
+'>' (62)
+'[' (91) 46 90 101 117
+']' (93) 46 90 101 117
+'_' (95) 71
+'{' (123) 8 11 75 76 77 78 123 124
+'}' (125) 8 11 75 76 77 78 123 124
+error (256)
+ID (258) 9 11 21 28 29 41 46 47 48 49 50 51 52 53 54 55 56 65 71 81
+    82 83 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106
+    107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122
+    123 124 127 132 133 134 135 136 137 138 140
+INTNR (259) 20 46 90 101 117 149
+ARR (260)
+FLOATNR (261) 150
+DOUBLENR (262) 151
+BOOLEAN (263) 30 31 50 56 94 100 105 111 115 122 135
+AND (264) 32
+OR (265) 33
+NOT (266) 29 31
+EVAL (267) 8 66
+INT (268) 9 142
+FLOAT (269) 143
+BOOL (270) 144
+DOUBLE (271) 145
+CHAR (272) 146
+VOID (273) 147
+CONST (274) 141
+STRING (275) 148
+STRINGVAL (276) 41 42 51 55 95 99 106 110 116 121 136
+FOR (277) 77
+WHILE (278) 78
+STRUCT (279) 11 52 96 107 118 137
+IF (280) 75 76
+ELSE (281) 76
+print (282)
+START_MAIN (283) 57
+END_MAIN (284) 57
+LE (285) 36
+GE (286) 35
+EQ (287) 37
+NE (288) 38
+LT (289) 40
+GT (290) 39
+
+
+Non-terminale, cu reguli acolo unde acestea apar
+
+$accept (54)
+    pe stânga: 0
+start (55)
+    pe stânga: 1 2 3, pe dreapta: 0 1 2
+global (56)
+    pe stânga: 4 5 6 7 8, pe dreapta: 1
+parametru_eval (57)
+    pe stânga: 9, pe dreapta: 8
+bloc_eval (58)
+    pe stânga: 10, pe dreapta: 8
+structura (59)
+    pe stânga: 11, pe dreapta: 7
+bloc_structura (60)
+    pe stânga: 12 13 14, pe dreapta: 11 12 13
+expresie_eval (61)
+    pe stânga: 15 16 17 18 19 20 21, pe dreapta: 15 16 17 18 19 67
+expresie_matematica (62)
+    pe stânga: 22 23 24 25 26 27 28, pe dreapta: 22 23 24 25 26 43
+expresie_bool (63)
+    pe stânga: 29 30 31 32 33 34 35 36 37 38 39 40, pe dreapta: 34
+    44 75 76 77 78
+expresie_string (64)
+    pe stânga: 41 42, pe dreapta: 45
+expresie (65)
+    pe stânga: 43 44 45, pe dreapta: 32 33 35 36 37 38 39 40 70 138
+    140
+declaratie_structura (66)
+    pe stânga: 46 47 48 49 50 51 52 53 54 55 56, pe dreapta: 12
+main (67)
+    pe stânga: 57, pe dreapta: 2
+bloc_main (68)
+    pe stânga: 58 59, pe dreapta: 57 58
+cod_main (69)
+    pe stânga: 60 61 62 63 64, pe dreapta: 58
+apel (70)
+    pe stânga: 65, pe dreapta: 63 88
+apel_eval (71)
+    pe stânga: 66, pe dreapta: 64
+parametri_eval_apel (72)
+    pe stânga: 67, pe dreapta: 66
+parametri_apel (73)
+    pe stânga: 68 69, pe dreapta: 65 69
+parametru_apel (74)
+    pe stânga: 70 71, pe dreapta: 68 69
+statements (75)
+    pe stânga: 72 73 74, pe dreapta: 62 87
+ifstatement (76)
+    pe stânga: 75 76, pe dreapta: 72
+forstatement (77)
+    pe stânga: 77, pe dreapta: 73
+whilestatement (78)
+    pe stânga: 78, pe dreapta: 74
+asignare_for (79)
+    pe stânga: 79 80, pe dreapta: 77
+operatie (80)
+    pe stânga: 81 82 83, pe dreapta: 77
+cod_bloc (81)
+    pe stânga: 84 85, pe dreapta: 75 76 77 78 84
+instructiune_bloc (82)
+    pe stânga: 86 87 88 89, pe dreapta: 84
+declaratii_locale (83)
+    pe stânga: 90 91 92 93 94 95 96 97 98 99 100, pe dreapta: 10 79
+    86
+declaratie_g (84)
+    pe stânga: 101 102 103 104 105 106 107 108 109 110 111, pe dreapta:
+    4
+declaratie_main (85)
+    pe stânga: 112 113 114 115 116 117 118 119 120 121 122, pe dreapta:
+    60
+declaratie_functie (86)
+    pe stânga: 123 124, pe dreapta: 6 13
+params (87)
+    pe stânga: 125 126, pe dreapta: 123 126
+param (88)
+    pe stânga: 127, pe dreapta: 125 126
+bloc_functie (89)
+    pe stânga: 128 129, pe dreapta: 123 124 128
+cod_functie (90)
+    pe stânga: 130 131, pe dreapta: 128
+declaratie_var_f (91)
+    pe stânga: 132 133 134 135 136 137, pe dreapta: 130
+asignare (92)
+    pe stânga: 138 139, pe dreapta: 5 61 80 89 131
+asignare_structura (93)
+    pe stânga: 140, pe dreapta: 139
+constant (94)
+    pe stânga: 141, pe dreapta: 53 54 55 56 97 98 99 100 108 109 110
+    111 119 120 121 122
+tip (95)
+    pe stânga: 142 143 144 145 146 147 148, pe dreapta: 46 47 48 49
+    50 51 90 91 92 93 94 95 101 102 103 104 105 106 112 113 114 115
+    116 117 123 124 127 132 133 134 135 136 141
+nr (96)
+    pe stânga: 149 150 151, pe dreapta: 27 48 53 92 97 103 108 113
+    119 133
+
+
+State 0
+
+    0 $accept: . start $end
+    1 start: . start global
+    2      | . start main
+    3      | . %empty
+
+    $implicit  reduce folosind regula 3 (start)
+
+    start  mergi în starea 1
+
+
+State 1
+
+    0 $accept: start . $end
+    1 start: start . global
+    2      | start . main
+    4 global: . declaratie_g ';'
+    5       | . asignare ';'
+    6       | . declaratie_functie
+    7       | . structura
+    8       | . EVAL '(' parametru_eval ')' '{' bloc_eval '}'
+   11 structura: . STRUCT ID '{' bloc_structura '}'
+   57 main: . START_MAIN bloc_main END_MAIN
+  101 declaratie_g: . tip ID '[' INTNR ']'
+  102             | . tip ID
+  103             | . tip ID '=' nr
+  104             | . tip ID '=' ID
+  105             | . tip ID '=' BOOLEAN
+  106             | . tip ID '=' STRINGVAL
+  107             | . STRUCT ID ID
+  108             | . constant ID '=' nr
+  109             | . constant ID '=' ID
+  110             | . constant ID '=' STRINGVAL
+  111             | . constant ID '=' BOOLEAN
+  123 declaratie_functie: . tip ID '(' params ')' '{' bloc_functie '}'
+  124                   | . tip ID '(' ')' '{' bloc_functie '}'
+  138 asignare: . ID '=' expresie
+  139         | . asignare_structura
+  140 asignare_structura: . ID '.' ID '=' expresie
+  141 constant: . CONST tip
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    $end        shift, şi mergi în starea 2
+    ID          shift, şi mergi în starea 3
+    EVAL        shift, şi mergi în starea 4
+    INT         shift, şi mergi în starea 5
+    FLOAT       shift, şi mergi în starea 6
+    BOOL        shift, şi mergi în starea 7
+    DOUBLE      shift, şi mergi în starea 8
+    CHAR        shift, şi mergi în starea 9
+    VOID        shift, şi mergi în starea 10
+    CONST       shift, şi mergi în starea 11
+    STRING      shift, şi mergi în starea 12
+    STRUCT      shift, şi mergi în starea 13
+    START_MAIN  shift, şi mergi în starea 14
+
+    global              mergi în starea 15
+    structura           mergi în starea 16
+    main                mergi în starea 17
+    declaratie_g        mergi în starea 18
+    declaratie_functie  mergi în starea 19
+    asignare            mergi în starea 20
+    asignare_structura  mergi în starea 21
+    constant            mergi în starea 22
+    tip                 mergi în starea 23
+
+
+State 2
+
+    0 $accept: start $end .
+
+    $implicit  accept
+
+
+State 3
+
+  138 asignare: ID . '=' expresie
+  140 asignare_structura: ID . '.' ID '=' expresie
+
+    '='  shift, şi mergi în starea 24
+    '.'  shift, şi mergi în starea 25
+
+
+State 4
+
+    8 global: EVAL . '(' parametru_eval ')' '{' bloc_eval '}'
+
+    '('  shift, şi mergi în starea 26
+
+
+State 5
+
+  142 tip: INT .
+
+    $implicit  reduce folosind regula 142 (tip)
+
+
+State 6
+
+  143 tip: FLOAT .
+
+    $implicit  reduce folosind regula 143 (tip)
+
+
+State 7
+
+  144 tip: BOOL .
+
+    $implicit  reduce folosind regula 144 (tip)
+
+
+State 8
+
+  145 tip: DOUBLE .
+
+    $implicit  reduce folosind regula 145 (tip)
+
+
+State 9
+
+  146 tip: CHAR .
+
+    $implicit  reduce folosind regula 146 (tip)
+
+
+State 10
+
+  147 tip: VOID .
+
+    $implicit  reduce folosind regula 147 (tip)
+
+
+State 11
+
+  141 constant: CONST . tip
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    STRING  shift, şi mergi în starea 12
+
+    tip  mergi în starea 27
+
+
+State 12
+
+  148 tip: STRING .
+
+    $implicit  reduce folosind regula 148 (tip)
+
+
+State 13
+
+   11 structura: STRUCT . ID '{' bloc_structura '}'
+  107 declaratie_g: STRUCT . ID ID
+
+    ID  shift, şi mergi în starea 28
+
+
+State 14
+
+   57 main: START_MAIN . bloc_main END_MAIN
+   58 bloc_main: . bloc_main cod_main
+   59          | . %empty
+
+    $implicit  reduce folosind regula 59 (bloc_main)
+
+    bloc_main  mergi în starea 29
+
+
+State 15
+
+    1 start: start global .
+
+    $implicit  reduce folosind regula 1 (start)
+
+
+State 16
+
+    7 global: structura .
+
+    $implicit  reduce folosind regula 7 (global)
+
+
+State 17
+
+    2 start: start main .
+
+    $implicit  reduce folosind regula 2 (start)
+
+
+State 18
+
+    4 global: declaratie_g . ';'
+
+    ';'  shift, şi mergi în starea 30
+
+
+State 19
+
+    6 global: declaratie_functie .
+
+    $implicit  reduce folosind regula 6 (global)
+
+
+State 20
+
+    5 global: asignare . ';'
+
+    ';'  shift, şi mergi în starea 31
+
+
+State 21
+
+  139 asignare: asignare_structura .
+
+    $implicit  reduce folosind regula 139 (asignare)
+
+
+State 22
+
+  108 declaratie_g: constant . ID '=' nr
+  109             | constant . ID '=' ID
+  110             | constant . ID '=' STRINGVAL
+  111             | constant . ID '=' BOOLEAN
+
+    ID  shift, şi mergi în starea 32
+
+
+State 23
+
+  101 declaratie_g: tip . ID '[' INTNR ']'
+  102             | tip . ID
+  103             | tip . ID '=' nr
+  104             | tip . ID '=' ID
+  105             | tip . ID '=' BOOLEAN
+  106             | tip . ID '=' STRINGVAL
+  123 declaratie_functie: tip . ID '(' params ')' '{' bloc_functie '}'
+  124                   | tip . ID '(' ')' '{' bloc_functie '}'
+
+    ID  shift, şi mergi în starea 33
+
+
+State 24
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  138 asignare: ID '=' . expresie
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 45
+    nr                   mergi în starea 46
+
+
+State 25
+
+  140 asignare_structura: ID '.' . ID '=' expresie
+
+    ID  shift, şi mergi în starea 47
+
+
+State 26
+
+    8 global: EVAL '(' . parametru_eval ')' '{' bloc_eval '}'
+    9 parametru_eval: . INT ID
+
+    INT  shift, şi mergi în starea 48
+
+    parametru_eval  mergi în starea 49
+
+
+State 27
+
+  141 constant: CONST tip .
+
+    $implicit  reduce folosind regula 141 (constant)
+
+
+State 28
+
+   11 structura: STRUCT ID . '{' bloc_structura '}'
+  107 declaratie_g: STRUCT ID . ID
+
+    ID   shift, şi mergi în starea 50
+    '{'  shift, şi mergi în starea 51
+
+
+State 29
+
+   57 main: START_MAIN bloc_main . END_MAIN
+   58 bloc_main: bloc_main . cod_main
+   60 cod_main: . declaratie_main ';'
+   61         | . asignare ';'
+   62         | . statements
+   63         | . apel
+   64         | . apel_eval
+   65 apel: . ID '(' parametri_apel ')' ';'
+   66 apel_eval: . EVAL '(' parametri_eval_apel ')' ';'
+   72 statements: . ifstatement
+   73           | . forstatement
+   74           | . whilestatement
+   75 ifstatement: . IF '(' expresie_bool ')' '{' cod_bloc '}'
+   76            | . IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+   77 forstatement: . FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
+   78 whilestatement: . WHILE '(' expresie_bool ')' '{' cod_bloc '}'
+  112 declaratie_main: . tip ID
+  113                | . tip ID '=' nr
+  114                | . tip ID '=' ID
+  115                | . tip ID '=' BOOLEAN
+  116                | . tip ID '=' STRINGVAL
+  117                | . tip ID '[' INTNR ']'
+  118                | . STRUCT ID ID
+  119                | . constant ID '=' nr
+  120                | . constant ID '=' ID
+  121                | . constant ID '=' STRINGVAL
+  122                | . constant ID '=' BOOLEAN
+  138 asignare: . ID '=' expresie
+  139         | . asignare_structura
+  140 asignare_structura: . ID '.' ID '=' expresie
+  141 constant: . CONST tip
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    ID        shift, şi mergi în starea 52
+    EVAL      shift, şi mergi în starea 53
+    INT       shift, şi mergi în starea 5
+    FLOAT     shift, şi mergi în starea 6
+    BOOL      shift, şi mergi în starea 7
+    DOUBLE    shift, şi mergi în starea 8
+    CHAR      shift, şi mergi în starea 9
+    VOID      shift, şi mergi în starea 10
+    CONST     shift, şi mergi în starea 11
+    STRING    shift, şi mergi în starea 12
+    FOR       shift, şi mergi în starea 54
+    WHILE     shift, şi mergi în starea 55
+    STRUCT    shift, şi mergi în starea 56
+    IF        shift, şi mergi în starea 57
+    END_MAIN  shift, şi mergi în starea 58
+
+    cod_main            mergi în starea 59
+    apel                mergi în starea 60
+    apel_eval           mergi în starea 61
+    statements          mergi în starea 62
+    ifstatement         mergi în starea 63
+    forstatement        mergi în starea 64
+    whilestatement      mergi în starea 65
+    declaratie_main     mergi în starea 66
+    asignare            mergi în starea 67
+    asignare_structura  mergi în starea 21
+    constant            mergi în starea 68
+    tip                 mergi în starea 69
+
+
+State 30
+
+    4 global: declaratie_g ';' .
+
+    $implicit  reduce folosind regula 4 (global)
+
+
+State 31
+
+    5 global: asignare ';' .
+
+    $implicit  reduce folosind regula 5 (global)
+
+
+State 32
+
+  108 declaratie_g: constant ID . '=' nr
+  109             | constant ID . '=' ID
+  110             | constant ID . '=' STRINGVAL
+  111             | constant ID . '=' BOOLEAN
+
+    '='  shift, şi mergi în starea 70
+
+
+State 33
+
+  101 declaratie_g: tip ID . '[' INTNR ']'
+  102             | tip ID .  [';']
+  103             | tip ID . '=' nr
+  104             | tip ID . '=' ID
+  105             | tip ID . '=' BOOLEAN
+  106             | tip ID . '=' STRINGVAL
+  123 declaratie_functie: tip ID . '(' params ')' '{' bloc_functie '}'
+  124                   | tip ID . '(' ')' '{' bloc_functie '}'
+
+    '='  shift, şi mergi în starea 71
+    '('  shift, şi mergi în starea 72
+    '['  shift, şi mergi în starea 73
+
+    $implicit  reduce folosind regula 102 (declaratie_g)
+
+
+State 34
+
+   28 expresie_matematica: ID .
+
+    $implicit  reduce folosind regula 28 (expresie_matematica)
+
+
+State 35
+
+  149 nr: INTNR .
+
+    $implicit  reduce folosind regula 149 (nr)
+
+
+State 36
+
+  150 nr: FLOATNR .
+
+    $implicit  reduce folosind regula 150 (nr)
+
+
+State 37
+
+  151 nr: DOUBLENR .
+
+    $implicit  reduce folosind regula 151 (nr)
+
+
+State 38
+
+   30 expresie_bool: BOOLEAN .
+
+    $implicit  reduce folosind regula 30 (expresie_bool)
+
+
+State 39
+
+   29 expresie_bool: NOT . ID
+   31              | NOT . BOOLEAN
+
+    ID       shift, şi mergi în starea 74
+    BOOLEAN  shift, şi mergi în starea 75
+
+
+State 40
+
+   41 expresie_string: STRINGVAL . '+' ID
+   42                | STRINGVAL . '+' STRINGVAL
+
+    '+'  shift, şi mergi în starea 76
+
+
+State 41
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   26                    | '(' . expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   34              | '(' . expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 77
+    expresie_bool        mergi în starea 78
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 79
+    nr                   mergi în starea 46
+
+
+State 42
+
+   22 expresie_matematica: expresie_matematica . '+' expresie_matematica
+   23                    | expresie_matematica . '-' expresie_matematica
+   24                    | expresie_matematica . '*' expresie_matematica
+   25                    | expresie_matematica . '/' expresie_matematica
+   43 expresie: expresie_matematica .  [AND, OR, LE, GE, EQ, NE, LT, GT, ';', ')', '#', ',']
+
+    '+'  shift, şi mergi în starea 80
+    '-'  shift, şi mergi în starea 81
+    '*'  shift, şi mergi în starea 82
+    '/'  shift, şi mergi în starea 83
+
+    $implicit  reduce folosind regula 43 (expresie)
+
+
+State 43
+
+   44 expresie: expresie_bool .
+
+    $implicit  reduce folosind regula 44 (expresie)
+
+
+State 44
+
+   45 expresie: expresie_string .
+
+    $implicit  reduce folosind regula 45 (expresie)
+
+
+State 45
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+  138 asignare: ID '=' expresie .  [';', ',']
+
+    AND  shift, şi mergi în starea 84
+    OR   shift, şi mergi în starea 85
+    LE   shift, şi mergi în starea 86
+    GE   shift, şi mergi în starea 87
+    EQ   shift, şi mergi în starea 88
+    NE   shift, şi mergi în starea 89
+    LT   shift, şi mergi în starea 90
+    GT   shift, şi mergi în starea 91
+
+    $implicit  reduce folosind regula 138 (asignare)
+
+
+State 46
+
+   27 expresie_matematica: nr .
+
+    $implicit  reduce folosind regula 27 (expresie_matematica)
+
+
+State 47
+
+  140 asignare_structura: ID '.' ID . '=' expresie
+
+    '='  shift, şi mergi în starea 92
+
+
+State 48
+
+    9 parametru_eval: INT . ID
+
+    ID  shift, şi mergi în starea 93
+
+
+State 49
+
+    8 global: EVAL '(' parametru_eval . ')' '{' bloc_eval '}'
+
+    ')'  shift, şi mergi în starea 94
+
+
+State 50
+
+  107 declaratie_g: STRUCT ID ID .
+
+    $implicit  reduce folosind regula 107 (declaratie_g)
+
+
+State 51
+
+   11 structura: STRUCT ID '{' . bloc_structura '}'
+   12 bloc_structura: . bloc_structura declaratie_structura ';'
+   13               | . bloc_structura declaratie_functie
+   14               | . %empty
+
+    $implicit  reduce folosind regula 14 (bloc_structura)
+
+    bloc_structura  mergi în starea 95
+
+
+State 52
+
+   65 apel: ID . '(' parametri_apel ')' ';'
+  138 asignare: ID . '=' expresie
+  140 asignare_structura: ID . '.' ID '=' expresie
+
+    '='  shift, şi mergi în starea 24
+    '('  shift, şi mergi în starea 96
+    '.'  shift, şi mergi în starea 25
+
+
+State 53
+
+   66 apel_eval: EVAL . '(' parametri_eval_apel ')' ';'
+
+    '('  shift, şi mergi în starea 97
+
+
+State 54
+
+   77 forstatement: FOR . '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
+
+    '('  shift, şi mergi în starea 98
+
+
+State 55
+
+   78 whilestatement: WHILE . '(' expresie_bool ')' '{' cod_bloc '}'
+
+    '('  shift, şi mergi în starea 99
+
+
+State 56
+
+  118 declaratie_main: STRUCT . ID ID
+
+    ID  shift, şi mergi în starea 100
+
+
+State 57
+
+   75 ifstatement: IF . '(' expresie_bool ')' '{' cod_bloc '}'
+   76            | IF . '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+
+    '('  shift, şi mergi în starea 101
+
+
+State 58
+
+   57 main: START_MAIN bloc_main END_MAIN .
+
+    $implicit  reduce folosind regula 57 (main)
+
+
+State 59
+
+   58 bloc_main: bloc_main cod_main .
+
+    $implicit  reduce folosind regula 58 (bloc_main)
+
+
+State 60
+
+   63 cod_main: apel .
+
+    $implicit  reduce folosind regula 63 (cod_main)
+
+
+State 61
+
+   64 cod_main: apel_eval .
+
+    $implicit  reduce folosind regula 64 (cod_main)
+
+
+State 62
+
+   62 cod_main: statements .
+
+    $implicit  reduce folosind regula 62 (cod_main)
+
+
+State 63
+
+   72 statements: ifstatement .
+
+    $implicit  reduce folosind regula 72 (statements)
+
+
+State 64
+
+   73 statements: forstatement .
+
+    $implicit  reduce folosind regula 73 (statements)
+
+
+State 65
+
+   74 statements: whilestatement .
+
+    $implicit  reduce folosind regula 74 (statements)
+
+
+State 66
+
+   60 cod_main: declaratie_main . ';'
+
+    ';'  shift, şi mergi în starea 102
+
+
+State 67
+
+   61 cod_main: asignare . ';'
+
+    ';'  shift, şi mergi în starea 103
+
+
+State 68
+
+  119 declaratie_main: constant . ID '=' nr
+  120                | constant . ID '=' ID
+  121                | constant . ID '=' STRINGVAL
+  122                | constant . ID '=' BOOLEAN
+
+    ID  shift, şi mergi în starea 104
+
+
+State 69
+
+  112 declaratie_main: tip . ID
+  113                | tip . ID '=' nr
+  114                | tip . ID '=' ID
+  115                | tip . ID '=' BOOLEAN
+  116                | tip . ID '=' STRINGVAL
+  117                | tip . ID '[' INTNR ']'
+
+    ID  shift, şi mergi în starea 105
+
+
+State 70
+
+  108 declaratie_g: constant ID '=' . nr
+  109             | constant ID '=' . ID
+  110             | constant ID '=' . STRINGVAL
+  111             | constant ID '=' . BOOLEAN
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 106
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 107
+    STRINGVAL  shift, şi mergi în starea 108
+
+    nr  mergi în starea 109
+
+
+State 71
+
+  103 declaratie_g: tip ID '=' . nr
+  104             | tip ID '=' . ID
+  105             | tip ID '=' . BOOLEAN
+  106             | tip ID '=' . STRINGVAL
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 110
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 111
+    STRINGVAL  shift, şi mergi în starea 112
+
+    nr  mergi în starea 113
+
+
+State 72
+
+  123 declaratie_functie: tip ID '(' . params ')' '{' bloc_functie '}'
+  124                   | tip ID '(' . ')' '{' bloc_functie '}'
+  125 params: . param
+  126       | . params '#' param
+  127 param: . tip ID
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    STRING  shift, şi mergi în starea 12
+    ')'     shift, şi mergi în starea 114
+
+    params  mergi în starea 115
+    param   mergi în starea 116
+    tip     mergi în starea 117
+
+
+State 73
+
+  101 declaratie_g: tip ID '[' . INTNR ']'
+
+    INTNR  shift, şi mergi în starea 118
+
+
+State 74
+
+   29 expresie_bool: NOT ID .
+
+    $implicit  reduce folosind regula 29 (expresie_bool)
+
+
+State 75
+
+   31 expresie_bool: NOT BOOLEAN .
+
+    $implicit  reduce folosind regula 31 (expresie_bool)
+
+
+State 76
+
+   41 expresie_string: STRINGVAL '+' . ID
+   42                | STRINGVAL '+' . STRINGVAL
+
+    ID         shift, şi mergi în starea 119
+    STRINGVAL  shift, şi mergi în starea 120
+
+
+State 77
+
+   22 expresie_matematica: expresie_matematica . '+' expresie_matematica
+   23                    | expresie_matematica . '-' expresie_matematica
+   24                    | expresie_matematica . '*' expresie_matematica
+   25                    | expresie_matematica . '/' expresie_matematica
+   26                    | '(' expresie_matematica . ')'
+   43 expresie: expresie_matematica .  [AND, OR, LE, GE, EQ, NE, LT, GT]
+
+    '+'  shift, şi mergi în starea 80
+    '-'  shift, şi mergi în starea 81
+    '*'  shift, şi mergi în starea 82
+    '/'  shift, şi mergi în starea 83
+    ')'  shift, şi mergi în starea 121
+
+    $implicit  reduce folosind regula 43 (expresie)
+
+
+State 78
+
+   34 expresie_bool: '(' expresie_bool . ')'
+   44 expresie: expresie_bool .  [AND, OR, LE, GE, EQ, NE, LT, GT]
+
+    ')'  shift, şi mergi în starea 122
+
+    $implicit  reduce folosind regula 44 (expresie)
+
+
+State 79
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+
+    AND  shift, şi mergi în starea 84
+    OR   shift, şi mergi în starea 85
+    LE   shift, şi mergi în starea 86
+    GE   shift, şi mergi în starea 87
+    EQ   shift, şi mergi în starea 88
+    NE   shift, şi mergi în starea 89
+    LT   shift, şi mergi în starea 90
+    GT   shift, şi mergi în starea 91
+
+
+State 80
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   22                    | expresie_matematica '+' . expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID        shift, şi mergi în starea 34
+    INTNR     shift, şi mergi în starea 35
+    FLOATNR   shift, şi mergi în starea 36
+    DOUBLENR  shift, şi mergi în starea 37
+    '('       shift, şi mergi în starea 123
+
+    expresie_matematica  mergi în starea 124
+    nr                   mergi în starea 46
+
+
+State 81
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   23                    | expresie_matematica '-' . expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID        shift, şi mergi în starea 34
+    INTNR     shift, şi mergi în starea 35
+    FLOATNR   shift, şi mergi în starea 36
+    DOUBLENR  shift, şi mergi în starea 37
+    '('       shift, şi mergi în starea 123
+
+    expresie_matematica  mergi în starea 125
+    nr                   mergi în starea 46
+
+
+State 82
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   24                    | expresie_matematica '*' . expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID        shift, şi mergi în starea 34
+    INTNR     shift, şi mergi în starea 35
+    FLOATNR   shift, şi mergi în starea 36
+    DOUBLENR  shift, şi mergi în starea 37
+    '('       shift, şi mergi în starea 123
+
+    expresie_matematica  mergi în starea 126
+    nr                   mergi în starea 46
+
+
+State 83
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   25                    | expresie_matematica '/' . expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID        shift, şi mergi în starea 34
+    INTNR     shift, şi mergi în starea 35
+    FLOATNR   shift, şi mergi în starea 36
+    DOUBLENR  shift, şi mergi în starea 37
+    '('       shift, şi mergi în starea 123
+
+    expresie_matematica  mergi în starea 127
+    nr                   mergi în starea 46
+
+
+State 84
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   32              | expresie AND . expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 128
+    nr                   mergi în starea 46
+
+
+State 85
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   33              | expresie OR . expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 129
+    nr                   mergi în starea 46
+
+
+State 86
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   36              | expresie LE . expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 130
+    nr                   mergi în starea 46
+
+
+State 87
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   35              | expresie GE . expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 131
+    nr                   mergi în starea 46
+
+
+State 88
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   37              | expresie EQ . expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 132
+    nr                   mergi în starea 46
+
+
+State 89
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   38              | expresie NE . expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 133
+    nr                   mergi în starea 46
+
+
+State 90
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   40              | expresie LT . expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 134
+    nr                   mergi în starea 46
+
+
+State 91
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   39              | expresie GT . expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 135
+    nr                   mergi în starea 46
+
+
+State 92
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+  140 asignare_structura: ID '.' ID '=' . expresie
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 136
+    nr                   mergi în starea 46
+
+
+State 93
+
+    9 parametru_eval: INT ID .
+
+    $implicit  reduce folosind regula 9 (parametru_eval)
+
+
+State 94
+
+    8 global: EVAL '(' parametru_eval ')' . '{' bloc_eval '}'
+
+    '{'  shift, şi mergi în starea 137
+
+
+State 95
+
+   11 structura: STRUCT ID '{' bloc_structura . '}'
+   12 bloc_structura: bloc_structura . declaratie_structura ';'
+   13               | bloc_structura . declaratie_functie
+   46 declaratie_structura: . tip ID '[' INTNR ']'
+   47                     | . tip ID
+   48                     | . tip ID '=' nr
+   49                     | . tip ID '=' ID
+   50                     | . tip ID '=' BOOLEAN
+   51                     | . tip ID '=' STRINGVAL
+   52                     | . STRUCT ID ID
+   53                     | . constant ID '=' nr
+   54                     | . constant ID '=' ID
+   55                     | . constant ID '=' STRINGVAL
+   56                     | . constant ID '=' BOOLEAN
+  123 declaratie_functie: . tip ID '(' params ')' '{' bloc_functie '}'
+  124                   | . tip ID '(' ')' '{' bloc_functie '}'
+  141 constant: . CONST tip
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    CONST   shift, şi mergi în starea 11
+    STRING  shift, şi mergi în starea 12
+    STRUCT  shift, şi mergi în starea 138
+    '}'     shift, şi mergi în starea 139
+
+    declaratie_structura  mergi în starea 140
+    declaratie_functie    mergi în starea 141
+    constant              mergi în starea 142
+    tip                   mergi în starea 143
+
+
+State 96
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+   65 apel: ID '(' . parametri_apel ')' ';'
+   68 parametri_apel: . parametru_apel
+   69               | . parametri_apel '#' parametru_apel
+   70 parametru_apel: . expresie
+   71               | . '_' ID '(' ')'
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+    '_'        shift, şi mergi în starea 144
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 145
+    parametri_apel       mergi în starea 146
+    parametru_apel       mergi în starea 147
+    nr                   mergi în starea 46
+
+
+State 97
+
+   15 expresie_eval: . expresie_eval '+' expresie_eval
+   16              | . expresie_eval '-' expresie_eval
+   17              | . expresie_eval '*' expresie_eval
+   18              | . expresie_eval '/' expresie_eval
+   19              | . '(' expresie_eval ')'
+   20              | . INTNR
+   21              | . ID
+   66 apel_eval: EVAL '(' . parametri_eval_apel ')' ';'
+   67 parametri_eval_apel: . expresie_eval
+
+    ID     shift, şi mergi în starea 148
+    INTNR  shift, şi mergi în starea 149
+    '('    shift, şi mergi în starea 150
+
+    expresie_eval        mergi în starea 151
+    parametri_eval_apel  mergi în starea 152
+
+
+State 98
+
+   77 forstatement: FOR '(' . asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
+   79 asignare_for: . declaratii_locale
+   80             | . asignare
+   90 declaratii_locale: . tip ID '[' INTNR ']'
+   91                  | . tip ID
+   92                  | . tip ID '=' nr
+   93                  | . tip ID '=' ID
+   94                  | . tip ID '=' BOOLEAN
+   95                  | . tip ID '=' STRINGVAL
+   96                  | . STRUCT ID ID
+   97                  | . constant ID '=' nr
+   98                  | . constant ID '=' ID
+   99                  | . constant ID '=' STRINGVAL
+  100                  | . constant ID '=' BOOLEAN
+  138 asignare: . ID '=' expresie
+  139         | . asignare_structura
+  140 asignare_structura: . ID '.' ID '=' expresie
+  141 constant: . CONST tip
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    ID      shift, şi mergi în starea 3
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    CONST   shift, şi mergi în starea 11
+    STRING  shift, şi mergi în starea 12
+    STRUCT  shift, şi mergi în starea 153
+
+    asignare_for        mergi în starea 154
+    declaratii_locale   mergi în starea 155
+    asignare            mergi în starea 156
+    asignare_structura  mergi în starea 21
+    constant            mergi în starea 157
+    tip                 mergi în starea 158
+
+
+State 99
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+   78 whilestatement: WHILE '(' . expresie_bool ')' '{' cod_bloc '}'
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 159
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 79
+    nr                   mergi în starea 46
+
+
+State 100
+
+  118 declaratie_main: STRUCT ID . ID
+
+    ID  shift, şi mergi în starea 160
+
+
+State 101
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+   75 ifstatement: IF '(' . expresie_bool ')' '{' cod_bloc '}'
+   76            | IF '(' . expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 161
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 79
+    nr                   mergi în starea 46
+
+
+State 102
+
+   60 cod_main: declaratie_main ';' .
+
+    $implicit  reduce folosind regula 60 (cod_main)
+
+
+State 103
+
+   61 cod_main: asignare ';' .
+
+    $implicit  reduce folosind regula 61 (cod_main)
+
+
+State 104
+
+  119 declaratie_main: constant ID . '=' nr
+  120                | constant ID . '=' ID
+  121                | constant ID . '=' STRINGVAL
+  122                | constant ID . '=' BOOLEAN
+
+    '='  shift, şi mergi în starea 162
+
+
+State 105
+
+  112 declaratie_main: tip ID .  [';']
+  113                | tip ID . '=' nr
+  114                | tip ID . '=' ID
+  115                | tip ID . '=' BOOLEAN
+  116                | tip ID . '=' STRINGVAL
+  117                | tip ID . '[' INTNR ']'
+
+    '='  shift, şi mergi în starea 163
+    '['  shift, şi mergi în starea 164
+
+    $implicit  reduce folosind regula 112 (declaratie_main)
+
+
+State 106
+
+  109 declaratie_g: constant ID '=' ID .
+
+    $implicit  reduce folosind regula 109 (declaratie_g)
+
+
+State 107
+
+  111 declaratie_g: constant ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 111 (declaratie_g)
+
+
+State 108
+
+  110 declaratie_g: constant ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 110 (declaratie_g)
+
+
+State 109
+
+  108 declaratie_g: constant ID '=' nr .
+
+    $implicit  reduce folosind regula 108 (declaratie_g)
+
+
+State 110
+
+  104 declaratie_g: tip ID '=' ID .
+
+    $implicit  reduce folosind regula 104 (declaratie_g)
+
+
+State 111
+
+  105 declaratie_g: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 105 (declaratie_g)
+
+
+State 112
+
+  106 declaratie_g: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 106 (declaratie_g)
+
+
+State 113
+
+  103 declaratie_g: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 103 (declaratie_g)
+
+
+State 114
+
+  124 declaratie_functie: tip ID '(' ')' . '{' bloc_functie '}'
+
+    '{'  shift, şi mergi în starea 165
+
+
+State 115
+
+  123 declaratie_functie: tip ID '(' params . ')' '{' bloc_functie '}'
+  126 params: params . '#' param
+
+    ')'  shift, şi mergi în starea 166
+    '#'  shift, şi mergi în starea 167
+
+
+State 116
+
+  125 params: param .
+
+    $implicit  reduce folosind regula 125 (params)
+
+
+State 117
+
+  127 param: tip . ID
+
+    ID  shift, şi mergi în starea 168
+
+
+State 118
+
+  101 declaratie_g: tip ID '[' INTNR . ']'
+
+    ']'  shift, şi mergi în starea 169
+
+
+State 119
+
+   41 expresie_string: STRINGVAL '+' ID .
+
+    $implicit  reduce folosind regula 41 (expresie_string)
+
+
+State 120
+
+   42 expresie_string: STRINGVAL '+' STRINGVAL .
+
+    $implicit  reduce folosind regula 42 (expresie_string)
+
+
+State 121
+
+   26 expresie_matematica: '(' expresie_matematica ')' .
+
+    $implicit  reduce folosind regula 26 (expresie_matematica)
+
+
+State 122
+
+   34 expresie_bool: '(' expresie_bool ')' .
+
+    $implicit  reduce folosind regula 34 (expresie_bool)
+
+
+State 123
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   26                    | '(' . expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID        shift, şi mergi în starea 34
+    INTNR     shift, şi mergi în starea 35
+    FLOATNR   shift, şi mergi în starea 36
+    DOUBLENR  shift, şi mergi în starea 37
+    '('       shift, şi mergi în starea 123
+
+    expresie_matematica  mergi în starea 170
+    nr                   mergi în starea 46
+
+
+State 124
+
+   22 expresie_matematica: expresie_matematica . '+' expresie_matematica
+   22                    | expresie_matematica '+' expresie_matematica .  [AND, OR, LE, GE, EQ, NE, LT, GT, '+', '-', ';', ')', '#', ',']
+   23                    | expresie_matematica . '-' expresie_matematica
+   24                    | expresie_matematica . '*' expresie_matematica
+   25                    | expresie_matematica . '/' expresie_matematica
+
+    '*'  shift, şi mergi în starea 82
+    '/'  shift, şi mergi în starea 83
+
+    $implicit  reduce folosind regula 22 (expresie_matematica)
+
+    Conflict între regula 22 şi elementul (token) '+' rezolvat ca reduce (%left '+').
+    Conflict între regula 22 şi elementul (token) '-' rezolvat ca reduce (%left '-').
+    Conflict între regula 22 şi elementul (token) '*' rezolvat ca shift ('+' < '*').
+    Conflict între regula 22 şi elementul (token) '/' rezolvat ca shift ('+' < '/').
+
+
+State 125
+
+   22 expresie_matematica: expresie_matematica . '+' expresie_matematica
+   23                    | expresie_matematica . '-' expresie_matematica
+   23                    | expresie_matematica '-' expresie_matematica .  [AND, OR, LE, GE, EQ, NE, LT, GT, '+', '-', ';', ')', '#', ',']
+   24                    | expresie_matematica . '*' expresie_matematica
+   25                    | expresie_matematica . '/' expresie_matematica
+
+    '*'  shift, şi mergi în starea 82
+    '/'  shift, şi mergi în starea 83
+
+    $implicit  reduce folosind regula 23 (expresie_matematica)
+
+    Conflict între regula 23 şi elementul (token) '+' rezolvat ca reduce (%left '+').
+    Conflict între regula 23 şi elementul (token) '-' rezolvat ca reduce (%left '-').
+    Conflict între regula 23 şi elementul (token) '*' rezolvat ca shift ('-' < '*').
+    Conflict între regula 23 şi elementul (token) '/' rezolvat ca shift ('-' < '/').
+
+
+State 126
+
+   22 expresie_matematica: expresie_matematica . '+' expresie_matematica
+   23                    | expresie_matematica . '-' expresie_matematica
+   24                    | expresie_matematica . '*' expresie_matematica
+   24                    | expresie_matematica '*' expresie_matematica .  [AND, OR, LE, GE, EQ, NE, LT, GT, '+', '-', '*', '/', ';', ')', '#', ',']
+   25                    | expresie_matematica . '/' expresie_matematica
+
+    $implicit  reduce folosind regula 24 (expresie_matematica)
+
+    Conflict între regula 24 şi elementul (token) '+' rezolvat ca reduce ('+' < '*').
+    Conflict între regula 24 şi elementul (token) '-' rezolvat ca reduce ('-' < '*').
+    Conflict între regula 24 şi elementul (token) '*' rezolvat ca reduce (%left '*').
+    Conflict între regula 24 şi elementul (token) '/' rezolvat ca reduce (%left '/').
+
+
+State 127
+
+   22 expresie_matematica: expresie_matematica . '+' expresie_matematica
+   23                    | expresie_matematica . '-' expresie_matematica
+   24                    | expresie_matematica . '*' expresie_matematica
+   25                    | expresie_matematica . '/' expresie_matematica
+   25                    | expresie_matematica '/' expresie_matematica .  [AND, OR, LE, GE, EQ, NE, LT, GT, '+', '-', '*', '/', ';', ')', '#', ',']
+
+    $implicit  reduce folosind regula 25 (expresie_matematica)
+
+    Conflict între regula 25 şi elementul (token) '+' rezolvat ca reduce ('+' < '/').
+    Conflict între regula 25 şi elementul (token) '-' rezolvat ca reduce ('-' < '/').
+    Conflict între regula 25 şi elementul (token) '*' rezolvat ca reduce (%left '*').
+    Conflict între regula 25 şi elementul (token) '/' rezolvat ca reduce (%left '/').
+
+
+State 128
+
+   32 expresie_bool: expresie . AND expresie
+   32              | expresie AND expresie .  [AND, OR, ';', ')', '#', ',']
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+
+    LE  shift, şi mergi în starea 86
+    GE  shift, şi mergi în starea 87
+    EQ  shift, şi mergi în starea 88
+    NE  shift, şi mergi în starea 89
+    LT  shift, şi mergi în starea 90
+    GT  shift, şi mergi în starea 91
+
+    $implicit  reduce folosind regula 32 (expresie_bool)
+
+    Conflict între regula 32 şi elementul (token) AND rezolvat ca reduce (%left AND).
+    Conflict între regula 32 şi elementul (token) OR rezolvat ca reduce (%left OR).
+    Conflict între regula 32 şi elementul (token) LE rezolvat ca shift (AND < LE).
+    Conflict între regula 32 şi elementul (token) GE rezolvat ca shift (AND < GE).
+    Conflict între regula 32 şi elementul (token) EQ rezolvat ca shift (AND < EQ).
+    Conflict între regula 32 şi elementul (token) NE rezolvat ca shift (AND < NE).
+    Conflict între regula 32 şi elementul (token) LT rezolvat ca shift (AND < LT).
+    Conflict între regula 32 şi elementul (token) GT rezolvat ca shift (AND < GT).
+
+
+State 129
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   33              | expresie OR expresie .  [AND, OR, ';', ')', '#', ',']
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+
+    LE  shift, şi mergi în starea 86
+    GE  shift, şi mergi în starea 87
+    EQ  shift, şi mergi în starea 88
+    NE  shift, şi mergi în starea 89
+    LT  shift, şi mergi în starea 90
+    GT  shift, şi mergi în starea 91
+
+    $implicit  reduce folosind regula 33 (expresie_bool)
+
+    Conflict între regula 33 şi elementul (token) AND rezolvat ca reduce (%left AND).
+    Conflict între regula 33 şi elementul (token) OR rezolvat ca reduce (%left OR).
+    Conflict între regula 33 şi elementul (token) LE rezolvat ca shift (OR < LE).
+    Conflict între regula 33 şi elementul (token) GE rezolvat ca shift (OR < GE).
+    Conflict între regula 33 şi elementul (token) EQ rezolvat ca shift (OR < EQ).
+    Conflict între regula 33 şi elementul (token) NE rezolvat ca shift (OR < NE).
+    Conflict între regula 33 şi elementul (token) LT rezolvat ca shift (OR < LT).
+    Conflict între regula 33 şi elementul (token) GT rezolvat ca shift (OR < GT).
+
+
+State 130
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   36              | expresie LE expresie .  [AND, OR, LE, GE, EQ, NE, LT, GT, ';', ')', '#', ',']
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+
+    $implicit  reduce folosind regula 36 (expresie_bool)
+
+    Conflict între regula 36 şi elementul (token) AND rezolvat ca reduce (AND < LE).
+    Conflict între regula 36 şi elementul (token) OR rezolvat ca reduce (OR < LE).
+    Conflict între regula 36 şi elementul (token) LE rezolvat ca reduce (%left LE).
+    Conflict între regula 36 şi elementul (token) GE rezolvat ca reduce (%left GE).
+    Conflict între regula 36 şi elementul (token) EQ rezolvat ca reduce (%left EQ).
+    Conflict între regula 36 şi elementul (token) NE rezolvat ca reduce (%left NE).
+    Conflict între regula 36 şi elementul (token) LT rezolvat ca reduce (%left LT).
+    Conflict între regula 36 şi elementul (token) GT rezolvat ca reduce (%left GT).
+
+
+State 131
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   35              | expresie GE expresie .  [AND, OR, LE, GE, EQ, NE, LT, GT, ';', ')', '#', ',']
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+
+    $implicit  reduce folosind regula 35 (expresie_bool)
+
+    Conflict între regula 35 şi elementul (token) AND rezolvat ca reduce (AND < GE).
+    Conflict între regula 35 şi elementul (token) OR rezolvat ca reduce (OR < GE).
+    Conflict între regula 35 şi elementul (token) LE rezolvat ca reduce (%left LE).
+    Conflict între regula 35 şi elementul (token) GE rezolvat ca reduce (%left GE).
+    Conflict între regula 35 şi elementul (token) EQ rezolvat ca reduce (%left EQ).
+    Conflict între regula 35 şi elementul (token) NE rezolvat ca reduce (%left NE).
+    Conflict între regula 35 şi elementul (token) LT rezolvat ca reduce (%left LT).
+    Conflict între regula 35 şi elementul (token) GT rezolvat ca reduce (%left GT).
+
+
+State 132
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   37              | expresie EQ expresie .  [AND, OR, LE, GE, EQ, NE, LT, GT, ';', ')', '#', ',']
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+
+    $implicit  reduce folosind regula 37 (expresie_bool)
+
+    Conflict între regula 37 şi elementul (token) AND rezolvat ca reduce (AND < EQ).
+    Conflict între regula 37 şi elementul (token) OR rezolvat ca reduce (OR < EQ).
+    Conflict între regula 37 şi elementul (token) LE rezolvat ca reduce (%left LE).
+    Conflict între regula 37 şi elementul (token) GE rezolvat ca reduce (%left GE).
+    Conflict între regula 37 şi elementul (token) EQ rezolvat ca reduce (%left EQ).
+    Conflict între regula 37 şi elementul (token) NE rezolvat ca reduce (%left NE).
+    Conflict între regula 37 şi elementul (token) LT rezolvat ca reduce (%left LT).
+    Conflict între regula 37 şi elementul (token) GT rezolvat ca reduce (%left GT).
+
+
+State 133
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   38              | expresie NE expresie .  [AND, OR, LE, GE, EQ, NE, LT, GT, ';', ')', '#', ',']
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+
+    $implicit  reduce folosind regula 38 (expresie_bool)
+
+    Conflict între regula 38 şi elementul (token) AND rezolvat ca reduce (AND < NE).
+    Conflict între regula 38 şi elementul (token) OR rezolvat ca reduce (OR < NE).
+    Conflict între regula 38 şi elementul (token) LE rezolvat ca reduce (%left LE).
+    Conflict între regula 38 şi elementul (token) GE rezolvat ca reduce (%left GE).
+    Conflict între regula 38 şi elementul (token) EQ rezolvat ca reduce (%left EQ).
+    Conflict între regula 38 şi elementul (token) NE rezolvat ca reduce (%left NE).
+    Conflict între regula 38 şi elementul (token) LT rezolvat ca reduce (%left LT).
+    Conflict între regula 38 şi elementul (token) GT rezolvat ca reduce (%left GT).
+
+
+State 134
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+   40              | expresie LT expresie .  [AND, OR, LE, GE, EQ, NE, LT, GT, ';', ')', '#', ',']
+
+    $implicit  reduce folosind regula 40 (expresie_bool)
+
+    Conflict între regula 40 şi elementul (token) AND rezolvat ca reduce (AND < LT).
+    Conflict între regula 40 şi elementul (token) OR rezolvat ca reduce (OR < LT).
+    Conflict între regula 40 şi elementul (token) LE rezolvat ca reduce (%left LE).
+    Conflict între regula 40 şi elementul (token) GE rezolvat ca reduce (%left GE).
+    Conflict între regula 40 şi elementul (token) EQ rezolvat ca reduce (%left EQ).
+    Conflict între regula 40 şi elementul (token) NE rezolvat ca reduce (%left NE).
+    Conflict între regula 40 şi elementul (token) LT rezolvat ca reduce (%left LT).
+    Conflict între regula 40 şi elementul (token) GT rezolvat ca reduce (%left GT).
+
+
+State 135
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   39              | expresie GT expresie .  [AND, OR, LE, GE, EQ, NE, LT, GT, ';', ')', '#', ',']
+   40              | expresie . LT expresie
+
+    $implicit  reduce folosind regula 39 (expresie_bool)
+
+    Conflict între regula 39 şi elementul (token) AND rezolvat ca reduce (AND < GT).
+    Conflict între regula 39 şi elementul (token) OR rezolvat ca reduce (OR < GT).
+    Conflict între regula 39 şi elementul (token) LE rezolvat ca reduce (%left LE).
+    Conflict între regula 39 şi elementul (token) GE rezolvat ca reduce (%left GE).
+    Conflict între regula 39 şi elementul (token) EQ rezolvat ca reduce (%left EQ).
+    Conflict între regula 39 şi elementul (token) NE rezolvat ca reduce (%left NE).
+    Conflict între regula 39 şi elementul (token) LT rezolvat ca reduce (%left LT).
+    Conflict între regula 39 şi elementul (token) GT rezolvat ca reduce (%left GT).
+
+
+State 136
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+  140 asignare_structura: ID '.' ID '=' expresie .  [';', ',']
+
+    AND  shift, şi mergi în starea 84
+    OR   shift, şi mergi în starea 85
+    LE   shift, şi mergi în starea 86
+    GE   shift, şi mergi în starea 87
+    EQ   shift, şi mergi în starea 88
+    NE   shift, şi mergi în starea 89
+    LT   shift, şi mergi în starea 90
+    GT   shift, şi mergi în starea 91
+
+    $implicit  reduce folosind regula 140 (asignare_structura)
+
+
+State 137
+
+    8 global: EVAL '(' parametru_eval ')' '{' . bloc_eval '}'
+   10 bloc_eval: . declaratii_locale ';'
+   90 declaratii_locale: . tip ID '[' INTNR ']'
+   91                  | . tip ID
+   92                  | . tip ID '=' nr
+   93                  | . tip ID '=' ID
+   94                  | . tip ID '=' BOOLEAN
+   95                  | . tip ID '=' STRINGVAL
+   96                  | . STRUCT ID ID
+   97                  | . constant ID '=' nr
+   98                  | . constant ID '=' ID
+   99                  | . constant ID '=' STRINGVAL
+  100                  | . constant ID '=' BOOLEAN
+  141 constant: . CONST tip
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    CONST   shift, şi mergi în starea 11
+    STRING  shift, şi mergi în starea 12
+    STRUCT  shift, şi mergi în starea 153
+
+    bloc_eval          mergi în starea 171
+    declaratii_locale  mergi în starea 172
+    constant           mergi în starea 157
+    tip                mergi în starea 158
+
+
+State 138
+
+   52 declaratie_structura: STRUCT . ID ID
+
+    ID  shift, şi mergi în starea 173
+
+
+State 139
+
+   11 structura: STRUCT ID '{' bloc_structura '}' .
+
+    $implicit  reduce folosind regula 11 (structura)
+
+
+State 140
+
+   12 bloc_structura: bloc_structura declaratie_structura . ';'
+
+    ';'  shift, şi mergi în starea 174
+
+
+State 141
+
+   13 bloc_structura: bloc_structura declaratie_functie .
+
+    $implicit  reduce folosind regula 13 (bloc_structura)
+
+
+State 142
+
+   53 declaratie_structura: constant . ID '=' nr
+   54                     | constant . ID '=' ID
+   55                     | constant . ID '=' STRINGVAL
+   56                     | constant . ID '=' BOOLEAN
+
+    ID  shift, şi mergi în starea 175
+
+
+State 143
+
+   46 declaratie_structura: tip . ID '[' INTNR ']'
+   47                     | tip . ID
+   48                     | tip . ID '=' nr
+   49                     | tip . ID '=' ID
+   50                     | tip . ID '=' BOOLEAN
+   51                     | tip . ID '=' STRINGVAL
+  123 declaratie_functie: tip . ID '(' params ')' '{' bloc_functie '}'
+  124                   | tip . ID '(' ')' '{' bloc_functie '}'
+
+    ID  shift, şi mergi în starea 176
+
+
+State 144
+
+   71 parametru_apel: '_' . ID '(' ')'
+
+    ID  shift, şi mergi în starea 177
+
+
+State 145
+
+   32 expresie_bool: expresie . AND expresie
+   33              | expresie . OR expresie
+   35              | expresie . GE expresie
+   36              | expresie . LE expresie
+   37              | expresie . EQ expresie
+   38              | expresie . NE expresie
+   39              | expresie . GT expresie
+   40              | expresie . LT expresie
+   70 parametru_apel: expresie .  [')', '#']
+
+    AND  shift, şi mergi în starea 84
+    OR   shift, şi mergi în starea 85
+    LE   shift, şi mergi în starea 86
+    GE   shift, şi mergi în starea 87
+    EQ   shift, şi mergi în starea 88
+    NE   shift, şi mergi în starea 89
+    LT   shift, şi mergi în starea 90
+    GT   shift, şi mergi în starea 91
+
+    $implicit  reduce folosind regula 70 (parametru_apel)
+
+
+State 146
+
+   65 apel: ID '(' parametri_apel . ')' ';'
+   69 parametri_apel: parametri_apel . '#' parametru_apel
+
+    ')'  shift, şi mergi în starea 178
+    '#'  shift, şi mergi în starea 179
+
+
+State 147
+
+   68 parametri_apel: parametru_apel .
+
+    $implicit  reduce folosind regula 68 (parametri_apel)
+
+
+State 148
+
+   21 expresie_eval: ID .
+
+    $implicit  reduce folosind regula 21 (expresie_eval)
+
+
+State 149
+
+   20 expresie_eval: INTNR .
+
+    $implicit  reduce folosind regula 20 (expresie_eval)
+
+
+State 150
+
+   15 expresie_eval: . expresie_eval '+' expresie_eval
+   16              | . expresie_eval '-' expresie_eval
+   17              | . expresie_eval '*' expresie_eval
+   18              | . expresie_eval '/' expresie_eval
+   19              | . '(' expresie_eval ')'
+   19              | '(' . expresie_eval ')'
+   20              | . INTNR
+   21              | . ID
+
+    ID     shift, şi mergi în starea 148
+    INTNR  shift, şi mergi în starea 149
+    '('    shift, şi mergi în starea 150
+
+    expresie_eval  mergi în starea 180
+
+
+State 151
+
+   15 expresie_eval: expresie_eval . '+' expresie_eval
+   16              | expresie_eval . '-' expresie_eval
+   17              | expresie_eval . '*' expresie_eval
+   18              | expresie_eval . '/' expresie_eval
+   67 parametri_eval_apel: expresie_eval .  [')']
+
+    '+'  shift, şi mergi în starea 181
+    '-'  shift, şi mergi în starea 182
+    '*'  shift, şi mergi în starea 183
+    '/'  shift, şi mergi în starea 184
+
+    $implicit  reduce folosind regula 67 (parametri_eval_apel)
+
+
+State 152
+
+   66 apel_eval: EVAL '(' parametri_eval_apel . ')' ';'
+
+    ')'  shift, şi mergi în starea 185
+
+
+State 153
+
+   96 declaratii_locale: STRUCT . ID ID
+
+    ID  shift, şi mergi în starea 186
+
+
+State 154
+
+   77 forstatement: FOR '(' asignare_for . ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
+
+    ','  shift, şi mergi în starea 187
+
+
+State 155
+
+   79 asignare_for: declaratii_locale .
+
+    $implicit  reduce folosind regula 79 (asignare_for)
+
+
+State 156
+
+   80 asignare_for: asignare .
+
+    $implicit  reduce folosind regula 80 (asignare_for)
+
+
+State 157
+
+   97 declaratii_locale: constant . ID '=' nr
+   98                  | constant . ID '=' ID
+   99                  | constant . ID '=' STRINGVAL
+  100                  | constant . ID '=' BOOLEAN
+
+    ID  shift, şi mergi în starea 188
+
+
+State 158
+
+   90 declaratii_locale: tip . ID '[' INTNR ']'
+   91                  | tip . ID
+   92                  | tip . ID '=' nr
+   93                  | tip . ID '=' ID
+   94                  | tip . ID '=' BOOLEAN
+   95                  | tip . ID '=' STRINGVAL
+
+    ID  shift, şi mergi în starea 189
+
+
+State 159
+
+   44 expresie: expresie_bool .  [AND, OR, LE, GE, EQ, NE, LT, GT]
+   78 whilestatement: WHILE '(' expresie_bool . ')' '{' cod_bloc '}'
+
+    ')'  shift, şi mergi în starea 190
+
+    $implicit  reduce folosind regula 44 (expresie)
+
+
+State 160
+
+  118 declaratie_main: STRUCT ID ID .
+
+    $implicit  reduce folosind regula 118 (declaratie_main)
+
+
+State 161
+
+   44 expresie: expresie_bool .  [AND, OR, LE, GE, EQ, NE, LT, GT]
+   75 ifstatement: IF '(' expresie_bool . ')' '{' cod_bloc '}'
+   76            | IF '(' expresie_bool . ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+
+    ')'  shift, şi mergi în starea 191
+
+    $implicit  reduce folosind regula 44 (expresie)
+
+
+State 162
+
+  119 declaratie_main: constant ID '=' . nr
+  120                | constant ID '=' . ID
+  121                | constant ID '=' . STRINGVAL
+  122                | constant ID '=' . BOOLEAN
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 192
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 193
+    STRINGVAL  shift, şi mergi în starea 194
+
+    nr  mergi în starea 195
+
+
+State 163
+
+  113 declaratie_main: tip ID '=' . nr
+  114                | tip ID '=' . ID
+  115                | tip ID '=' . BOOLEAN
+  116                | tip ID '=' . STRINGVAL
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 196
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 197
+    STRINGVAL  shift, şi mergi în starea 198
+
+    nr  mergi în starea 199
+
+
+State 164
+
+  117 declaratie_main: tip ID '[' . INTNR ']'
+
+    INTNR  shift, şi mergi în starea 200
+
+
+State 165
+
+  124 declaratie_functie: tip ID '(' ')' '{' . bloc_functie '}'
+  128 bloc_functie: . bloc_functie cod_functie
+  129             | . %empty
+
+    $implicit  reduce folosind regula 129 (bloc_functie)
+
+    bloc_functie  mergi în starea 201
+
+
+State 166
+
+  123 declaratie_functie: tip ID '(' params ')' . '{' bloc_functie '}'
+
+    '{'  shift, şi mergi în starea 202
+
+
+State 167
+
+  126 params: params '#' . param
+  127 param: . tip ID
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    STRING  shift, şi mergi în starea 12
+
+    param  mergi în starea 203
+    tip    mergi în starea 117
+
+
+State 168
+
+  127 param: tip ID .
+
+    $implicit  reduce folosind regula 127 (param)
+
+
+State 169
+
+  101 declaratie_g: tip ID '[' INTNR ']' .
+
+    $implicit  reduce folosind regula 101 (declaratie_g)
+
+
+State 170
+
+   22 expresie_matematica: expresie_matematica . '+' expresie_matematica
+   23                    | expresie_matematica . '-' expresie_matematica
+   24                    | expresie_matematica . '*' expresie_matematica
+   25                    | expresie_matematica . '/' expresie_matematica
+   26                    | '(' expresie_matematica . ')'
+
+    '+'  shift, şi mergi în starea 80
+    '-'  shift, şi mergi în starea 81
+    '*'  shift, şi mergi în starea 82
+    '/'  shift, şi mergi în starea 83
+    ')'  shift, şi mergi în starea 121
+
+
+State 171
+
+    8 global: EVAL '(' parametru_eval ')' '{' bloc_eval . '}'
+
+    '}'  shift, şi mergi în starea 204
+
+
+State 172
+
+   10 bloc_eval: declaratii_locale . ';'
+
+    ';'  shift, şi mergi în starea 205
+
+
+State 173
+
+   52 declaratie_structura: STRUCT ID . ID
+
+    ID  shift, şi mergi în starea 206
+
+
+State 174
+
+   12 bloc_structura: bloc_structura declaratie_structura ';' .
+
+    $implicit  reduce folosind regula 12 (bloc_structura)
+
+
+State 175
+
+   53 declaratie_structura: constant ID . '=' nr
+   54                     | constant ID . '=' ID
+   55                     | constant ID . '=' STRINGVAL
+   56                     | constant ID . '=' BOOLEAN
+
+    '='  shift, şi mergi în starea 207
+
+
+State 176
+
+   46 declaratie_structura: tip ID . '[' INTNR ']'
+   47                     | tip ID .  [';']
+   48                     | tip ID . '=' nr
+   49                     | tip ID . '=' ID
+   50                     | tip ID . '=' BOOLEAN
+   51                     | tip ID . '=' STRINGVAL
+  123 declaratie_functie: tip ID . '(' params ')' '{' bloc_functie '}'
+  124                   | tip ID . '(' ')' '{' bloc_functie '}'
+
+    '='  shift, şi mergi în starea 208
+    '('  shift, şi mergi în starea 72
+    '['  shift, şi mergi în starea 209
+
+    $implicit  reduce folosind regula 47 (declaratie_structura)
+
+
+State 177
+
+   71 parametru_apel: '_' ID . '(' ')'
+
+    '('  shift, şi mergi în starea 210
+
+
+State 178
+
+   65 apel: ID '(' parametri_apel ')' . ';'
+
+    ';'  shift, şi mergi în starea 211
+
+
+State 179
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+   69 parametri_apel: parametri_apel '#' . parametru_apel
+   70 parametru_apel: . expresie
+   71               | . '_' ID '(' ')'
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+    '_'        shift, şi mergi în starea 144
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 43
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 145
+    parametru_apel       mergi în starea 212
+    nr                   mergi în starea 46
+
+
+State 180
+
+   15 expresie_eval: expresie_eval . '+' expresie_eval
+   16              | expresie_eval . '-' expresie_eval
+   17              | expresie_eval . '*' expresie_eval
+   18              | expresie_eval . '/' expresie_eval
+   19              | '(' expresie_eval . ')'
+
+    '+'  shift, şi mergi în starea 181
+    '-'  shift, şi mergi în starea 182
+    '*'  shift, şi mergi în starea 183
+    '/'  shift, şi mergi în starea 184
+    ')'  shift, şi mergi în starea 213
+
+
+State 181
+
+   15 expresie_eval: . expresie_eval '+' expresie_eval
+   15              | expresie_eval '+' . expresie_eval
+   16              | . expresie_eval '-' expresie_eval
+   17              | . expresie_eval '*' expresie_eval
+   18              | . expresie_eval '/' expresie_eval
+   19              | . '(' expresie_eval ')'
+   20              | . INTNR
+   21              | . ID
+
+    ID     shift, şi mergi în starea 148
+    INTNR  shift, şi mergi în starea 149
+    '('    shift, şi mergi în starea 150
+
+    expresie_eval  mergi în starea 214
+
+
+State 182
+
+   15 expresie_eval: . expresie_eval '+' expresie_eval
+   16              | . expresie_eval '-' expresie_eval
+   16              | expresie_eval '-' . expresie_eval
+   17              | . expresie_eval '*' expresie_eval
+   18              | . expresie_eval '/' expresie_eval
+   19              | . '(' expresie_eval ')'
+   20              | . INTNR
+   21              | . ID
+
+    ID     shift, şi mergi în starea 148
+    INTNR  shift, şi mergi în starea 149
+    '('    shift, şi mergi în starea 150
+
+    expresie_eval  mergi în starea 215
+
+
+State 183
+
+   15 expresie_eval: . expresie_eval '+' expresie_eval
+   16              | . expresie_eval '-' expresie_eval
+   17              | . expresie_eval '*' expresie_eval
+   17              | expresie_eval '*' . expresie_eval
+   18              | . expresie_eval '/' expresie_eval
+   19              | . '(' expresie_eval ')'
+   20              | . INTNR
+   21              | . ID
+
+    ID     shift, şi mergi în starea 148
+    INTNR  shift, şi mergi în starea 149
+    '('    shift, şi mergi în starea 150
+
+    expresie_eval  mergi în starea 216
+
+
+State 184
+
+   15 expresie_eval: . expresie_eval '+' expresie_eval
+   16              | . expresie_eval '-' expresie_eval
+   17              | . expresie_eval '*' expresie_eval
+   18              | . expresie_eval '/' expresie_eval
+   18              | expresie_eval '/' . expresie_eval
+   19              | . '(' expresie_eval ')'
+   20              | . INTNR
+   21              | . ID
+
+    ID     shift, şi mergi în starea 148
+    INTNR  shift, şi mergi în starea 149
+    '('    shift, şi mergi în starea 150
+
+    expresie_eval  mergi în starea 217
+
+
+State 185
+
+   66 apel_eval: EVAL '(' parametri_eval_apel ')' . ';'
+
+    ';'  shift, şi mergi în starea 218
+
+
+State 186
+
+   96 declaratii_locale: STRUCT ID . ID
+
+    ID  shift, şi mergi în starea 219
+
+
+State 187
+
+   22 expresie_matematica: . expresie_matematica '+' expresie_matematica
+   23                    | . expresie_matematica '-' expresie_matematica
+   24                    | . expresie_matematica '*' expresie_matematica
+   25                    | . expresie_matematica '/' expresie_matematica
+   26                    | . '(' expresie_matematica ')'
+   27                    | . nr
+   28                    | . ID
+   29 expresie_bool: . NOT ID
+   30              | . BOOLEAN
+   31              | . NOT BOOLEAN
+   32              | . expresie AND expresie
+   33              | . expresie OR expresie
+   34              | . '(' expresie_bool ')'
+   35              | . expresie GE expresie
+   36              | . expresie LE expresie
+   37              | . expresie EQ expresie
+   38              | . expresie NE expresie
+   39              | . expresie GT expresie
+   40              | . expresie LT expresie
+   41 expresie_string: . STRINGVAL '+' ID
+   42                | . STRINGVAL '+' STRINGVAL
+   43 expresie: . expresie_matematica
+   44         | . expresie_bool
+   45         | . expresie_string
+   77 forstatement: FOR '(' asignare_for ',' . expresie_bool ',' operatie ')' '{' cod_bloc '}'
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 34
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 38
+    NOT        shift, şi mergi în starea 39
+    STRINGVAL  shift, şi mergi în starea 40
+    '('        shift, şi mergi în starea 41
+
+    expresie_matematica  mergi în starea 42
+    expresie_bool        mergi în starea 220
+    expresie_string      mergi în starea 44
+    expresie             mergi în starea 79
+    nr                   mergi în starea 46
+
+
+State 188
+
+   97 declaratii_locale: constant ID . '=' nr
+   98                  | constant ID . '=' ID
+   99                  | constant ID . '=' STRINGVAL
+  100                  | constant ID . '=' BOOLEAN
+
+    '='  shift, şi mergi în starea 221
+
+
+State 189
+
+   90 declaratii_locale: tip ID . '[' INTNR ']'
+   91                  | tip ID .  [';', ',']
+   92                  | tip ID . '=' nr
+   93                  | tip ID . '=' ID
+   94                  | tip ID . '=' BOOLEAN
+   95                  | tip ID . '=' STRINGVAL
+
+    '='  shift, şi mergi în starea 222
+    '['  shift, şi mergi în starea 223
+
+    $implicit  reduce folosind regula 91 (declaratii_locale)
+
+
+State 190
+
+   78 whilestatement: WHILE '(' expresie_bool ')' . '{' cod_bloc '}'
+
+    '{'  shift, şi mergi în starea 224
+
+
+State 191
+
+   75 ifstatement: IF '(' expresie_bool ')' . '{' cod_bloc '}'
+   76            | IF '(' expresie_bool ')' . '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+
+    '{'  shift, şi mergi în starea 225
+
+
+State 192
+
+  120 declaratie_main: constant ID '=' ID .
+
+    $implicit  reduce folosind regula 120 (declaratie_main)
+
+
+State 193
+
+  122 declaratie_main: constant ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 122 (declaratie_main)
+
+
+State 194
+
+  121 declaratie_main: constant ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 121 (declaratie_main)
+
+
+State 195
+
+  119 declaratie_main: constant ID '=' nr .
+
+    $implicit  reduce folosind regula 119 (declaratie_main)
+
+
+State 196
+
+  114 declaratie_main: tip ID '=' ID .
+
+    $implicit  reduce folosind regula 114 (declaratie_main)
+
+
+State 197
+
+  115 declaratie_main: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 115 (declaratie_main)
+
+
+State 198
+
+  116 declaratie_main: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 116 (declaratie_main)
+
+
+State 199
+
+  113 declaratie_main: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 113 (declaratie_main)
+
+
+State 200
+
+  117 declaratie_main: tip ID '[' INTNR . ']'
+
+    ']'  shift, şi mergi în starea 226
+
+
+State 201
+
+  124 declaratie_functie: tip ID '(' ')' '{' bloc_functie . '}'
+  128 bloc_functie: bloc_functie . cod_functie
+  130 cod_functie: . declaratie_var_f ';'
+  131            | . asignare ';'
+  132 declaratie_var_f: . tip ID
+  133                 | . tip ID '=' nr
+  134                 | . tip ID '=' ID
+  135                 | . tip ID '=' BOOLEAN
+  136                 | . tip ID '=' STRINGVAL
+  137                 | . STRUCT ID ID
+  138 asignare: . ID '=' expresie
+  139         | . asignare_structura
+  140 asignare_structura: . ID '.' ID '=' expresie
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    ID      shift, şi mergi în starea 3
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    STRING  shift, şi mergi în starea 12
+    STRUCT  shift, şi mergi în starea 227
+    '}'     shift, şi mergi în starea 228
+
+    cod_functie         mergi în starea 229
+    declaratie_var_f    mergi în starea 230
+    asignare            mergi în starea 231
+    asignare_structura  mergi în starea 21
+    tip                 mergi în starea 232
+
+
+State 202
+
+  123 declaratie_functie: tip ID '(' params ')' '{' . bloc_functie '}'
+  128 bloc_functie: . bloc_functie cod_functie
+  129             | . %empty
+
+    $implicit  reduce folosind regula 129 (bloc_functie)
+
+    bloc_functie  mergi în starea 233
+
+
+State 203
+
+  126 params: params '#' param .
+
+    $implicit  reduce folosind regula 126 (params)
+
+
+State 204
+
+    8 global: EVAL '(' parametru_eval ')' '{' bloc_eval '}' .
+
+    $implicit  reduce folosind regula 8 (global)
+
+
+State 205
+
+   10 bloc_eval: declaratii_locale ';' .
+
+    $implicit  reduce folosind regula 10 (bloc_eval)
+
+
+State 206
+
+   52 declaratie_structura: STRUCT ID ID .
+
+    $implicit  reduce folosind regula 52 (declaratie_structura)
+
+
+State 207
+
+   53 declaratie_structura: constant ID '=' . nr
+   54                     | constant ID '=' . ID
+   55                     | constant ID '=' . STRINGVAL
+   56                     | constant ID '=' . BOOLEAN
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 234
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 235
+    STRINGVAL  shift, şi mergi în starea 236
+
+    nr  mergi în starea 237
+
+
+State 208
+
+   48 declaratie_structura: tip ID '=' . nr
+   49                     | tip ID '=' . ID
+   50                     | tip ID '=' . BOOLEAN
+   51                     | tip ID '=' . STRINGVAL
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 238
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 239
+    STRINGVAL  shift, şi mergi în starea 240
+
+    nr  mergi în starea 241
+
+
+State 209
+
+   46 declaratie_structura: tip ID '[' . INTNR ']'
+
+    INTNR  shift, şi mergi în starea 242
+
+
+State 210
+
+   71 parametru_apel: '_' ID '(' . ')'
+
+    ')'  shift, şi mergi în starea 243
+
+
+State 211
+
+   65 apel: ID '(' parametri_apel ')' ';' .
+
+    $implicit  reduce folosind regula 65 (apel)
+
+
+State 212
+
+   69 parametri_apel: parametri_apel '#' parametru_apel .
+
+    $implicit  reduce folosind regula 69 (parametri_apel)
+
+
+State 213
+
+   19 expresie_eval: '(' expresie_eval ')' .
+
+    $implicit  reduce folosind regula 19 (expresie_eval)
+
+
+State 214
+
+   15 expresie_eval: expresie_eval . '+' expresie_eval
+   15              | expresie_eval '+' expresie_eval .  ['+', '-', ')']
+   16              | expresie_eval . '-' expresie_eval
+   17              | expresie_eval . '*' expresie_eval
+   18              | expresie_eval . '/' expresie_eval
+
+    '*'  shift, şi mergi în starea 183
+    '/'  shift, şi mergi în starea 184
+
+    $implicit  reduce folosind regula 15 (expresie_eval)
+
+    Conflict între regula 15 şi elementul (token) '+' rezolvat ca reduce (%left '+').
+    Conflict între regula 15 şi elementul (token) '-' rezolvat ca reduce (%left '-').
+    Conflict între regula 15 şi elementul (token) '*' rezolvat ca shift ('+' < '*').
+    Conflict între regula 15 şi elementul (token) '/' rezolvat ca shift ('+' < '/').
+
+
+State 215
+
+   15 expresie_eval: expresie_eval . '+' expresie_eval
+   16              | expresie_eval . '-' expresie_eval
+   16              | expresie_eval '-' expresie_eval .  ['+', '-', ')']
+   17              | expresie_eval . '*' expresie_eval
+   18              | expresie_eval . '/' expresie_eval
+
+    '*'  shift, şi mergi în starea 183
+    '/'  shift, şi mergi în starea 184
+
+    $implicit  reduce folosind regula 16 (expresie_eval)
+
+    Conflict între regula 16 şi elementul (token) '+' rezolvat ca reduce (%left '+').
+    Conflict între regula 16 şi elementul (token) '-' rezolvat ca reduce (%left '-').
+    Conflict între regula 16 şi elementul (token) '*' rezolvat ca shift ('-' < '*').
+    Conflict între regula 16 şi elementul (token) '/' rezolvat ca shift ('-' < '/').
+
+
+State 216
+
+   15 expresie_eval: expresie_eval . '+' expresie_eval
+   16              | expresie_eval . '-' expresie_eval
+   17              | expresie_eval . '*' expresie_eval
+   17              | expresie_eval '*' expresie_eval .  ['+', '-', '*', '/', ')']
+   18              | expresie_eval . '/' expresie_eval
+
+    $implicit  reduce folosind regula 17 (expresie_eval)
+
+    Conflict între regula 17 şi elementul (token) '+' rezolvat ca reduce ('+' < '*').
+    Conflict între regula 17 şi elementul (token) '-' rezolvat ca reduce ('-' < '*').
+    Conflict între regula 17 şi elementul (token) '*' rezolvat ca reduce (%left '*').
+    Conflict între regula 17 şi elementul (token) '/' rezolvat ca reduce (%left '/').
+
+
+State 217
+
+   15 expresie_eval: expresie_eval . '+' expresie_eval
+   16              | expresie_eval . '-' expresie_eval
+   17              | expresie_eval . '*' expresie_eval
+   18              | expresie_eval . '/' expresie_eval
+   18              | expresie_eval '/' expresie_eval .  ['+', '-', '*', '/', ')']
+
+    $implicit  reduce folosind regula 18 (expresie_eval)
+
+    Conflict între regula 18 şi elementul (token) '+' rezolvat ca reduce ('+' < '/').
+    Conflict între regula 18 şi elementul (token) '-' rezolvat ca reduce ('-' < '/').
+    Conflict între regula 18 şi elementul (token) '*' rezolvat ca reduce (%left '*').
+    Conflict între regula 18 şi elementul (token) '/' rezolvat ca reduce (%left '/').
+
+
+State 218
+
+   66 apel_eval: EVAL '(' parametri_eval_apel ')' ';' .
+
+    $implicit  reduce folosind regula 66 (apel_eval)
+
+
+State 219
+
+   96 declaratii_locale: STRUCT ID ID .
+
+    $implicit  reduce folosind regula 96 (declaratii_locale)
+
+
+State 220
+
+   44 expresie: expresie_bool .  [AND, OR, LE, GE, EQ, NE, LT, GT]
+   77 forstatement: FOR '(' asignare_for ',' expresie_bool . ',' operatie ')' '{' cod_bloc '}'
+
+    ','  shift, şi mergi în starea 244
+
+    $implicit  reduce folosind regula 44 (expresie)
+
+
+State 221
+
+   97 declaratii_locale: constant ID '=' . nr
+   98                  | constant ID '=' . ID
+   99                  | constant ID '=' . STRINGVAL
+  100                  | constant ID '=' . BOOLEAN
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 245
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 246
+    STRINGVAL  shift, şi mergi în starea 247
+
+    nr  mergi în starea 248
+
+
+State 222
+
+   92 declaratii_locale: tip ID '=' . nr
+   93                  | tip ID '=' . ID
+   94                  | tip ID '=' . BOOLEAN
+   95                  | tip ID '=' . STRINGVAL
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 249
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 250
+    STRINGVAL  shift, şi mergi în starea 251
+
+    nr  mergi în starea 252
+
+
+State 223
+
+   90 declaratii_locale: tip ID '[' . INTNR ']'
+
+    INTNR  shift, şi mergi în starea 253
+
+
+State 224
+
+   78 whilestatement: WHILE '(' expresie_bool ')' '{' . cod_bloc '}'
+   84 cod_bloc: . cod_bloc instructiune_bloc
+   85         | . %empty
+
+    $implicit  reduce folosind regula 85 (cod_bloc)
+
+    cod_bloc  mergi în starea 254
+
+
+State 225
+
+   75 ifstatement: IF '(' expresie_bool ')' '{' . cod_bloc '}'
+   76            | IF '(' expresie_bool ')' '{' . cod_bloc '}' ELSE '{' cod_bloc '}'
+   84 cod_bloc: . cod_bloc instructiune_bloc
+   85         | . %empty
+
+    $implicit  reduce folosind regula 85 (cod_bloc)
+
+    cod_bloc  mergi în starea 255
+
+
+State 226
+
+  117 declaratie_main: tip ID '[' INTNR ']' .
+
+    $implicit  reduce folosind regula 117 (declaratie_main)
+
+
+State 227
+
+  137 declaratie_var_f: STRUCT . ID ID
+
+    ID  shift, şi mergi în starea 256
+
+
+State 228
+
+  124 declaratie_functie: tip ID '(' ')' '{' bloc_functie '}' .
+
+    $implicit  reduce folosind regula 124 (declaratie_functie)
+
+
+State 229
+
+  128 bloc_functie: bloc_functie cod_functie .
+
+    $implicit  reduce folosind regula 128 (bloc_functie)
+
+
+State 230
+
+  130 cod_functie: declaratie_var_f . ';'
+
+    ';'  shift, şi mergi în starea 257
+
+
+State 231
+
+  131 cod_functie: asignare . ';'
+
+    ';'  shift, şi mergi în starea 258
+
+
+State 232
+
+  132 declaratie_var_f: tip . ID
+  133                 | tip . ID '=' nr
+  134                 | tip . ID '=' ID
+  135                 | tip . ID '=' BOOLEAN
+  136                 | tip . ID '=' STRINGVAL
+
+    ID  shift, şi mergi în starea 259
+
+
+State 233
+
+  123 declaratie_functie: tip ID '(' params ')' '{' bloc_functie . '}'
+  128 bloc_functie: bloc_functie . cod_functie
+  130 cod_functie: . declaratie_var_f ';'
+  131            | . asignare ';'
+  132 declaratie_var_f: . tip ID
+  133                 | . tip ID '=' nr
+  134                 | . tip ID '=' ID
+  135                 | . tip ID '=' BOOLEAN
+  136                 | . tip ID '=' STRINGVAL
+  137                 | . STRUCT ID ID
+  138 asignare: . ID '=' expresie
+  139         | . asignare_structura
+  140 asignare_structura: . ID '.' ID '=' expresie
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    ID      shift, şi mergi în starea 3
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    STRING  shift, şi mergi în starea 12
+    STRUCT  shift, şi mergi în starea 227
+    '}'     shift, şi mergi în starea 260
+
+    cod_functie         mergi în starea 229
+    declaratie_var_f    mergi în starea 230
+    asignare            mergi în starea 231
+    asignare_structura  mergi în starea 21
+    tip                 mergi în starea 232
+
+
+State 234
+
+   54 declaratie_structura: constant ID '=' ID .
+
+    $implicit  reduce folosind regula 54 (declaratie_structura)
+
+
+State 235
+
+   56 declaratie_structura: constant ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 56 (declaratie_structura)
+
+
+State 236
+
+   55 declaratie_structura: constant ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 55 (declaratie_structura)
+
+
+State 237
+
+   53 declaratie_structura: constant ID '=' nr .
+
+    $implicit  reduce folosind regula 53 (declaratie_structura)
+
+
+State 238
+
+   49 declaratie_structura: tip ID '=' ID .
+
+    $implicit  reduce folosind regula 49 (declaratie_structura)
+
+
+State 239
+
+   50 declaratie_structura: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 50 (declaratie_structura)
+
+
+State 240
+
+   51 declaratie_structura: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 51 (declaratie_structura)
+
+
+State 241
+
+   48 declaratie_structura: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 48 (declaratie_structura)
+
+
+State 242
+
+   46 declaratie_structura: tip ID '[' INTNR . ']'
+
+    ']'  shift, şi mergi în starea 261
+
+
+State 243
+
+   71 parametru_apel: '_' ID '(' ')' .
+
+    $implicit  reduce folosind regula 71 (parametru_apel)
+
+
+State 244
+
+   77 forstatement: FOR '(' asignare_for ',' expresie_bool ',' . operatie ')' '{' cod_bloc '}'
+   81 operatie: . ID '+' '+'
+   82         | . ID '-' '-'
+   83         | . ID '=' ID '+' ID
+
+    ID  shift, şi mergi în starea 262
+
+    operatie  mergi în starea 263
+
+
+State 245
+
+   98 declaratii_locale: constant ID '=' ID .
+
+    $implicit  reduce folosind regula 98 (declaratii_locale)
+
+
+State 246
+
+  100 declaratii_locale: constant ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 100 (declaratii_locale)
+
+
+State 247
+
+   99 declaratii_locale: constant ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 99 (declaratii_locale)
+
+
+State 248
+
+   97 declaratii_locale: constant ID '=' nr .
+
+    $implicit  reduce folosind regula 97 (declaratii_locale)
+
+
+State 249
+
+   93 declaratii_locale: tip ID '=' ID .
+
+    $implicit  reduce folosind regula 93 (declaratii_locale)
+
+
+State 250
+
+   94 declaratii_locale: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 94 (declaratii_locale)
+
+
+State 251
+
+   95 declaratii_locale: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 95 (declaratii_locale)
+
+
+State 252
+
+   92 declaratii_locale: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 92 (declaratii_locale)
+
+
+State 253
+
+   90 declaratii_locale: tip ID '[' INTNR . ']'
+
+    ']'  shift, şi mergi în starea 264
+
+
+State 254
+
+   65 apel: . ID '(' parametri_apel ')' ';'
+   72 statements: . ifstatement
+   73           | . forstatement
+   74           | . whilestatement
+   75 ifstatement: . IF '(' expresie_bool ')' '{' cod_bloc '}'
+   76            | . IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+   77 forstatement: . FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
+   78 whilestatement: . WHILE '(' expresie_bool ')' '{' cod_bloc '}'
+   78               | WHILE '(' expresie_bool ')' '{' cod_bloc . '}'
+   84 cod_bloc: cod_bloc . instructiune_bloc
+   86 instructiune_bloc: . declaratii_locale ';'
+   87                  | . statements
+   88                  | . apel
+   89                  | . asignare ';'
+   90 declaratii_locale: . tip ID '[' INTNR ']'
+   91                  | . tip ID
+   92                  | . tip ID '=' nr
+   93                  | . tip ID '=' ID
+   94                  | . tip ID '=' BOOLEAN
+   95                  | . tip ID '=' STRINGVAL
+   96                  | . STRUCT ID ID
+   97                  | . constant ID '=' nr
+   98                  | . constant ID '=' ID
+   99                  | . constant ID '=' STRINGVAL
+  100                  | . constant ID '=' BOOLEAN
+  138 asignare: . ID '=' expresie
+  139         | . asignare_structura
+  140 asignare_structura: . ID '.' ID '=' expresie
+  141 constant: . CONST tip
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    ID      shift, şi mergi în starea 52
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    CONST   shift, şi mergi în starea 11
+    STRING  shift, şi mergi în starea 12
+    FOR     shift, şi mergi în starea 54
+    WHILE   shift, şi mergi în starea 55
+    STRUCT  shift, şi mergi în starea 153
+    IF      shift, şi mergi în starea 57
+    '}'     shift, şi mergi în starea 265
+
+    apel                mergi în starea 266
+    statements          mergi în starea 267
+    ifstatement         mergi în starea 63
+    forstatement        mergi în starea 64
+    whilestatement      mergi în starea 65
+    instructiune_bloc   mergi în starea 268
+    declaratii_locale   mergi în starea 269
+    asignare            mergi în starea 270
+    asignare_structura  mergi în starea 21
+    constant            mergi în starea 157
+    tip                 mergi în starea 158
+
+
+State 255
+
+   65 apel: . ID '(' parametri_apel ')' ';'
+   72 statements: . ifstatement
+   73           | . forstatement
+   74           | . whilestatement
+   75 ifstatement: . IF '(' expresie_bool ')' '{' cod_bloc '}'
+   75            | IF '(' expresie_bool ')' '{' cod_bloc . '}'
+   76            | . IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+   76            | IF '(' expresie_bool ')' '{' cod_bloc . '}' ELSE '{' cod_bloc '}'
+   77 forstatement: . FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
+   78 whilestatement: . WHILE '(' expresie_bool ')' '{' cod_bloc '}'
+   84 cod_bloc: cod_bloc . instructiune_bloc
+   86 instructiune_bloc: . declaratii_locale ';'
+   87                  | . statements
+   88                  | . apel
+   89                  | . asignare ';'
+   90 declaratii_locale: . tip ID '[' INTNR ']'
+   91                  | . tip ID
+   92                  | . tip ID '=' nr
+   93                  | . tip ID '=' ID
+   94                  | . tip ID '=' BOOLEAN
+   95                  | . tip ID '=' STRINGVAL
+   96                  | . STRUCT ID ID
+   97                  | . constant ID '=' nr
+   98                  | . constant ID '=' ID
+   99                  | . constant ID '=' STRINGVAL
+  100                  | . constant ID '=' BOOLEAN
+  138 asignare: . ID '=' expresie
+  139         | . asignare_structura
+  140 asignare_structura: . ID '.' ID '=' expresie
+  141 constant: . CONST tip
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    ID      shift, şi mergi în starea 52
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    CONST   shift, şi mergi în starea 11
+    STRING  shift, şi mergi în starea 12
+    FOR     shift, şi mergi în starea 54
+    WHILE   shift, şi mergi în starea 55
+    STRUCT  shift, şi mergi în starea 153
+    IF      shift, şi mergi în starea 57
+    '}'     shift, şi mergi în starea 271
+
+    apel                mergi în starea 266
+    statements          mergi în starea 267
+    ifstatement         mergi în starea 63
+    forstatement        mergi în starea 64
+    whilestatement      mergi în starea 65
+    instructiune_bloc   mergi în starea 268
+    declaratii_locale   mergi în starea 269
+    asignare            mergi în starea 270
+    asignare_structura  mergi în starea 21
+    constant            mergi în starea 157
+    tip                 mergi în starea 158
+
+
+State 256
+
+  137 declaratie_var_f: STRUCT ID . ID
+
+    ID  shift, şi mergi în starea 272
+
+
+State 257
+
+  130 cod_functie: declaratie_var_f ';' .
+
+    $implicit  reduce folosind regula 130 (cod_functie)
+
+
+State 258
+
+  131 cod_functie: asignare ';' .
+
+    $implicit  reduce folosind regula 131 (cod_functie)
+
+
+State 259
+
+  132 declaratie_var_f: tip ID .  [';']
+  133                 | tip ID . '=' nr
+  134                 | tip ID . '=' ID
+  135                 | tip ID . '=' BOOLEAN
+  136                 | tip ID . '=' STRINGVAL
+
+    '='  shift, şi mergi în starea 273
+
+    $implicit  reduce folosind regula 132 (declaratie_var_f)
+
+
+State 260
+
+  123 declaratie_functie: tip ID '(' params ')' '{' bloc_functie '}' .
+
+    $implicit  reduce folosind regula 123 (declaratie_functie)
+
+
+State 261
+
+   46 declaratie_structura: tip ID '[' INTNR ']' .
+
+    $implicit  reduce folosind regula 46 (declaratie_structura)
+
+
+State 262
+
+   81 operatie: ID . '+' '+'
+   82         | ID . '-' '-'
+   83         | ID . '=' ID '+' ID
+
+    '='  shift, şi mergi în starea 274
+    '+'  shift, şi mergi în starea 275
+    '-'  shift, şi mergi în starea 276
+
+
+State 263
+
+   77 forstatement: FOR '(' asignare_for ',' expresie_bool ',' operatie . ')' '{' cod_bloc '}'
+
+    ')'  shift, şi mergi în starea 277
+
+
+State 264
+
+   90 declaratii_locale: tip ID '[' INTNR ']' .
+
+    $implicit  reduce folosind regula 90 (declaratii_locale)
+
+
+State 265
+
+   78 whilestatement: WHILE '(' expresie_bool ')' '{' cod_bloc '}' .
+
+    $implicit  reduce folosind regula 78 (whilestatement)
+
+
+State 266
+
+   88 instructiune_bloc: apel .
+
+    $implicit  reduce folosind regula 88 (instructiune_bloc)
+
+
+State 267
+
+   87 instructiune_bloc: statements .
+
+    $implicit  reduce folosind regula 87 (instructiune_bloc)
+
+
+State 268
+
+   84 cod_bloc: cod_bloc instructiune_bloc .
+
+    $implicit  reduce folosind regula 84 (cod_bloc)
+
+
+State 269
+
+   86 instructiune_bloc: declaratii_locale . ';'
+
+    ';'  shift, şi mergi în starea 278
+
+
+State 270
+
+   89 instructiune_bloc: asignare . ';'
+
+    ';'  shift, şi mergi în starea 279
+
+
+State 271
+
+   75 ifstatement: IF '(' expresie_bool ')' '{' cod_bloc '}' .  [ID, EVAL, INT, FLOAT, BOOL, DOUBLE, CHAR, VOID, CONST, STRING, FOR, WHILE, STRUCT, IF, END_MAIN, '}']
+   76            | IF '(' expresie_bool ')' '{' cod_bloc '}' . ELSE '{' cod_bloc '}'
+
+    ELSE  shift, şi mergi în starea 280
+
+    $implicit  reduce folosind regula 75 (ifstatement)
+
+
+State 272
+
+  137 declaratie_var_f: STRUCT ID ID .
+
+    $implicit  reduce folosind regula 137 (declaratie_var_f)
+
+
+State 273
+
+  133 declaratie_var_f: tip ID '=' . nr
+  134                 | tip ID '=' . ID
+  135                 | tip ID '=' . BOOLEAN
+  136                 | tip ID '=' . STRINGVAL
+  149 nr: . INTNR
+  150   | . FLOATNR
+  151   | . DOUBLENR
+
+    ID         shift, şi mergi în starea 281
+    INTNR      shift, şi mergi în starea 35
+    FLOATNR    shift, şi mergi în starea 36
+    DOUBLENR   shift, şi mergi în starea 37
+    BOOLEAN    shift, şi mergi în starea 282
+    STRINGVAL  shift, şi mergi în starea 283
+
+    nr  mergi în starea 284
+
+
+State 274
+
+   83 operatie: ID '=' . ID '+' ID
+
+    ID  shift, şi mergi în starea 285
+
+
+State 275
+
+   81 operatie: ID '+' . '+'
+
+    '+'  shift, şi mergi în starea 286
+
+
+State 276
+
+   82 operatie: ID '-' . '-'
+
+    '-'  shift, şi mergi în starea 287
+
+
+State 277
+
+   77 forstatement: FOR '(' asignare_for ',' expresie_bool ',' operatie ')' . '{' cod_bloc '}'
+
+    '{'  shift, şi mergi în starea 288
+
+
+State 278
+
+   86 instructiune_bloc: declaratii_locale ';' .
+
+    $implicit  reduce folosind regula 86 (instructiune_bloc)
+
+
+State 279
+
+   89 instructiune_bloc: asignare ';' .
+
+    $implicit  reduce folosind regula 89 (instructiune_bloc)
+
+
+State 280
+
+   76 ifstatement: IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE . '{' cod_bloc '}'
+
+    '{'  shift, şi mergi în starea 289
+
+
+State 281
+
+  134 declaratie_var_f: tip ID '=' ID .
+
+    $implicit  reduce folosind regula 134 (declaratie_var_f)
+
+
+State 282
+
+  135 declaratie_var_f: tip ID '=' BOOLEAN .
+
+    $implicit  reduce folosind regula 135 (declaratie_var_f)
+
+
+State 283
+
+  136 declaratie_var_f: tip ID '=' STRINGVAL .
+
+    $implicit  reduce folosind regula 136 (declaratie_var_f)
+
+
+State 284
+
+  133 declaratie_var_f: tip ID '=' nr .
+
+    $implicit  reduce folosind regula 133 (declaratie_var_f)
+
+
+State 285
+
+   83 operatie: ID '=' ID . '+' ID
+
+    '+'  shift, şi mergi în starea 290
+
+
+State 286
+
+   81 operatie: ID '+' '+' .
+
+    $implicit  reduce folosind regula 81 (operatie)
+
+
+State 287
+
+   82 operatie: ID '-' '-' .
+
+    $implicit  reduce folosind regula 82 (operatie)
+
+
+State 288
+
+   77 forstatement: FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' . cod_bloc '}'
+   84 cod_bloc: . cod_bloc instructiune_bloc
+   85         | . %empty
+
+    $implicit  reduce folosind regula 85 (cod_bloc)
+
+    cod_bloc  mergi în starea 291
+
+
+State 289
+
+   76 ifstatement: IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' . cod_bloc '}'
+   84 cod_bloc: . cod_bloc instructiune_bloc
+   85         | . %empty
+
+    $implicit  reduce folosind regula 85 (cod_bloc)
+
+    cod_bloc  mergi în starea 292
+
+
+State 290
+
+   83 operatie: ID '=' ID '+' . ID
+
+    ID  shift, şi mergi în starea 293
+
+
+State 291
+
+   65 apel: . ID '(' parametri_apel ')' ';'
+   72 statements: . ifstatement
+   73           | . forstatement
+   74           | . whilestatement
+   75 ifstatement: . IF '(' expresie_bool ')' '{' cod_bloc '}'
+   76            | . IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+   77 forstatement: . FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
+   77             | FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc . '}'
+   78 whilestatement: . WHILE '(' expresie_bool ')' '{' cod_bloc '}'
+   84 cod_bloc: cod_bloc . instructiune_bloc
+   86 instructiune_bloc: . declaratii_locale ';'
+   87                  | . statements
+   88                  | . apel
+   89                  | . asignare ';'
+   90 declaratii_locale: . tip ID '[' INTNR ']'
+   91                  | . tip ID
+   92                  | . tip ID '=' nr
+   93                  | . tip ID '=' ID
+   94                  | . tip ID '=' BOOLEAN
+   95                  | . tip ID '=' STRINGVAL
+   96                  | . STRUCT ID ID
+   97                  | . constant ID '=' nr
+   98                  | . constant ID '=' ID
+   99                  | . constant ID '=' STRINGVAL
+  100                  | . constant ID '=' BOOLEAN
+  138 asignare: . ID '=' expresie
+  139         | . asignare_structura
+  140 asignare_structura: . ID '.' ID '=' expresie
+  141 constant: . CONST tip
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    ID      shift, şi mergi în starea 52
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    CONST   shift, şi mergi în starea 11
+    STRING  shift, şi mergi în starea 12
+    FOR     shift, şi mergi în starea 54
+    WHILE   shift, şi mergi în starea 55
+    STRUCT  shift, şi mergi în starea 153
+    IF      shift, şi mergi în starea 57
+    '}'     shift, şi mergi în starea 294
+
+    apel                mergi în starea 266
+    statements          mergi în starea 267
+    ifstatement         mergi în starea 63
+    forstatement        mergi în starea 64
+    whilestatement      mergi în starea 65
+    instructiune_bloc   mergi în starea 268
+    declaratii_locale   mergi în starea 269
+    asignare            mergi în starea 270
+    asignare_structura  mergi în starea 21
+    constant            mergi în starea 157
+    tip                 mergi în starea 158
+
+
+State 292
+
+   65 apel: . ID '(' parametri_apel ')' ';'
+   72 statements: . ifstatement
+   73           | . forstatement
+   74           | . whilestatement
+   75 ifstatement: . IF '(' expresie_bool ')' '{' cod_bloc '}'
+   76            | . IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}'
+   76            | IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc . '}'
+   77 forstatement: . FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}'
+   78 whilestatement: . WHILE '(' expresie_bool ')' '{' cod_bloc '}'
+   84 cod_bloc: cod_bloc . instructiune_bloc
+   86 instructiune_bloc: . declaratii_locale ';'
+   87                  | . statements
+   88                  | . apel
+   89                  | . asignare ';'
+   90 declaratii_locale: . tip ID '[' INTNR ']'
+   91                  | . tip ID
+   92                  | . tip ID '=' nr
+   93                  | . tip ID '=' ID
+   94                  | . tip ID '=' BOOLEAN
+   95                  | . tip ID '=' STRINGVAL
+   96                  | . STRUCT ID ID
+   97                  | . constant ID '=' nr
+   98                  | . constant ID '=' ID
+   99                  | . constant ID '=' STRINGVAL
+  100                  | . constant ID '=' BOOLEAN
+  138 asignare: . ID '=' expresie
+  139         | . asignare_structura
+  140 asignare_structura: . ID '.' ID '=' expresie
+  141 constant: . CONST tip
+  142 tip: . INT
+  143    | . FLOAT
+  144    | . BOOL
+  145    | . DOUBLE
+  146    | . CHAR
+  147    | . VOID
+  148    | . STRING
+
+    ID      shift, şi mergi în starea 52
+    INT     shift, şi mergi în starea 5
+    FLOAT   shift, şi mergi în starea 6
+    BOOL    shift, şi mergi în starea 7
+    DOUBLE  shift, şi mergi în starea 8
+    CHAR    shift, şi mergi în starea 9
+    VOID    shift, şi mergi în starea 10
+    CONST   shift, şi mergi în starea 11
+    STRING  shift, şi mergi în starea 12
+    FOR     shift, şi mergi în starea 54
+    WHILE   shift, şi mergi în starea 55
+    STRUCT  shift, şi mergi în starea 153
+    IF      shift, şi mergi în starea 57
+    '}'     shift, şi mergi în starea 295
+
+    apel                mergi în starea 266
+    statements          mergi în starea 267
+    ifstatement         mergi în starea 63
+    forstatement        mergi în starea 64
+    whilestatement      mergi în starea 65
+    instructiune_bloc   mergi în starea 268
+    declaratii_locale   mergi în starea 269
+    asignare            mergi în starea 270
+    asignare_structura  mergi în starea 21
+    constant            mergi în starea 157
+    tip                 mergi în starea 158
+
+
+State 293
+
+   83 operatie: ID '=' ID '+' ID .
+
+    $implicit  reduce folosind regula 83 (operatie)
+
+
+State 294
+
+   77 forstatement: FOR '(' asignare_for ',' expresie_bool ',' operatie ')' '{' cod_bloc '}' .
+
+    $implicit  reduce folosind regula 77 (forstatement)
+
+
+State 295
+
+   76 ifstatement: IF '(' expresie_bool ')' '{' cod_bloc '}' ELSE '{' cod_bloc '}' .
+
+    $implicit  reduce folosind regula 76 (ifstatement)

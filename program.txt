@@ -1,0 +1,89 @@
+
+float a = 2.5;
+int in = 2;
+int b ;
+double d = 2.4;
+double z;
+bool s = true;
+string str;
+
+int arr [5] ;
+
+b = (1+(3*in)-((8+a)/2)/4);
+
+Eval (int a){
+    int b;
+}
+
+struct id {
+
+    int a;
+    int test (int a # int c) 
+    {
+        int b;
+    }
+}
+
+void functie () {
+    int fvar;
+}
+
+
+int functieparam (int s # float nr) {
+    float n = 3.1;
+    int nr = 3;
+}
+
+void g() {
+    
+}
+
+start_main
+
+const int a = 2 ;
+float c = 2.3;
+float d = 1.1;
+int v = 6;
+int v1 = 2;
+
+
+v1  = v;
+
+int arr2[10];
+
+bool abool = true;
+string s = "ana are 2 mere ?";
+
+s = "abc" + "cde";
+
+if ( (a>1) || (c==d) ) {
+
+   int temp;
+   b = ((1+2)+3*d) ;
+   int i = 1;
+
+   while ( i < 3 ) {
+    float r = 2.4;
+    g (_f() # 2);
+    i = i + 1;
+   }
+
+}
+
+Eval(v);
+Eval((1+2)/3*a);
+
+for(int j=0, j<4 , j++){
+    int suma = 0;
+    suma = suma + j;
+}
+
+struct id st;
+st.a = 5;
+
+functieparam (a # b # 2) ;
+
+double dd = 2.3;
+dd = 5.3;
+
+end_main

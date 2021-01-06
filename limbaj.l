@@ -3,52 +3,55 @@
 #include "y.tab.h"
 %}
 %option noyywrap
-cifra [0-9]
-numar[1-9]{cifra}+|{cifra}
-operator [+=*&/<>-]
-comentariu //
-semn [+-]
-litera [a-zA-Z]
-spatiu ['\t'' ']
-float_num {numar}\.{cifra}+f
-double_num {numar}\.{cifra}+
-array {litera}+\[{numar}\]
-identifier {litera}+{cifra}*
-function {identifier}\(\)\{.\}
-function_call {identifier}\(\)
-
-bool [true|false]
+cifra           [0-9]
+numar           [1-9]{cifra}+|{cifra}
+semn            [+-]
+litera          [a-zA-Z]
+spatiu          ['\t'' ']
+float_num       {numar}\.{cifra}+f
+double_num      {numar}\.{cifra}+
+identifier      {litera}+{cifra}*
+bool            true|false
+string_val      ["]([^"\\\n]|\\.|\\\n)*["] 
 %%
 
-"if" {printf("%s cuvant rezervat\n",yytext);}
-"else" {printf("%s cuvant rezervat\n",yytext);}
-"while" {printf("%s cuvant rezervat\n",yytext);} 
-"switch" {printf("%s cuvant rezervat\n",yytext);} 
-"return" {printf("%s cuvant rezervat\n",yytext);} 
-"break" {printf("%s cuvant rezervat\n",yytext);} 
-"class" {printf("%s cuvant rezervat\n",yytext);} 
-"#include" {printf("%s cuvant rezervat\n",yytext);}
+"if"       {return IF;}
+"else"     {return ELSE;}
+"while"    {return WHILE;} 
+"print"    {return print;}
+"start_main" {return START_MAIN;}
+"end_main" {return END_MAIN;}
+"Eval"     {return EVAL;}
+"for"      {return FOR;}
 
-"int" {printf("%s tip\n",yytext); return INT;}
-"float" {printf("%s tip\n",yytext); return FLOAT;}
-"double" {printf("%s tip\n",yytext); return DOUBLE;}
-"char" {printf("%s tip\n",yytext); return CHAR;}
-"bool" {printf("%s tip\n",yytext); return BOOL;}
+"int"    {yylval.textt = strdup(yytext); return INT;}
+"float"  {yylval.textt = strdup(yytext); return FLOAT;}
+"double" {yylval.textt = strdup(yytext); return DOUBLE;}
+"string" {yylval.textt = strdup(yytext); return STRING;};
+"char"   {yylval.textt = strdup(yytext); return CHAR;}
+"bool"   {yylval.textt = strdup(yytext); return BOOL;}
+"const"  {yylval.textt = strdup(yytext); return CONST;}
+"void"   {yylval.textt = strdup(yytext); return VOID;}
+"struct" {yylval.textt = strdup(yytext); return STRUCT;}
+"<="     {return LE;}
+"=>"     {return GE;}
+"=="     {return EQ;}
+"!="     {return NE;}
+"<"      {return GT;}
+">"      {return LT;}
+"&&"     {return AND;}
+"||"     {return OR;}
+"!"      {return  NOT;}
 
-{function}  {printf("%s function\n",yytext);}
-{identifier} {printf("%s identificator\n",yytext); return ID;}
-{operator} {printf("%s operator\n",yytext); return OP;}
-\:\= {printf("%s asignare\n",yytext); return ASIGN;}
-(\()|(\)) {printf("%s paranteze\n",yytext); return PAR;}
-{numar}   {printf("%s numar intreg\n",yytext); return INTNR;}
-{array} {printf("%s array\n",yytext); return ARR;}
-{float_num} {printf("%s float number\n",yytext); return FLOATNR;}
-{double_num} {printf("%s double number\n",yytext); return DOUBLENR;}
-{bool} {printf("%s bool\n",yytext); return BOOLEAN;}
-{function_call} {printf("%s function call\n",yytext); return CALL;}
-\-{numar} {printf("%s numar negativ\n",yytext);}
+{bool}             { yylval.textt = strdup(yytext); return BOOLEAN;}
+{identifier}       { yylval.textt = strdup(yytext); return ID;}
+{numar}            {yylval.textt = strdup(yytext); return INTNR;}
+{float_num}        { yylval.textt = strdup(yytext); return FLOATNR;}
+{double_num}       { yylval.textt = strdup(yytext); return DOUBLENR;}
+{string_val}       {  yylval.textt = strdup(yytext); return STRINGVAL;}
 
-
-\n {yylineno++;}
-. {printf("%s caracter ilegal\n",yytext);}
+{spatiu} ;
+[\n] {yylineno++;}
+.    {
+        return yytext[0];}
 %%
