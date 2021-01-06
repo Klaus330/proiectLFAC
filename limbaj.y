@@ -66,7 +66,6 @@ void asignare(char *nume, char *valoare){
     if(idIndex !=-1){
         
         strcpy(var[index].value,var[idIndex].value);
-        printf("\n%s %s\n",var[idIndex].type,var[index].type );
         if(strstr(var[idIndex].type,var[index].type)==0){
            perror("\e[1;33m Eroare: variabilele nu au acelasi tip\e[0m \n");
            exit(1);     
@@ -84,8 +83,6 @@ void asignare(char *nume, char *valoare){
             var[index].valoare_float = atof(var[idIndex].value);
         }
     }else{
-
-        printf("\n%d %s %s\n",index, var[index].type,valoare);
         strcpy(var[index].value,valoare);
         if(strstr(var[index].type,"int"))
         {   var[index].valoare_int = atoi(valoare);
@@ -103,7 +100,6 @@ void asignare(char *nume, char *valoare){
 int evaluare_id(char* id, char *scope){
     int index = checkIfAlreadyExists(id);
 
-    printf("Am id-ul %s scopul %s \n",id,scope);
     if(strcmp(scope,"eval") ==0 ){
         if(strstr(var[index].type,"int")){
           
@@ -400,7 +396,7 @@ declaratie_main : tip ID {initializare_tip_id ("main",$1, $2); }
             ;
 
 declaratie_functie : tip ID '(' params ')' '{' bloc_functie '}' {initializare_functie($1,$2,$4);}
-                   | tip ID '(' ')' '{' bloc_functie '}' {initializare_functie($1,$2,""); printf("Declarare de functie\n");}
+                   | tip ID '(' ')' '{' bloc_functie '}' {initializare_functie($1,$2,"");}
                    ;
 
 params : param {strcpy(params_list,$1); $$=params_list; }
@@ -426,7 +422,7 @@ declaratie_var_f : tip ID {initializare_tip_id ("functie",$1, $2); }
            | STRUCT ID ID  {initializare_tip_id("functie",$2, $3);}
            ;
 
-asignare : ID '=' expresie   {printf("ID:%s", $1);asignare($1, $3);}     
+asignare : ID '=' expresie   {asignare($1, $3);}     
          | asignare_structura
          ;
 

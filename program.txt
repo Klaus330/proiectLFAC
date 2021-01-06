@@ -38,7 +38,6 @@ void g() {
     
 }
 
-
 start_main
 
 const int a = 2 ;

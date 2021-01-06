@@ -837,17 +837,17 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 18 "limbaj.l"
-{printf("%s cuvant rezervat\n",yytext); return IF;}
+{return IF;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 19 "limbaj.l"
-{printf("%s cuvant rezervat\n",yytext); return ELSE;}
+{return ELSE;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 20 "limbaj.l"
-{printf("%s cuvant rezervat\n",yytext); return WHILE;} 
+{return WHILE;} 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
@@ -857,7 +857,7 @@ YY_RULE_SETUP
 case 5:
 YY_RULE_SETUP
 #line 22 "limbaj.l"
-{printf ("Am intrat in main %s\n",yytext); return START_MAIN;}
+{return START_MAIN;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
@@ -877,47 +877,47 @@ YY_RULE_SETUP
 case 9:
 YY_RULE_SETUP
 #line 27 "limbaj.l"
-{printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return INT;}
+{yylval.textt = strdup(yytext); return INT;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 28 "limbaj.l"
-{printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return FLOAT;}
+{yylval.textt = strdup(yytext); return FLOAT;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 29 "limbaj.l"
-{printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return DOUBLE;}
+{yylval.textt = strdup(yytext); return DOUBLE;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 30 "limbaj.l"
-{printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return STRING;};
+{yylval.textt = strdup(yytext); return STRING;};
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 31 "limbaj.l"
-{printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return CHAR;}
+{yylval.textt = strdup(yytext); return CHAR;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 32 "limbaj.l"
-{printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return BOOL;}
+{yylval.textt = strdup(yytext); return BOOL;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 33 "limbaj.l"
-{printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return CONST;}
+{yylval.textt = strdup(yytext); return CONST;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 34 "limbaj.l"
-{printf("%s tip\n",yytext); yylval.textt = strdup(yytext); return VOID;}
+{yylval.textt = strdup(yytext); return VOID;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 35 "limbaj.l"
-{printf("%s structura\n",yytext); yylval.textt = strdup(yytext); return STRUCT;}
+{yylval.textt = strdup(yytext); return STRUCT;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
@@ -967,33 +967,33 @@ YY_RULE_SETUP
 case 27:
 YY_RULE_SETUP
 #line 46 "limbaj.l"
-{printf("%s bool\n",yytext); yylval.textt = strdup(yytext); return BOOLEAN;}
+{ yylval.textt = strdup(yytext); return BOOLEAN;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 47 "limbaj.l"
-{printf("%s identificator\n",yytext); yylval.textt = strdup(yytext); return ID;}
+{ yylval.textt = strdup(yytext); return ID;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 48 "limbaj.l"
-{printf("%s numar intreg\n",yytext);yylval.textt = strdup(yytext); return INTNR;}
+{yylval.textt = strdup(yytext); return INTNR;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 49 "limbaj.l"
-{printf("%s float number\n",yytext); yylval.textt = strdup(yytext); return FLOATNR;}
+{ yylval.textt = strdup(yytext); return FLOATNR;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 50 "limbaj.l"
-{printf("%s double number\n",yytext); yylval.textt = strdup(yytext); return DOUBLENR;}
+{ yylval.textt = strdup(yytext); return DOUBLENR;}
 	YY_BREAK
 case 32:
 /* rule 32 can match eol */
 YY_RULE_SETUP
 #line 51 "limbaj.l"
-{printf("%s string value\n",yytext); yylval.textt = strdup(yytext); return STRINGVAL;}
+{  yylval.textt = strdup(yytext); return STRINGVAL;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
@@ -1009,7 +1009,7 @@ YY_RULE_SETUP
 case 35:
 YY_RULE_SETUP
 #line 55 "limbaj.l"
-{printf("%s\n",yytext);
+{
         return yytext[0];}
 	YY_BREAK
 case 36:
