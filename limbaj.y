@@ -46,6 +46,7 @@ int checkIfAlreadyExists(char *nume){
     return index;
 }
 
+
 void asignare(char *nume, char *valoare){
     int index = checkIfAlreadyExists(nume);
      printf("\n%d %s %s\n",index, var[index].type,valoare);
@@ -172,7 +173,7 @@ void initializare_functie (char *type, char *name, char* params){
    int int_number;
 }
 %type <int_number>  expresie_eval parametri_eval_apel  
-%type <textt> ID nr ARR INT FLOAT BOOL DOUBLE expresie CHAR VOID STRUCT FLOATNR DOUBLENR INTNR CONST constant BOOLEAN STRING STRINGVAL tip  param params asignare_structura asignare expresie_string expresie_bool expresie_matematica
+%type <textt> ID nr ARR INT FLOAT BOOL DOUBLE expresie parametri_apel parametru_apel CHAR VOID STRUCT FLOATNR DOUBLENR INTNR CONST constant BOOLEAN STRING STRINGVAL tip  param params asignare_structura asignare expresie_string expresie_bool expresie_matematica
 %%
 
 start : start global
@@ -280,12 +281,11 @@ apel_eval : EVAL '(' parametri_eval_apel ')' ';' { printf("\e[1;33mEval A return
 parametri_eval_apel: expresie_eval {$$ = $1;}
                     ;
 
-parametri_apel : parametru_apel
-                | parametri_apel '#' parametru_apel
+parametri_apel : parametru_apel {$$=$1;}
+                | parametri_apel '#' parametru_apel {strcat($1," "); strcat($1,$3);$$=$1;}
                 ;
-parametru_apel: expresie 
-                | '_' ID '(' ')' 
-                | %empty
+parametru_apel: expresie {$$=$1;}
+                | '_' ID '(' ')' {$$=$2;}
                 ;
 
 statements : ifstatement 
