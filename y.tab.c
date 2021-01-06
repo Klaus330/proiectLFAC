@@ -1745,13 +1745,13 @@ yyreduce:
 
   case 29:
 #line 221 "limbaj.y" /* yacc.c:1646  */
-    {(yyval.textt) = (yyvsp[0].textt);}
+    {(yyval.textt) = (yyvsp[0].textt); checkIfAlreadyExists((yyvsp[0].textt));}
 #line 1750 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
 #line 224 "limbaj.y" /* yacc.c:1646  */
-    {(yyval.textt)=(yyvsp[0].textt);}
+    {(yyval.textt)=(yyvsp[0].textt); checkIfAlreadyExists((yyvsp[0].textt));}
 #line 1756 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1823,7 +1823,7 @@ yyreduce:
 
   case 42:
 #line 238 "limbaj.y" /* yacc.c:1646  */
-    {strcat((yyvsp[-2].textt),(yyvsp[0].textt));(yyval.textt)=(yyvsp[-2].textt);}
+    {strcat((yyvsp[-2].textt),(yyvsp[0].textt));(yyval.textt)=(yyvsp[-2].textt); checkIfAlreadyExists((yyvsp[0].textt));}
 #line 1828 "y.tab.c" /* yacc.c:1646  */
     break;
 

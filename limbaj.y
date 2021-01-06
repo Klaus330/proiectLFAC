@@ -218,10 +218,10 @@ expresie_matematica : expresie_matematica '+' expresie_matematica {sprintf($1, "
          | expresie_matematica '/' expresie_matematica {sprintf($1, "%d", atoi($1)/atoi($3)); $$=$1;}
          | '(' expresie_matematica ')' {$$ = $2;}
          | nr {$$ = $1;}
-         | ID {$$ = $1;}
+         | ID {$$ = $1; checkIfAlreadyExists($1);}
         ;
 
-expresie_bool : NOT ID {$$=$2;}
+expresie_bool : NOT ID {$$=$2; checkIfAlreadyExists($2);}
               | BOOLEAN {$$=$1;}
               | NOT BOOLEAN {$$=!$2;}
               | expresie AND expresie {$$=$1&&$3;}
@@ -235,7 +235,7 @@ expresie_bool : NOT ID {$$=$2;}
               | expresie LT expresie    {$$=$1<$3;}
               ;
 
-expresie_string : STRINGVAL '+' ID {strcat($1,$3);$$=$1;}
+expresie_string : STRINGVAL '+' ID {strcat($1,$3);$$=$1; checkIfAlreadyExists($3);}
                 | STRINGVAL '+' STRINGVAL {strcat($1,$3);$$=$1;}
                 ;
 
