@@ -46,20 +46,57 @@ int checkIfAlreadyExists(char *nume){
     return index;
 }
 
+int getIndexIfIndentifier(char *id){
+    int found=0, index=-1;
+    for(int i=0; i<=nr_var; i++){
+        if(strcmp(var[i].name,id)==0){
+            found=1;
+            index=i;
+            
+        }
+    }
+    return index;
+}
 
 void asignare(char *nume, char *valoare){
+    
     int index = checkIfAlreadyExists(nume);
-     printf("\n%d %s %s\n",index, var[index].type,valoare);
-     strcpy(var[index].value,valoare);
-     if(strstr(var[index].type,"int"))
-    {   var[index].valoare_int = atoi(valoare);
-    }
-     if (strstr(var[index].type,"float")){
-        var[index].valoare_float = atof(valoare);
-    }
+    int idIndex = -1;
+    idIndex =  getIndexIfIndentifier(valoare);
+    if(idIndex !=-1){
+        
+        strcpy(var[index].value,var[idIndex].value);
+        printf("\n%s %s\n",var[idIndex].type,var[index].type );
+        if(strstr(var[idIndex].type,var[index].type)==0){
+           perror("\e[1;33m Eroare: variabilele nu au acelasi tip\e[0m \n");
+           exit(1);     
+        }
 
-    if( strstr(var[index].type,"double")){
-        var[index].valoare_float = atof(valoare);
+        if(strstr(var[index].type,"int"))
+        {   
+            var[index].valoare_int = atoi(var[idIndex].value);
+        }
+        if (strstr(var[index].type,"float")){
+            var[index].valoare_float = atof(var[idIndex].value);
+        }
+
+        if( strstr(var[index].type,"double")){
+            var[index].valoare_float = atof(var[idIndex].value);
+        }
+    }else{
+
+        printf("\n%d %s %s\n",index, var[index].type,valoare);
+        strcpy(var[index].value,valoare);
+        if(strstr(var[index].type,"int"))
+        {   var[index].valoare_int = atoi(valoare);
+        }
+        if (strstr(var[index].type,"float")){
+            var[index].valoare_float = atof(valoare);
+        }
+
+        if( strstr(var[index].type,"double")){
+            var[index].valoare_float = atof(valoare);
+        }
     }
 }
 

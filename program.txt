@@ -9,7 +9,7 @@ string str;
 
 int arr [5] ;
 
-b = (1+(3*in)-((8+a)/2)/4) ;
+b = (1+(3*in)-((8+a)/2)/4);
 
 Eval (int a){
     int b;
@@ -45,6 +45,11 @@ const int a = 2 ;
 float c = 2.3;
 float d = 1.1;
 int v = 6;
+int v1 = 2;
+
+
+v1  = v;
+
 int arr2[10];
 
 bool abool = true;
