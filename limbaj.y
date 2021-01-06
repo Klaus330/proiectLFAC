@@ -28,7 +28,7 @@ struct functions {
 int nr_var = 0;
 int nr_functii = 0;
 
-int checkIfAlreadyExists(char *nume){
+int checkIfVarAlreadyExists(char *nume){
     int found=0, index;
     for(int i=0; i<=nr_var; i++){
         if(strcmp(var[i].name,nume)==0){
@@ -60,7 +60,7 @@ int getIndexIfIndentifier(char *id){
 
 void asignare(char *nume, char *valoare){
     
-    int index = checkIfAlreadyExists(nume);
+    int index = checkIfVarAlreadyExists(nume);
     int idIndex = -1;
     idIndex =  getIndexIfIndentifier(valoare);
     if(idIndex !=-1){
@@ -98,7 +98,7 @@ void asignare(char *nume, char *valoare){
 }
 
 int evaluare_id(char* id, char *scope){
-    int index = checkIfAlreadyExists(id);
+    int index = checkIfVarAlreadyExists(id);
 
     if(strcmp(scope,"eval") ==0 ){
         if(strstr(var[index].type,"int")){
@@ -197,7 +197,7 @@ void initializare_functie (char *type, char *name, char* params){
 %start start
 %left '='
 %left AND OR
-%left '<' '>' LE GE EQ NE LT GT
+%left LE GE EQ NE LT GT
 %left '+' '-' 
 %left '*' '/' 
 %union 
@@ -251,10 +251,10 @@ expresie_matematica : expresie_matematica '+' expresie_matematica {sprintf($1, "
          | expresie_matematica '/' expresie_matematica {sprintf($1, "%d", atoi($1)/atoi($3)); $$=$1;}
          | '(' expresie_matematica ')' {$$ = $2;}
          | nr {$$ = $1;}
-         | ID {$$ = $1; checkIfAlreadyExists($1);}
+         | ID {$$ = $1; checkIfVarAlreadyExists($1);}
         ;
 
-expresie_bool : NOT ID {$$=$2; checkIfAlreadyExists($2);}
+expresie_bool : NOT ID {$$=$2; checkIfVarAlreadyExists($2);}
               | BOOLEAN {$$=$1;}
               | NOT BOOLEAN {$$=!$2;}
               | expresie AND expresie {$$=$1&&$3;}
@@ -268,7 +268,7 @@ expresie_bool : NOT ID {$$=$2; checkIfAlreadyExists($2);}
               | expresie LT expresie    {$$=$1<$3;}
               ;
 
-expresie_string : STRINGVAL '+' ID {strcat($1,$3);$$=$1; checkIfAlreadyExists($3);}
+expresie_string : STRINGVAL '+' ID {strcat($1,$3);$$=$1; checkIfVarAlreadyExists($3);}
                 | STRINGVAL '+' STRINGVAL {strcat($1,$3);$$=$1;}
                 ;
 
@@ -458,7 +458,7 @@ int main(int argc, char *argv[])
     yyin = fopen(argv[1], "r");
     FILE *f = fopen("symbols.txt","w");
    if(!yyparse())
-        printf("\nParsing complete\n");
+        printf("\nParsing complete\nProgram corect sintactic\n");
     else
         printf("\nParsing failed\n");
     fprintf(f, "Variabile declarate :\n");

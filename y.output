@@ -2,8 +2,6 @@ Terminals unused in grammar
 
    ARR
    print
-   '<'
-   '>'
 
 
 Gramatică
@@ -217,11 +215,9 @@ $end (0) 0
 '.' (46) 140
 '/' (47) 18 25
 ';' (59) 4 5 10 12 60 61 65 66 86 89 130 131
-'<' (60)
 '=' (61) 48 49 50 51 53 54 55 56 83 92 93 94 95 97 98 99 100 103 104
     105 106 108 109 110 111 113 114 115 116 119 120 121 122 133 134
     135 136 138 140
-'>' (62)
 '[' (91) 46 90 101 117
 ']' (93) 46 90 101 117
 '_' (95) 71
@@ -268,99 +264,99 @@ GT (290) 39
 
 Non-terminale, cu reguli acolo unde acestea apar
 
-$accept (54)
+$accept (52)
     pe stânga: 0
-start (55)
+start (53)
     pe stânga: 1 2 3, pe dreapta: 0 1 2
-global (56)
+global (54)
     pe stânga: 4 5 6 7 8, pe dreapta: 1
-parametru_eval (57)
+parametru_eval (55)
     pe stânga: 9, pe dreapta: 8
-bloc_eval (58)
+bloc_eval (56)
     pe stânga: 10, pe dreapta: 8
-structura (59)
+structura (57)
     pe stânga: 11, pe dreapta: 7
-bloc_structura (60)
+bloc_structura (58)
     pe stânga: 12 13 14, pe dreapta: 11 12 13
-expresie_eval (61)
+expresie_eval (59)
     pe stânga: 15 16 17 18 19 20 21, pe dreapta: 15 16 17 18 19 67
-expresie_matematica (62)
+expresie_matematica (60)
     pe stânga: 22 23 24 25 26 27 28, pe dreapta: 22 23 24 25 26 43
-expresie_bool (63)
+expresie_bool (61)
     pe stânga: 29 30 31 32 33 34 35 36 37 38 39 40, pe dreapta: 34
     44 75 76 77 78
-expresie_string (64)
+expresie_string (62)
     pe stânga: 41 42, pe dreapta: 45
-expresie (65)
+expresie (63)
     pe stânga: 43 44 45, pe dreapta: 32 33 35 36 37 38 39 40 70 138
     140
-declaratie_structura (66)
+declaratie_structura (64)
     pe stânga: 46 47 48 49 50 51 52 53 54 55 56, pe dreapta: 12
-main (67)
+main (65)
     pe stânga: 57, pe dreapta: 2
-bloc_main (68)
+bloc_main (66)
     pe stânga: 58 59, pe dreapta: 57 58
-cod_main (69)
+cod_main (67)
     pe stânga: 60 61 62 63 64, pe dreapta: 58
-apel (70)
+apel (68)
     pe stânga: 65, pe dreapta: 63 88
-apel_eval (71)
+apel_eval (69)
     pe stânga: 66, pe dreapta: 64
-parametri_eval_apel (72)
+parametri_eval_apel (70)
     pe stânga: 67, pe dreapta: 66
-parametri_apel (73)
+parametri_apel (71)
     pe stânga: 68 69, pe dreapta: 65 69
-parametru_apel (74)
+parametru_apel (72)
     pe stânga: 70 71, pe dreapta: 68 69
-statements (75)
+statements (73)
     pe stânga: 72 73 74, pe dreapta: 62 87
-ifstatement (76)
+ifstatement (74)
     pe stânga: 75 76, pe dreapta: 72
-forstatement (77)
+forstatement (75)
     pe stânga: 77, pe dreapta: 73
-whilestatement (78)
+whilestatement (76)
     pe stânga: 78, pe dreapta: 74
-asignare_for (79)
+asignare_for (77)
     pe stânga: 79 80, pe dreapta: 77
-operatie (80)
+operatie (78)
     pe stânga: 81 82 83, pe dreapta: 77
-cod_bloc (81)
+cod_bloc (79)
     pe stânga: 84 85, pe dreapta: 75 76 77 78 84
-instructiune_bloc (82)
+instructiune_bloc (80)
     pe stânga: 86 87 88 89, pe dreapta: 84
-declaratii_locale (83)
+declaratii_locale (81)
     pe stânga: 90 91 92 93 94 95 96 97 98 99 100, pe dreapta: 10 79
     86
-declaratie_g (84)
+declaratie_g (82)
     pe stânga: 101 102 103 104 105 106 107 108 109 110 111, pe dreapta:
     4
-declaratie_main (85)
+declaratie_main (83)
     pe stânga: 112 113 114 115 116 117 118 119 120 121 122, pe dreapta:
     60
-declaratie_functie (86)
+declaratie_functie (84)
     pe stânga: 123 124, pe dreapta: 6 13
-params (87)
+params (85)
     pe stânga: 125 126, pe dreapta: 123 126
-param (88)
+param (86)
     pe stânga: 127, pe dreapta: 125 126
-bloc_functie (89)
+bloc_functie (87)
     pe stânga: 128 129, pe dreapta: 123 124 128
-cod_functie (90)
+cod_functie (88)
     pe stânga: 130 131, pe dreapta: 128
-declaratie_var_f (91)
+declaratie_var_f (89)
     pe stânga: 132 133 134 135 136 137, pe dreapta: 130
-asignare (92)
+asignare (90)
     pe stânga: 138 139, pe dreapta: 5 61 80 89 131
-asignare_structura (93)
+asignare_structura (91)
     pe stânga: 140, pe dreapta: 139
-constant (94)
+constant (92)
     pe stânga: 141, pe dreapta: 53 54 55 56 97 98 99 100 108 109 110
     111 119 120 121 122
-tip (95)
+tip (93)
     pe stânga: 142 143 144 145 146 147 148, pe dreapta: 46 47 48 49
     50 51 90 91 92 93 94 95 101 102 103 104 105 106 112 113 114 115
     116 117 123 124 127 132 133 134 135 136 141
-nr (96)
+nr (94)
     pe stânga: 149 150 151, pe dreapta: 27 48 53 92 97 103 108 113
     119 133
 

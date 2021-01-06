@@ -46,9 +46,6 @@ float d = 1.1;
 int v = 6;
 int v1 = 2;
 
-
-v1  = v;
-
 int arr2[10];
 
 bool abool = true;

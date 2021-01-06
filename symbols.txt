@@ -16,7 +16,7 @@ Variabile declarate :
  float - c - main - 2.3
  float - d - main - 1.1
  int - v - main - 6
- int - v1 - main - 6
+ int - v1 - main - 2
  int - arr2 - main - 
  bool - abool - main - true
  string - s - main - "abc""cde"
